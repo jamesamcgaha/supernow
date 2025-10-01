@@ -8,13 +8,25 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <iframe id="contentFrame" 
+    <!--iframe id="contentFrame" 
         src="" 
         width="100%" 
         height="600px" 
         frameborder="0"
         sandbox="allow-same-origin allow-scripts allow-forms allow-top-navigation"
-        referrerpolicy="no-referrer-when-downgrade"></iframe>
+        referrerpolicy="no-referrer-when-downgrade"></iframe-->
+
+    <iframe id="contentFrame" 
+            src="" 
+            width="100%" 
+            height="600px" 
+            frameborder="0"
+            sandbox="allow-same-origin allow-scripts allow-forms allow-top-navigation allow-top-navigation-by-user-activation allow-popups allow-popups-to-escape-sandbox allow-modals allow-orientation-lock allow-pointer-lock allow-presentation allow-downloads allow-downloads-without-user-activation"
+            allow="accelerometer; ambient-light-sensor; autoplay; battery; camera; display-capture; document-domain; encrypted-media; execution-while-not-rendered; execution-while-out-of-viewport; fullscreen; geolocation; gyroscope; layout-animations; legacy-image-formats; magnetometer; microphone; midi; navigation-override; oversized-images; payment; picture-in-picture; publickey-credentials-get; sync-xhr; usb; vr; wake-lock; screen-wake-lock; web-share; xr-spatial-tracking"
+            referrerpolicy="no-referrer-when-downgrade"
+            loading="eager"
+            importance="high"
+            crossorigin="anonymous"></iframe>
     
     <script>
         // Get the entire query string (everything after the ?)
