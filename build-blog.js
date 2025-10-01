@@ -136,7 +136,7 @@ window.posts = posts;
 
 console.log('posts.js: Set window.posts, now available globally');`;
 
-  fs.writeFileSync(path.join(outputDirectory, 'js', 'posts.js'), postsJs);
+fs.writeFileSync(path.join(outputDirectory, 'posts.js'), postsJs);
   
   console.log(`Generated ${posts.length} posts successfully!`);
   console.log('Posts:', posts.map(p => p.title));
@@ -144,3 +144,4 @@ console.log('posts.js: Set window.posts, now available globally');`;
 
 // Run the generator
 generatePosts();
+
