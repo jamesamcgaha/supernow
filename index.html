@@ -3,45 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-Rotate-Guest-UserToken" content="false">
-    <title>My GitHub Pages Site</title>
-    <link rel="stylesheet" href="style.css">
+    <title>SuperNow - Home</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-    <!--iframe id="contentFrame" 
-        src="" 
-        width="100%" 
-        height="600px" 
-        frameborder="0"
-        sandbox="allow-same-origin allow-scripts allow-forms allow-top-navigation"
-        referrerpolicy="no-referrer-when-downgrade"></iframe-->
+    <header>
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="site-title">
+                    <a href="index.html">
+                        <img src="images/supernow-logo-full.png" alt="SuperNow" class="site-logo-full">
+                    </a>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="index.html" class="active"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="about.html"><i class="fas fa-user"></i> About</a></li>
+                </ul>
+            </div>
+        </nav>
+        
+        <!-- Hero Section -->
+        <div class="hero-section">
+            <div class="hero-container">
+                <h1 class="hero-title">Welcome to SuperNow</h1>
+                <p class="hero-subtitle">Discover insights, tutorials, and the latest trends in technology</p>
+                
+                <!-- Search and Filter Controls -->
+                <div class="controls-container">
+                    <div class="search-container">
+                        <div class="search-wrapper">
+                            <i class="fas fa-search search-icon"></i>
+                            <input type="text" id="searchInput" placeholder="Search articles..." class="search-input">
+                        </div>
+                    </div>
+                    
+                    <!-- Tag Filter Tabs -->
+                    <div class="tag-tabs-container" id="tagTabsContainer">
+                        <!-- Tabs will be dynamically generated here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
 
-    <iframe id="contentFrame" 
-            src="" 
-            width="100%" 
-            height="600px" 
-            frameborder="0"
-            sandbox="allow-same-origin allow-scripts allow-forms allow-top-navigation allow-top-navigation-by-user-activation allow-popups allow-popups-to-escape-sandbox allow-modals allow-orientation-lock allow-pointer-lock allow-presentation allow-downloads allow-downloads-without-user-activation"
-            allow="accelerometer; ambient-light-sensor; autoplay; battery; camera; display-capture; document-domain; encrypted-media; execution-while-not-rendered; execution-while-out-of-viewport; fullscreen; geolocation; gyroscope; layout-animations; legacy-image-formats; magnetometer; microphone; midi; navigation-override; oversized-images; payment; picture-in-picture; publickey-credentials-get; sync-xhr; usb; vr; wake-lock; screen-wake-lock; web-share; xr-spatial-tracking"
-            referrerpolicy="no-referrer-when-downgrade"
-            loading="eager"
-            importance="high"
-            crossorigin="anonymous"></iframe>
-    
-    <script>
-        // Get the entire query string (everything after the ?)
-        const queryString = window.location.search;
-        
-        // If there are no parameters, default to ?id=jtest
-        const params = queryString || '?id=jtest';
-        
-        // Construct the iframe source URL with all parameters
-        const iframeSrc = `https://dev267561.service-now.com/supernow${params}`;
-        
-        // Set the iframe source
-        document.getElementById('contentFrame').src = iframeSrc;
-    </script>
-    
+    <main class="container">
+        <div class="posts-container" id="postsContainer">
+            <!-- Posts will be dynamically loaded here -->
+            <div class="loading-state">
+                <i class="fas fa-spinner fa-spin"></i>
+                <p>Loading posts...</p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <p>&copy; 2025 SuperNow. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="#"><i class="fab fa-github"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/posts.js"></script>
     <script src="js/main.js"></script>
 </body>
 </html>
