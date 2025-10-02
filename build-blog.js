@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 const postsDirectory = path.join(__dirname, 'posts');
-const outputDirectory = path.join(__dirname, 'github-pages-site');
+const outputDirectory = path.join(__dirname, 'js');
 
 // Simple frontmatter parser
 function parseFrontmatter(fileContents) {
