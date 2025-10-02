@@ -1,0 +1,65 @@
+<html>
+  <head>
+    <title>Ultimate Form - SuperNow</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/ultimate_form.css">
+ 
+    <base href="/#">
+  </head>
+  <body>
+    <div id="contextMenu" class="context_menu">
+      <div class="context_item" id="internalNamesOption">
+          <span id="checkShowInternalNames" class="checkmark icon-check"></span> Show internal names
+      </div>
+      <div class="context_item" id="hideBlanksOption"">
+          <span id="checkHideBlankValues" class="checkmark icon-check"></span> Hide blank values
+      </div>
+    </div>
+    <div id="nav-header" class="nav-sticky">
+      <button id="deleteButton" class="header-buttons">Delete</button>
+      <button id="insertButton" class="header-buttons">Insert</button>
+      <button id="saveButton" class="header-buttons">Save</button>
+      <!--div class="header-checkbox"><input type="checkbox" id="toggleCheckbox"> Show internal names</div-->
+      <div>
+        <div class="context-menu">
+          <button id="contextMenuButton" class="header-buttons icon-menu"></button>
+        </div>
+        <h1 class="form-header">
+          <div>
+          <!--div title="" role="button" data-native-btn-click="true" tabindex="0" aria-haspopup="true" aria-expanded="false" class="pointerhand" data-original-title="Current View: Default view (click me for other views)"-->
+            <div class="navbar-title-caption"></div>
+            <div class="navbar-title-display-value"></div>
+          </div>
+          <!--/div-->
+        </h1>
+      </div>
+    </div>
+    <div id="output_messages" class="outputmsg_container"></div>
+    <div class="header-gap"></div>
+    <div id="filterToAddTo"></div>
+    <table id="dynamicTable">
+      <thead class="sticky-header">
+        <tr id="tableLabels">
+            <th id="labelColumnHeader"><div>Field Label</div></th>
+            <th id="nameColumnHeader" style="display: none"><div>Field Name</div></th>
+            <th class="value-cell"><div>Value</div></th>
+            <th class="display-value-cell"><div>Display Value</div></th>
+            <th><div>Type</div></th>
+        </tr>
+        <tr id="searchHeaders" style="top: 27px">
+          <th id="labelSearchColumnHeader"><input type="text" placeholder="Search Label"></th>
+          <th id="nameSearchColumnHeader" style="display: none"><input type="text" placeholder="Search Name"></th>
+          <th class="value-cell"><input type="text" placeholder="Search Value"></th>
+          <th class="display-value-cell"><div><input type="text" placeholder="Search Display Value"></div></th>
+          <th><input type="text" placeholder="Search Type"></th>
+        </tr>
+      </thead>
+      <div id="tbody-container" class="tbody-container"> 
+        <tbody class="jtest">
+        </tbody>
+      </div>
+    </table>
+    <script src="ultimate_form.js"></script>
+  </body>
+</html>

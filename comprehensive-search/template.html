@@ -1,0 +1,190 @@
+  <div class="grid-parent">
+    <div>
+      <div class="side-box">
+        <div class="panel panel-default inner-box">
+          <center style="font-size: 18px; font-weight: 700;">
+            Comprehensive Search
+            <a role="button" href="javascript:void(0)" uib-popover-template="'search-info-popup.html'" popover-placement="auto right" popover-trigger="outsideClick"><i class="fa fa-info-circle"></i></a>
+          </center>
+          <div>
+            <input id="story_search" ng-model="c.searchText" type="text" ng-disabled="c.searching" placeholder="Search . . ." name="search" ng-init="c.addEnterListener()">
+            <button id="story_search_button" ng-disabled="c.searching || c.searchText == c.oldSearchText" ng-click="c.search()" type="submit"><i class="fa fa-search"></i></button>
+          </div>
+          <br/>
+          <div>
+            <a href="javascript:void(0)" ng-click="c.showOptions = !c.showOptions">
+              <span ng-if="!c.showOptions">Show options</span>
+              <span ng-if="c.showOptions">Hide options</span>
+            </a>
+            <div ng-if="c.showOptions">
+              <div class="option">
+                <span class="option-title">Chunk size</span>
+                <select id="chunk" ng-model="c.chunkSize" ng-change="c.initChunkSize = c.chunkSize" ng-options="item for item in c.chunkSizes"></select>
+              </div>
+              <div class="option">
+                <label for="inactive"><span class="option-title">Hide inactive records</span></label>
+                <input type="checkbox" ng-model="c.hideInactive" name="inactive" ng-disabled="c.searching">
+              </div>
+              <!--div class="option">
+                <span class="option-title">Application</span>
+                <select id="scopes" ng-model="c.scopes" ng-disabled="c.searching">
+                  <option value="All">All</option>
+                  <option value="Specific Applications">Specific Applications</option>
+                </select>
+              </div>
+              <div class="option" ng-if="c.scopes != 'All'">
+                <div><span class="option-title">Application IDs</span></div>
+                <textarea type="text" ng-model="c.scopeList" ng-disabled="c.searching"></textarea>
+              </div-->
+       
+              <div class="option">
+                <span class="option-title">Table list last retrieved</span><button ng-click="c.getTableList()" ng-disabled="c.searching" class="btn-link">Refresh</button>
+                <div>{{c.data.propVal.lastUpdated}}</div>
+              </div>
+              <div class="option">
+                <div><span class="option-title">Additional tables to include</span><button class="btn-link" ng-click="c.resetIncluded()">Reset</button></div>
+                <textarea style="resize:vertical" class="table-inputs" ng-model="c.includedTables" ng-blur="c.saveIncluded()" ng-disabled="c.searching" rows="3" name="include_tables"></textarea>
+                <button class="btn-link" style="padding: 0; border: 0;" ng-click="c.showIncludeSearch = true" ng-if="!c.showIncludeSearch">Include tables by prefix</button>
+                <div ng-if="c.showIncludeSearch">
+                 <input id="include_search" ng-model="c.includeSearch" type="text" ng-disabled="c.including || c.searching" placeholder="Enter prefix . . ." name="include_search" ng-init="c.addEnterListenerInclude()" style="padding: 6px; border: solid 1px #ccc; width: 88%;">
+                 <button ng-disabled="c.including || c.searching" ng-click="c.lookupTablesStartingWith(c.includeSearch, true)" type="submit" style="border: solid 1px #ccc; padding: 6px 10px; margin-left: -4px; background: #ddd; cursor: pointer;">
+                  <i ng-class="{'fa fa-plus': c.includeSearch, 'fa fa-close': !c.includeSearch}"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="option">
+                <div><span class="option-title">Tables to exclude</span><button class="btn-link" ng-click="c.resetExcluded()">Reset</button></div>
+                <textarea style="resize:vertical" class="table-inputs" ng-model="c.excludedTables" ng-blur="c.saveExcluded()" ng-disabled="c.searching" rows="3" name="exclude_tables"></textarea>
+                <button class="btn-link" style="padding: 0; border: 0;" ng-click="c.showExcludeSearch = true" ng-if="!c.showExcludeSearch">Exclude tables by prefix</button>
+                <div ng-if="c.showExcludeSearch">
+                 <input id="exclude_search" ng-model="c.excludeSearch" type="text" ng-disabled="c.excluding || c.searching" placeholder="Enter prefix . . ." name="exclude_search" ng-init="c.addEnterListenerExclude()" style="padding: 6px; border: solid 1px #ccc; width: 88%;">
+                 <button ng-disabled="c.excluding || c.searching" ng-click="c.lookupTablesStartingWith(c.excludeSearch, false)" type="submit" style="border: solid 1px #ccc; padding: 6px 10px; margin-left: -4px; background: #ddd; cursor: pointer;">
+                  <i ng-class="{'fa fa-plus': c.excludeSearch, 'fa fa-close': !c.excludeSearch}"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="panel panel-default inner-box" ng-if="c.searching">
+          <center ng-if="c.searching">
+            <div class="mugContainer mugContainer-inline">
+              <div class="mug mug-inline">
+                <div class="coffee-inline"></div>
+              </div>
+              <span class="loader-text loader-text-inline">
+                <span ng-if="!c.tableCount && !c.stop && !c.skipInner && !c.cleaning">Beginning the search for the value "{{c.searchText}}" . . . </span> <!--i think this text will never really show anymore-->
+                <span ng-if="c.tableCount && !c.stop && !c.skipInner && !c.cleaning && !c.innerRecordsLength && c.chunkSize != 1">Searching tables {{c.start+1}} to {{c.end}} out of {{c.tableCount}} for the value "{{c.searchText}}" . . . </span>
+                <span ng-if="c.tableCount && !c.stop && !c.skipInner && !c.cleaning && !c.innerRecordsLength && c.chunkSize == 1">Searching table {{c.start+1}} out of {{c.tableCount}} ({{c.finalTables[c.start]}}) for the value "{{c.searchText}}" . . . </span>
+                <span ng-if="c.tableCount && !c.stop && !c.skipInner && !c.cleaning && c.innerRecordsLength">Retrieving match {{c.innerIndex+1}} out of {{c.innerRecordsLength}} for table {{c.start}} out of {{c.tableCount}} ({{c.finalTables[c.start]}}) for the value "{{c.searchText}}" . . . </span>
+                <span ng-if="c.cleaning">Cleaning up . . .</span>
+                <span ng-if="c.stop">Cancelling . . .</span>
+                <span ng-if="c.skipInner">Skipping table . . .</span>
+              </span>  
+            </div>
+          </center>
+          <center style="padding: 20px 0px;">
+            <button ng-disabled="c.stop || c.skipInner" class="euts-btn-blue euts-btn-md" ng-click="c.stopSearch()">Cancel search</button>
+            <button ng-if="c.innerRecordsLength" ng-disabled="c.stop || c.skipInner" class="euts-btn-gray euts-btn-md" ng-click="c.skipInnerSearch()">Skip table</button>  
+          </center>
+        </div>
+      </div>
+    </div>
+    <div class="">
+      <table ng-if="c.data.results.length" class="table results-box" style="background-color: #fff;">
+        <thead>
+          <tr>
+            <th style="width: 5%"> 
+              <button style="padding-bottom: 0px; margin-bottom: -2px;" ng-click="c.expandAll(c.data.results)" type="button" class="btn btn-link">
+                <i ng-class="{'fa fa fa-plus-square-o': !c.allExpanded(c.data.results), 'fa fa-minus-square-o': c.allExpanded(c.data.results)}"></i>
+              </button>
+            </th>  
+            <th>
+              Table Label
+            </th>
+            <th>
+              Table Name
+            </th>
+            <th style="width: 14%">
+              Matching Records
+            </th>
+          </tr>
+        </thead>
+        <tbody ng-repeat="r in c.data.results"> 
+          <tr> 
+            <td>
+              <button ng-click="r.expanded = !r.expanded" type="button" class="btn btn-link">
+                <i ng-class="{'fa fa fa-plus-square-o': !r.expanded, 'fa fa-minus-square-o': r.expanded}"></i>
+              </button>
+            </td>
+            <td>
+              {{r.tableLabel}}
+            </td>
+            <td>
+              {{r.table}}
+            </td>
+            <td>
+              {{r.records.length}}
+            </td>
+          </tr>
+          <tr ng-if="r.expanded" class="level-2-header">
+            <td>
+              <button ng-click="c.expandAll(r.records)" type="button" class="btn btn-link">
+                <i ng-class="{'fa fa fa-plus-square-o': !c.allExpanded(r.records), 'fa fa-minus-square-o': c.allExpanded(r.records)}"></i>
+              </button>
+            </td>
+            <td>
+              Record
+            </td>
+            <td>
+              Application
+            </td>
+            <td>
+              Matching Fields
+            </td>
+          </tr>
+          <tr ng-repeat="x in range(r.records.length * 2) track by $index" ng-init="index2 = $index" ng-if="r.expanded && (($index == 1 && r.records[0].expanded) || ($index % 2 == 0) || (r.records[(($index-1) / 2)].expanded))" ng-class="{'level-2-body': $index % 2 == 0, 'level-3-body': $index % 2 == 1}">
+            <td ng-if="$index % 2 == 0">
+              <button ng-click="r.records[$index / 2].expanded = !r.records[$index / 2].expanded" type="button" class="btn btn-link">
+                <i ng-class="{'fa fa fa-plus-square-o': !r.records[$index / 2].expanded, 'fa fa-minus-square-o': r.records[$index / 2].expanded}"></i>
+              </button>
+            </td>
+            <td ng-if="$index % 2 == 0">
+              <a target="_blank" href="/{{r.table}}.do?sys_id={{r.records[$index / 2].id}}">{{r.records[$index / 2].name}}</a>
+            </td>
+            <td>
+              {{r.records[$index / 2].scope}}
+            </td>
+            <td ng-if="$index % 2 == 0">
+              {{r.records[$index / 2].matches.length}}
+            </td>
+            <td ng-if="$index % 2 == 1" colspan="4"> 
+              <div ng-repeat="m in r.records[(index2-1) / 2].matches" style="list-style: none">
+                <span>{{m.field}}:</span>
+                <span ng-if="m.value"><pre><code><span ng-bind-html="m.value"></span></code></pre></span>
+                <span ng-if="!m.value"><pre><code>Value too large to retrieve</code></pre></span>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <button style="float: right; margin-bottom: 20px;" ng-if="!c.searching && c.data.results.length" class="euts-btn-md euts-btn-blue" ng-click="c.export2()">
+        Export results
+      </button>
+    </div>
+  </div>
+<script type="text/ng-template" id="search-info-popup.html">
+	<div style="width: 700px">
+    	<p><strong>Limitations:</strong></p>
+		<ul>
+			<li>Only searches fields with a base type of String or GUID (e.g. won't search Integer or Date/Time fields) and will only match internal values not display values.</li>
+			<li>GUID fields (e.g. sys_id or reference fields) will only be searched if the search string is 32 characters long.</li>
+			<li>Only searches tables that extend Application File, have "update_synch=true", or have special handling to be tracked in update sets (e.g. won't search the incident or task table unless specifically included in the options section).</li>
+			<li>Will not search any tables that have Caller Access set to "Caller Restriction" or Can Read set to "false" unless those tables are in the global scope. If needed, after granting this widget access to those tables, can include those tables manually in the options section.</li>
+			<li>Additional tables to include or exclude can be specified in the options section. Changes to these lists will be automatically saved just for you. To update the defaults for all users, edit the userProvided and userExcluded properties of the object in text file attached to this <a href="/sp_widget.do?sys_id=7232bfd583143210675fccb6feaad301" target="_blank">widget record</a>. Personally, I like exclude by prefix all "sys_ux_" tables as those can be slow to search in some instances.</li>
+            <li>To ONLY search specific tables, in the options section mention those specific tables and put "All" in the tables to be excluded field.</li>
+            <li>The list of tables updates weekly unless you manually refresh it in the options section.</li>
+            <li>Does not include Out-Of-Box scripts that aren't available as records (e.g. the scripts that are available at /scripts/js_includes_sp.jsx or /scripts/dist/sp_min.jsx).</li>
+  		</ul>
+  	</div>
+</script>

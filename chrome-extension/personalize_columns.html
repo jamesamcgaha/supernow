@@ -1,0 +1,106 @@
+<div class="modal" style="display: none;" focus-trap="true" id="super_now_field-list-modal" tabindex="-1" role="dialog" aria-labelledby="columns-modal-title">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="super_now_columns-modal-title" class="modal-title" style="font-size: 17px; font-weight: bold;">
+                    Personalize List Columns (Enhanced)
+                </h2>
+                <button id="super_now_close-sharing-modal" onclick="superNowPersonalizeColumnsClose()" class="btn btn-icon close icon-cross" style="position: absolute; top: 10px; right: 5px;" data-dismiss="modal">
+                    <span class="sr-only">Close</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="slushbucket">
+                    <div class="row">
+                        <div class="col-md-6 slushbucket-col-left" style="padding-right: 3px;">
+                            <div class="glide-list">
+                                <label style="display: inline-block; font-size: 16px;" for="super_now_field_list_select_0">Available</label> 
+                                <i id="super_now_filter_icon" style="display: inline-block; padding: 0 5px;" class="icon-search" onclick="superNowShowFilter()"></i>
+                                <input id="super_now_filter" type="text" placeholder="Filter columns . . ." class="form-control" style="width: auto; height: auto; max-width: 150px; display: none;" onkeyup="superNowFilter()">
+                                <div class="slushbucket-top">
+                                    <input type="hidden" id="super_now_field_list_sc_list_item_id" onchange="processVariables('super_now_field_list_')" autocomplete="off">
+                                    <input type="hidden" id="sys_display.super_now_field_list_sc_list_item_id" autocomplete="off">
+                                    <select multiple="true" name="super_now_field_list_select_0" id="super_now_field_list_select_0" class="form-control" onchange="showExpandFile(this,'super_now_field_list_');" ondblclick="superNowSetAndAddOption('super_now_field_list', 'sysparm_super_now_field_list', '--None--', [], '--None--');"></select>
+                                    <div class="button-column" style="white-space: initial; padding-left: 3px;">
+                                        <a role="button" id="super_now_field_list_expand_x0" class="btn btn-default icon-tree-right" tabindex="0" onclick="expandFile(document.getElementById('super_now_field_list_select_0'),'super_now_field_list_');" style="display: none;">
+                                            <span class="sr-only">Expand selected reference field</span>
+                                        </a>
+                                        <a role="button" class="btn btn-default icon-chevron-right" tabindex="0" onclick="superNowSetAndAddOption('super_now_field_list', 'sysparm_super_now_field_list', '--None--',[],'--None--');">
+                                            <span class="sr-only">Add</span>
+                                        </a>
+                                        <a role="button" class="btn btn-default icon-chevron-left" tabindex="0" onclick="superNowSetAndRemoveOption('super_now_field_list', 'sysparm_super_now_field_list', '--None--',['home'],'--None--');">
+                                            <span class="sr-only">Remove</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 select-column" style="padding-left: 3px;">
+                            <div class="glide-list">
+                                <label for="super_now_field_list_select_1" style="font-size: 16px;">Selected</label>
+                                <div class="slushbucket-top">
+                                    <select multiple="true" name="super_now_field_list_select_1" id="super_now_field_list_select_1" class="form-control" ondblclick="superNowSetAndRemoveOption('super_now_field_list', 'sysparm_super_now_field_list', '--None--',['home'],'--None--');"></select>
+                                    <div class="button-column" style="white-space: initial; padding-left: 3px;">
+                                        <a role="button" class="btn btn-default icon-chevron-up" tabindex="0" onmouseup="superNowSetAndMoveUp('super_now_field_list_select_1', 'sysparm_super_now_field_list');">
+                                            <span class="sr-only">Move up</span>
+                                        </a>
+                                        <a role="button" class="btn btn-default icon-chevron-down" tabindex="0" onmouseup="superNowSetAndMoveDown('super_now_field_list_select_1', 'sysparm_super_now_field_list');">
+                                            <span class="sr-only">Move down</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin: 8px -4px;">
+                    <span class="input-group-checkbox">
+                        <input class="checkbox_list_mechanic checkbox" id="ni.super_now.wrap" name="ni.super_now.wrap" type="checkbox" value="false">
+                        <label class="checkbox-label" for="ni.super_now.wrap" style="margin-left: 3px; margin-right: 3px;">Wrap column text</label>
+                        <input class="checkbox_list_mechanic" id="super_now_wrap" name="wrap" type="hidden">
+                    </span>
+                    <span class="input-group-checkbox">
+                        <input class="checkbox_list_mechanic checkbox" id="ni.super_now.compact" name="ni.super_now.compact" type="checkbox" value="false">
+                        <label class="checkbox-label" for="ni.super_now.compact" style="margin-left: 3px; margin-right: 3px;">Compact rows</label>
+                        <input class="checkbox_list_mechanic" id="super_now_compact" name="compact" type="hidden">
+                    </span>
+                    <span class="input-group-checkbox">
+                        <input class="checkbox_list_mechanic checkbox" id="ni.super_now.highlighting" name="ni.super_now.highlighting" type="checkbox"
+                            value="false">
+                        <label class="checkbox-label" for="ni.super_now.highlighting" style="margin-left: 3px; margin-right: 3px;">Active row highlighting</label>
+                        <input class="checkbox_list_mechanic" id="super_now_highlighting" name="highlighting" type="hidden">
+                    </span>
+                    <span class="input-group-checkbox">
+                        <input class="checkbox_list_mechanic checkbox" id="ni.super_now.field_style_circles" name="ni.super_now.field_style_circles"
+                            type="checkbox" value="false">
+                        <label class="checkbox-label" for="ni.super_now.field_style_circles" style="margin-left: 3px; margin-right: 3px;">Modern cell coloring</label>
+                        <input class="checkbox_list_mechanic" id="super_now_field_style_circles" name="field_style_circles" type="hidden">
+                    </span>
+                </div>
+                <div style="margin: 8px -4px;">
+                    <span class="input-group-checkbox">
+                        <input class="checkbox_list_mechanic checkbox" id="ni.super_now.list_edit_enable" name="ni.super_now.list_edit_enable"
+                            type="checkbox" value="false">
+                        <label class="checkbox-label" for="ni.super_now.list_edit_enable" style="margin-left: 3px; margin-right: 3px;">Enable list edit</label>
+                        <input class="checkbox_list_mechanic" id="super_now_list_edit_enable" name="list_edit_enable" type="hidden">
+                    </span>
+                    <span class="input-group-checkbox">
+                        <input class="checkbox_list_mechanic checkbox" id="ni.super_now.list_edit_double" name="ni.super_now.list_edit_double"
+                            type="checkbox" value="false">
+                        <label class="checkbox-label" for="ni.super_now.list_edit_double" style="margin-left: 3px; margin-right: 3px;">Double click to edit</label>
+                        <input class="checkbox_list_mechanic" id="super_now_list_edit_double" name="list_edit_double" type="hidden">
+                    </span>
+                </div>
+                <input type="hidden" id="jtest_table_data">
+                <input type="hidden" id="sysparm_super_now_field_list" name="sysparm_super_now_field_list" value="">    
+            </div>
+            <div class="modal-footer">
+                <span class="pull-left status_msg_update">
+                    <button class="btn btn-default" id="super_now_reset_column_defaults" disabled onclick="superNowSubmitEnhancedColumnsModal(true)" type="submit">Reset to column defaults</button>
+                </span>  
+                <button class="btn btn-default" id="super_now_cancel_button" onclick="superNowPersonalizeColumnsClose()" style="min-width: 5em;" type="submit">Cancel</button>
+                <button class="btn btn-primary" id="super_now_ok_button" onclick="superNowSubmitEnhancedColumnsModal()" style="min-width: 5em;" type="submit">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
