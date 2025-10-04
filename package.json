@@ -1,0 +1,16 @@
+{
+  "name": "supernow-blog",
+  "version": "1.0.0",
+  "description": "Blog build system for supernow",
+  "main": "build-blog.js",
+  "scripts": {
+    "build": "node build-blog.js"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jmcgaha1/supernow.git"
+  },
+  "license": "MIT"
+}

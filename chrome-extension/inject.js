@@ -25,6 +25,7 @@ function superNowInit(){
       });
       trgt.after(btn2);
 
+      //TODO: remove
       let imgElements = document.querySelectorAll('img[data-original-title="Open a 1:1 Teams Chat"]');
       imgElements.forEach(img => {
         img.style.width = "24px";
@@ -43,6 +44,14 @@ function superNowInit(){
       if(!GlideList2) return;
       g_list = GlideList2.get(rlb?.dataset?.list_id);
       rlb.classList.add('supernow-added');
+        let icon2 = document.createElement('i');
+        icon2.className = 'icon-export btn btn-icon table-btn-lg supernow-open-records';
+        icon2.title = '[SuperNow] Open records in new tabs';
+        icon2.role = 'button';
+        icon2.addEventListener('click', evt => {
+          superNowOpenRecords(icon2);
+        });
+        rlb.parentNode.insertBefore(icon2, rlb.nextSibling);
         let icon = document.createElement('i');
         icon.className = 'icon-unlocked btn btn-icon table-btn-lg';
         icon.title = '[SuperNow] Personalize List Columns (Enhanced)';
@@ -197,6 +206,51 @@ function superNowDoUnlock(){
         g_form.setReadOnly(field.prettyName,false);
         g_form.setMandatory(field.prettyName,false);
     });
+}
+
+function superNowOpenRecords(iconElement){
+  // Find the parent list container from the clicked icon
+  const listContainer = iconElement.closest('.list_v2');
+  if (!listContainer) return;
+  
+  // Find all <a> elements with class "list_popup" within this list container
+  const listPopupLinks = listContainer.querySelectorAll('a.list_popup');
+  
+  if (listPopupLinks.length === 0) {
+    alert('[SuperNow] No records found to open');
+    return;
+  }
+  
+  // Determine how many tabs will actually be opened
+  const maxTabs = 100;
+  const tabsToOpen = Math.min(listPopupLinks.length, maxTabs);
+  const willOpenAll = listPopupLinks.length <= maxTabs;
+  
+  // Create confirmation message
+  let message = `[SuperNow] Open Records in New Tabs\n\n`;
+  if (willOpenAll) {
+    message += `This will open ${tabsToOpen} new tabs.`;
+  } else {
+    message += `Found ${listPopupLinks.length} records.\n`;
+    message += `Only the first ${maxTabs} will be opened in new tabs.`;
+  }
+  message += `\n\nAre you sure you want to continue?`;
+  
+  // Show confirmation dialog
+  if (!confirm(message)) {
+    return;
+  }
+  
+  // Open the tabs (limited to maxTabs)
+  const linksToOpen = Array.from(listPopupLinks).slice(0, maxTabs);
+  linksToOpen.forEach(link => {
+    if (link.href) {
+      window.open(link.href, '_blank');
+    }
+  });
+  
+  // Show completion message
+  console.log(`[SuperNow] Opened ${tabsToOpen} records in new tabs`);
 }
 
 function superNowCheckForPersonalizeModal(count, dataset){
