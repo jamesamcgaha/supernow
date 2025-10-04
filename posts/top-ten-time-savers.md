@@ -26,4 +26,4 @@ These are the top 10 tips & tricks that I save me the most time and that I'd hav
 
 9. Service portal debugging
 
-10. Tab reloading extensions to prevent session timeout
+10. Cancel transaction URL
