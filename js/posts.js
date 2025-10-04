@@ -16,7 +16,7 @@ var posts = [
       "admin access required",
       "development"
     ],
-    "content": "<p>These are the top 10 tips & tricks that I save me the most time and that I'd have the hardest time doing without:</p>\n\n<p>1. SN Utils</p>\n\n<p>2. Windows key + V for pasting clipboard</p>\n\n<p>3. Using &sysparm_force_row_count=1&sysparm_group_sort=COUNTDESC</p>\n\n<p>4. Adding dot-walked fields in list layouts</p>\n\n<p>5. Directly modifying the list view query</p>\n\n<p>6. Comprehensive search tool</p>\n\n<p>7. SN Utils script sync + GitHub Copilot</p>\n\n<p>8. Set fields to visible, editable, and non-mandatory</p>\n\n<p>9. Service portal debugging</p>\n\n<p>10. Tab reloading extensions to prevent session timeout</p>"
+    "content": "<p>These are the top 10 tips & tricks that I save me the most time and that I'd have the hardest time doing without:</p>\n\n<p>1. SN Utils</p>\n\n<p>2. Windows key + V for pasting clipboard</p>\n\n<p>3. Using &sysparm_force_row_count=1&sysparm_group_sort=COUNTDESC</p>\n\n<p>4. Adding dot-walked fields in list layouts</p>\n\n<p>5. Directly modifying the list view query</p>\n\n<p>6. Comprehensive search tool</p>\n\n<p>7. SN Utils script sync + GitHub Copilot</p>\n\n<p>8. Set fields to visible, editable, and non-mandatory</p>\n\n<p>9. Service portal debugging</p>\n\n<p>10. Cancel transaction URL</p>"
   },
   {
     "id": "comprehensive-search",
