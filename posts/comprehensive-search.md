@@ -8,8 +8,6 @@ tags: ["tools","admin access required","development"]
 
 The comprehensive search tool can be downloaded from ServiceNow Share here: [https://developer.servicenow.com/connect.do#!/share/contents/2146901_comprehensive_search](https://developer.servicenow.com/connect.do#!/share/contents/2146901_comprehensive_search)
 
-This is the only search tool that fully searches **ALL** records tracked by update sets to make sure that no matching records are missed.
-
 ![Comprehensive Search Tool Interface](images/comprehensive_search.png)
 
 ### Common Use Cases

@@ -11,6 +11,12 @@ function getUrlParameter(name) {
 function displaySinglePost() {
     console.log('displaySinglePost called');
     
+    // Check if posts are loaded
+    if (!window.posts) {
+        console.log('Posts not loaded yet, will retry when available');
+        return;
+    }
+    
     const postId = getUrlParameter('id');
     console.log('Looking for post with ID:', postId);
     
@@ -41,46 +47,27 @@ function displaySinglePost() {
     // Update page title
     document.title = post.title + ' - SuperNow';
     
-    // Create the post content
-    const container = document.querySelector('main.container');
-    container.innerHTML = `
-        <article class="post-content">
-            <div class="back-link" style="margin-bottom: 2rem;">
-                <a href="index.html" style="color: #3498db; text-decoration: none;">
-                    ← Back to all posts
-                </a>
-            </div>
-            
-            <header style="margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid #eee;">
-                <h1 style="font-size: 2.5rem; margin-bottom: 1rem; color: #2c3e50;">
-                    ${post.title}
-                </h1>
-                
-                <div style="color: #7f8c8d; margin-bottom: 1rem;">
-                    <span>By ${post.author}</span>
-                    <span style="margin: 0 1rem;">•</span>
-                    <span>${formatDate(post.date)}</span>
-                </div>
-                
-                ${post.tags && post.tags.length > 0 ? `
-                <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
-                    ${post.tags.map(tag => `
-                        <a href="index.html?tag=${encodeURIComponent(tag)}" 
-                           style="background: #e3f2fd; color: #1976d2; padding: 0.25rem 0.75rem; border-radius: 1rem; font-size: 0.875rem; text-decoration: none; transition: all 0.3s ease;"
-                           onmouseover="this.style.background='#bbdefb'"
-                           onmouseout="this.style.background='#e3f2fd'">
-                            ${tag}
-                        </a>
-                    `).join('')}
-                </div>
-                ` : ''}
-            </header>
-            
-            <div class="post-body" style="line-height: 1.8;">
-                ${post.content}
-            </div>
-        </article>
-    `;
+    // Populate the dynamic content
+    document.getElementById('post-title').textContent = post.title;
+    document.getElementById('post-author').textContent = `By ${post.author}`;
+    document.getElementById('post-date').textContent = formatDate(post.date);
+    document.getElementById('post-body').innerHTML = post.content;
+    
+    // Handle tags
+    const tagsContainer = document.getElementById('post-tags');
+    if (post.tags && post.tags.length > 0) {
+        tagsContainer.innerHTML = post.tags.map(tag => `
+            <a href="index.html?tag=${encodeURIComponent(tag)}" class="tag">
+                ${tag}
+            </a>
+        `).join('');
+        tagsContainer.style.display = 'flex';
+    } else {
+        tagsContainer.style.display = 'none';
+    }
+    
+    // Show footer after post content has loaded
+    document.body.classList.add('content-loaded');
 }
 
 // Function to show error message
@@ -95,6 +82,8 @@ function showError(message) {
             </a>
         </div>
     `;
+    // Show footer even on error
+    document.body.classList.add('content-loaded');
 }
 
 // Function to format date
@@ -110,21 +99,13 @@ function formatDate(dateString) {
 // Initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', function() {
     console.log('post.js: DOM loaded');
-    
-    // Wait a bit for posts.js to load
-    setTimeout(function() {
-        if (window.posts) {
-            console.log('Posts available, displaying post');
-            displaySinglePost();
-        } else {
-            console.log('Posts not available yet, waiting longer...');
-            setTimeout(function() {
-                if (window.posts) {
-                    displaySinglePost();
-                } else {
-                    showError('Unable to load posts data');
-                }
-            }, 1000);
-        }
-    }, 100);
+    displaySinglePost();
+});
+
+// Also try when posts are loaded (in case posts.js loads after this script)
+window.addEventListener('load', function() {
+    if (window.posts && !document.getElementById('post-title').textContent) {
+        console.log('Posts loaded via window load event');
+        displaySinglePost();
+    }
 });

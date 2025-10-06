@@ -23,39 +23,42 @@
             </div>
         </nav>
         
-        <!-- Hero Section -->
-        <div class="hero-section">
-            <div class="hero-container">
-                <h1 class="hero-title">Welcome to SuperNow</h1>
-                <p class="hero-subtitle">Discover insights, tutorials, and the latest trends in technology</p>
-                
-                <!-- Search and Filter Controls -->
-                <div class="controls-container">
-                    <div class="search-container">
-                        <div class="search-wrapper">
-                            <i class="fas fa-search search-icon"></i>
-                            <input type="text" id="searchInput" placeholder="Search articles..." class="search-input">
-                        </div>
-                    </div>
+    </header>
+
+    <div class="main-wrapper">
+        <main class="container">
+            <!-- Hero Section moved inside container -->
+            <div class="hero-section">
+                <div class="hero-container">
+                    <h1 class="hero-title">Welcome to SuperNow</h1>
+                    <p class="hero-subtitle">Discover insights, tutorials, and the latest trends in technology</p>
                     
-                    <!-- Tag Filter Tabs -->
-                    <div class="tag-tabs-container" id="tagTabsContainer">
-                        <!-- Tabs will be dynamically generated here -->
+                    <!-- Search and Filter Controls -->
+                    <div class="controls-container">
+                        <div class="search-container">
+                            <div class="search-wrapper">
+                                <i class="fas fa-search search-icon"></i>
+                                <input type="text" id="searchInput" placeholder="Search articles..." class="search-input">
+                            </div>
+                        </div>
+                        
+                        <!-- Tag Filter Tabs -->
+                        <div class="tag-tabs-container" id="tagTabsContainer">
+                            <!-- Tabs will be dynamically generated here -->
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </header>
-
-    <main class="container">
-        <div class="posts-container" id="postsContainer">
-            <!-- Posts will be dynamically loaded here -->
-            <div class="loading-state">
-                <i class="fas fa-spinner fa-spin"></i>
-                <p>Loading posts...</p>
+            
+            <div class="posts-container" id="postsContainer">
+                <!-- Posts will be dynamically loaded here -->
+                <div class="loading-state">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Loading posts...</p>
+                </div>
             </div>
-        </div>
-    </main>
+        </main>
+    </div>
 
     <footer>
         <div class="footer-container">
