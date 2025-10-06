@@ -135,7 +135,6 @@ function checkPosts() {
         createTagTabs(); // Create tag filter tabs
         filterAndDisplayPosts(); // Apply any URL filters
         setupSearch(); // Set up search after posts are loaded
-        checkForDirectPostLink(); // Check if we should expand a specific post
     } else {
         console.log('No posts found');
         document.getElementById('postsContainer').innerHTML = '<p style="color: red;">No posts found. Check console for details.</p>';
@@ -172,7 +171,6 @@ function displayPosts(posts) {
         
         const postDiv = document.createElement('div');
         postDiv.className = 'post-card';
-        postDiv.dataset.postId = post.id; // Store post ID for expansion
         
         const postTags = post.tags && post.tags.length > 0 ? 
             post.tags.map(tag => `<span class="post-tag">${tag}</span>`).join('') : '';
@@ -193,21 +191,12 @@ function displayPosts(posts) {
                     ${post.title}
                 </h2>
                 ${postTags ? `<div class="post-tags">${postTags}</div>` : ''}
-                <div class="post-content-container">
-                    <p class="post-excerpt">${post.excerpt}</p>
-                    <div class="post-content-full">${post.content}</div>
-                </div>
-                <div class="read-more-btn">
+                <p class="post-excerpt">${post.excerpt}</p>
+                <a href="post.html?id=${post.id}" class="read-more-btn">
                     Read More <i class="fas fa-arrow-right"></i>
-                </div>
+                </a>
             </div>
         `;
-        
-        // Add click handler for expansion
-        postDiv.addEventListener('click', function(e) {
-            e.preventDefault();
-            expandPost(post.id, postDiv);
-        });
         
         container.appendChild(postDiv);
     });
