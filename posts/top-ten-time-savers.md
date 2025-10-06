@@ -1,13 +1,10 @@
 ---
 title: "My Top 10 Time Savers"
 date: "2025-10-02"
-excerpt: "The only search tool that fully searches ALL records tracked by update sets to make sure that no matching records are missed."
+excerpt: "These are the top 10 tips & tricks that I save me the most time and that I'd have the hardest time doing without."
 author: "James McGaha"
 tags: ["tips & tricks","non-admin hacks","tools","admin access required","development"]
 ---
-
-These are the top 10 tips & tricks that I save me the most time and that I'd have the hardest time doing without:
-
 1. SN Utils
 
 2. Windows key + V for pasting clipboard
