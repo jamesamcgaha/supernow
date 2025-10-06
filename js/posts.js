@@ -4,6 +4,20 @@ console.log('posts.js: Starting to load posts...');
 
 var posts = [
   {
+    "id": "comprehensive-search copy",
+    "title": "SuperNow Chrome Extension",
+    "date": "2025-10-06",
+    "excerpt": "ServiceNow extension for super users.",
+    "author": "James McGaha",
+    "tags": [
+      "chrome extension",
+      "tips & tricks",
+      "non-admin hacks",
+      "tools"
+    ],
+    "content": "<p>##Coming soon!\nChrome Web Store availability pending review.</p>\n\n<p>###Features\n1. Add dot-walked columns to the list layout</p>\n\n<p>2. Bulk open records from the list view in new tabs</p>\n\n<p>3. Make the \"is not one of\" filter operator available for other column types</p>\n\n<p>4. Make all form fields visible, editable, and non-mandatory</p>\n\n<p>5. View and edit raw values for ALL columns for a record in a new tab</p>\n\n<p>6. More coming soon!</p>"
+  },
+  {
     "id": "top-ten-time-savers",
     "title": "My Top 10 Time Savers",
     "date": "2025-10-02",
