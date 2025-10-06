@@ -1,14 +1,13 @@
 {
   "name": "SuperNow",
   "description": "Unlock your ServiceNow super powers",
-  "version": "1.0.0.0",
+  "version": "1.0.0",
   "manifest_version": 3,
   "permissions": [
     "activeTab",
     "declarativeContent",
     "storage",
-    "contextMenus",
-    "cookies"
+    "contextMenus"
   ],
   "action": {
     "default_popup": "supernow.html",
@@ -59,6 +58,6 @@
     "https://*.service-now.com/*"
   ],
   "content_security_policy": {
-    "extension_pages": "default-src 'self'; style-src 'self' 'unsafe-inline'; img-src https://*.service-now.com 'self' data:; child-src 'none'; object-src 'none'; frame-src https://*.service-now.com; connect-src https://*.service-now.com ws://127.0.0.1:1978/; font-src 'self' https://*.service-now.com "
+    "extension_pages": "default-src 'self'; style-src 'self' 'unsafe-inline'; img-src https://*.service-now.com 'self' data:; child-src 'none'; object-src 'none'; frame-src https://*.service-now.com; connect-src https://*.service-now.com; font-src 'self' https://*.service-now.com "
   }
 }

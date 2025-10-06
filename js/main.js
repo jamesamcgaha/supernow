@@ -151,6 +151,7 @@ function displayPosts(posts) {
         return;
     }
     
+    // Clear loading state
     container.innerHTML = '';
     
     if (posts.length === 0) {
@@ -160,6 +161,8 @@ function displayPosts(posts) {
                 <p>No posts found matching your criteria.</p>
             </div>
         `;
+        // Show footer even when no posts found
+        document.body.classList.add('content-loaded');
         return;
     }
     
@@ -173,28 +176,211 @@ function displayPosts(posts) {
             post.tags.map(tag => `<span class="post-tag">${tag}</span>`).join('') : '';
         
         postDiv.innerHTML = `
-            <div class="post-meta">
-                <div class="post-date">
-                    <i class="fas fa-calendar-alt"></i>
-                    ${formatDate(post.date)}
+            <div class="card-content">
+                <div class="post-meta">
+                    <div class="post-date">
+                        <i class="fas fa-calendar-alt"></i>
+                        ${formatDate(post.date)}
+                    </div>
+                    <div class="post-author">
+                        <i class="fas fa-user"></i>
+                        ${post.author}
+                    </div>
                 </div>
-                <div class="post-author">
-                    <i class="fas fa-user"></i>
-                    ${post.author}
-                </div>
+                <h2 class="post-title">
+                    ${post.title}
+                </h2>
+                ${postTags ? `<div class="post-tags">${postTags}</div>` : ''}
+                <p class="post-excerpt">${post.excerpt}</p>
+                <a href="post.html?id=${post.id}" class="read-more-btn">
+                    Read More <i class="fas fa-arrow-right"></i>
+                </a>
             </div>
-            <h2 class="post-title">
-                <a href="post.html?id=${post.id}">${post.title}</a>
-            </h2>
-            <p class="post-excerpt">${post.excerpt}</p>
-            ${postTags ? `<div class="post-tags">${postTags}</div>` : ''}
-            <a href="post.html?id=${post.id}" class="read-more-btn">
-                Read More <i class="fas fa-arrow-right"></i>
-            </a>
         `;
         
         container.appendChild(postDiv);
     });
+    
+    // Show footer after posts have loaded
+    document.body.classList.add('content-loaded');
+}
+
+// === CARD EXPANSION SYSTEM ===
+
+let currentExpandedCard = null;
+let currentExpandedPost = null;
+
+// Helper function to safely update URL (handles file:// restrictions)
+function safeUpdateURL(url, title, state = null) {
+    try {
+        if (location.protocol !== 'file:') {
+            history.pushState(state, title, url);
+            document.title = title;
+        } else {
+            // For local development, just update the title
+            document.title = title;
+            console.log('🚀 Local development: URL would be updated to:', url);
+        }
+    } catch (error) {
+        console.log('⚠️ URL update blocked (browser security for local files)');
+        console.log('💡 This will work normally when hosted on a server');
+        document.title = title;
+    }
+}
+
+// Simplified function to expand a post card within container bounds
+function expandPost(postId, cardElement) {
+    console.log('🚀 EXPANDING POST:', postId);
+    
+    // Prevent multiple expansions
+    if (currentExpandedCard) {
+        console.log('⚠️ Already expanding, ignoring click');
+        return;
+    }
+    
+    // Find the post data
+    const post = window.posts.find(p => p.id === postId);
+    if (!post) {
+        console.error('Post not found:', postId);
+        return;
+    }
+    
+    // Store references
+    currentExpandedCard = cardElement;
+    currentExpandedPost = post;
+    
+    // Disable clicking on this card
+    cardElement.style.pointerEvents = 'none';
+    
+    // Add expanding class - this triggers the CSS animations
+    cardElement.classList.add('expanding');
+    
+    // Add back button after expansion starts
+    setTimeout(() => {
+        addBackButton(cardElement);
+    }, 300);
+    
+    // Update URL
+    safeUpdateURL(`post.html?id=${postId}`, `${post.title} - SuperNow`, { postId: postId, expanded: true });
+    
+    console.log('✅ Card is expanding - content will be revealed smoothly');
+}
+
+// Simple function to add just the back button
+function addBackButton(cardElement) {
+    // Only add if not already present
+    if (cardElement.querySelector('.back-button')) {
+        return;
+    }
+    
+    const backButton = document.createElement('button');
+    backButton.className = 'back-button';
+    backButton.innerHTML = '← Back to Posts';
+    
+    backButton.addEventListener('click', (e) => {
+        e.stopPropagation();
+        contractPost();
+    });
+    
+    cardElement.appendChild(backButton);
+}
+
+
+
+// Simplified function to contract post back to card view
+function contractPost() {
+    console.log('🔄 CONTRACTING POST');
+    
+    if (!currentExpandedCard) {
+        console.log('⚠️ No expanded card to contract');
+        return;
+    }
+    
+    // Remove back button
+    const backButton = currentExpandedCard.querySelector('.back-button');
+    if (backButton) {
+        backButton.remove();
+    }
+    
+    // Remove expanding class to trigger reverse animation
+    currentExpandedCard.classList.remove('expanding');
+    
+    // Re-enable pointer events after animation
+    setTimeout(() => {
+        currentExpandedCard.style.pointerEvents = 'auto';
+        currentExpandedCard = null;
+        currentExpandedPost = null;
+    }, 600); // Wait for contraction animation
+    
+    // Update URL back to home
+    safeUpdateURL('index.html', 'SuperNow - Home', {});
+    
+    console.log('✅ Card contraction initiated');
+}
+
+// Function to handle tag filtering from expanded view
+function filterByTag(tag) {
+    // First contract the post
+    contractPost();
+    
+    // Then apply filter after animation
+    setTimeout(() => {
+        currentFilter = tag;
+        filterAndDisplayPosts();
+        
+        // Update active tag tab
+        const tagTabs = document.querySelectorAll('.tag-tab');
+        tagTabs.forEach(tab => tab.classList.remove('active'));
+        const targetTab = Array.from(tagTabs).find(tab => tab.textContent.includes(tag));
+        if (targetTab) targetTab.classList.add('active');
+    }, 700);
+}
+
+// Handle browser back/forward buttons
+window.addEventListener('popstate', function(event) {
+    if (event.state && event.state.expanded && event.state.postId) {
+        // Expanding to a post
+        const postCard = document.querySelector(`[data-post-id="${event.state.postId}"]`);
+        if (postCard) {
+            expandPost(event.state.postId, postCard);
+        }
+    } else if (currentExpandedCard) {
+        // Contracting back to grid
+        contractPost();
+    }
+});
+
+// Handle ESC key to close expanded post
+window.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape' && currentExpandedCard) {
+        contractPost();
+    }
+});
+
+// Handle overlay click to close expanded post
+document.addEventListener('click', function(event) {
+    if (event.target.classList.contains('expansion-overlay')) {
+        contractPost();
+    }
+});
+
+// Check URL on page load for direct post links
+function checkForDirectPostLink() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const postId = urlParams.get('id');
+    
+    if (postId && window.posts) {
+        const post = window.posts.find(p => p.id === postId);
+        if (post) {
+            // Wait for posts to render, then expand
+            setTimeout(() => {
+                const postCard = document.querySelector(`[data-post-id="${postId}"]`);
+                if (postCard) {
+                    expandPost(postId, postCard);
+                }
+            }, 1000); // Wait for stagger animations to complete
+        }
+    }
 }
 
 // Search functionality

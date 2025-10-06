@@ -22,7 +22,7 @@
                                     <input type="hidden" id="sys_display.super_now_field_list_sc_list_item_id" autocomplete="off">
                                     <select multiple="true" name="super_now_field_list_select_0" id="super_now_field_list_select_0" class="form-control" onchange="showExpandFile(this,'super_now_field_list_');" ondblclick="superNowSetAndAddOption('super_now_field_list', 'sysparm_super_now_field_list', '--None--', [], '--None--');"></select>
                                     <div class="button-column" style="white-space: initial; padding-left: 3px;">
-                                        <a role="button" id="super_now_field_list_expand_x0" class="btn btn-default icon-tree-right" tabindex="0" onclick="expandFile(document.getElementById('super_now_field_list_select_0'),'super_now_field_list_');" style="display: none;">
+                                        <a role="button" id="super_now_field_list_expand_x0" class="btn btn-default icon-tree-right" tabindex="0" onclick="superNowExpandFileWithSysId(document.getElementById('super_now_field_list_select_0'),'super_now_field_list_');" style="display: none;">
                                             <span class="sr-only">Expand selected reference field</span>
                                         </a>
                                         <a role="button" class="btn btn-default icon-chevron-right" tabindex="0" onclick="superNowSetAndAddOption('super_now_field_list', 'sysparm_super_now_field_list', '--None--',[],'--None--');">
