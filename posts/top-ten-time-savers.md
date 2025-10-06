@@ -23,4 +23,4 @@ tags: ["tips & tricks","non-admin hacks","tools","admin access required","develo
 
 9. Service portal debugging
 
-10. Tab reloading extensions to prevent session timeout
+10. Cancel transaction URL
