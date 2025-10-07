@@ -66,6 +66,8 @@ body {
     border-radius: 0;
     margin: 0;
     display: inline-block;
+    object-fit: contain;
+    flex-shrink: 0;
 }
 
 .site-logo-full:hover {
@@ -564,15 +566,24 @@ body.content-loaded footer {
     
     .nav-container {
         padding: 0 1rem;
+        flex-wrap: nowrap;
+    }
+    
+    /* Logo responsive handling - maintain aspect ratio */
+    .site-logo-full {
+        height: 2rem;
+        max-width: 150px;
+        width: auto;
+        object-fit: contain;
     }
     
     .nav-menu {
-        gap: 0.5rem;
+        gap: 0.25rem;
     }
     
     .nav-menu a {
-        padding: 0.5rem 1rem;
-        font-size: 0.9rem;
+        padding: 0.5rem 0.75rem;
+        font-size: 0.85rem;
     }
     
     .container {
@@ -621,6 +632,43 @@ body.content-loaded footer {
     .search-wrapper {
         max-width: 100%;
     }
+    
+    /* Further logo adjustments for very small screens */
+    .site-logo-full {
+        height: 1.75rem;
+        max-width: 120px;
+    }
+    
+    .nav-menu a {
+        padding: 0.4rem 0.5rem;
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 360px) {
+    /* Extra small screens - further adjustments */
+    .site-logo-full {
+        height: 1.5rem;
+        max-width: 100px;
+    }
+    
+    .nav-menu a {
+        padding: 0.3rem 0.4rem;
+        font-size: 0.75rem;
+    }
+    
+    .nav-container {
+        padding: 0 0.5rem;
+    }
+    
+    /* Even more aggressive padding reduction for tiny screens */
+    .post-content {
+        padding: 1rem 0.75rem;
+    }
+    
+    .comments-section {
+        padding: 1rem 0.75rem;
+    }
 }
 
 /* Blog post page specific styles */
@@ -666,6 +714,30 @@ body.content-loaded footer {
     font-weight: 600;
 }
 
+.post-content a {
+    color: #667eea;
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: all 0.3s ease;
+    word-break: break-all;
+    overflow-wrap: break-word;
+    hyphens: auto;
+}
+
+.post-content a:hover {
+    color: #764ba2;
+    border-bottom-color: #764ba2;
+}
+
+/* Ensure long URLs break properly on all screen sizes */
+.post-content p, 
+.post-content li, 
+.post-content div {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
+
 /* About page specific styles */
 .about-content {
     background: white;
@@ -709,34 +781,9 @@ body.content-loaded footer {
     display: none;
 }
 
-/* Comments Section */
-.comments-section {
-    margin-top: 3rem;
-    padding: 2rem;
-    background: #f8fafc;
-    border-radius: 0 0 12px 12px;
-    border-top: 1px solid #e2e8f0;
-}
-
-.comments-header {
-    text-align: center;
-    margin-bottom: 2rem;
-}
-
-.comments-header h3 {
-    color: #2d3748;
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-.comments-header p {
-    color: #718096;
-    font-size: 0.95rem;
+/* Utility classes */
+.hidden {
+    display: none;
 }
 
 /* Container adjustments for post pages */
@@ -929,6 +976,7 @@ body.content-loaded footer {
     
     .post-content {
         border-radius: 12px 12px 0 0;
+        padding: 1.5rem 1rem;
     }
     
     .comments-section {
@@ -957,38 +1005,6 @@ body.content-loaded footer {
     max-width: 100% !important;
 }
 
-/* Responsive adjustments for comments and posts */
-@media (max-width: 768px) {
-    .container {
-        padding: 1rem;
-    }
-    
-    .post-content {
-        border-radius: 12px 12px 0 0;
-    }
-    
-    .comments-section {
-        margin-left: 1rem;
-        margin-right: 1rem;
-        padding: 1.5rem;
-        border-radius: 0 0 12px 12px;
-    }
-    
-    .back-link,
-    .post-header,
-    .post-body {
-        padding-left: 1.5rem;
-        padding-right: 1.5rem;
-    }
-    
-    .post-header h1 {
-        font-size: 2rem;
-    }
-    
-    .comments-header h3 {
-        font-size: 1.3rem;
-    }
-}
 /* === CARD EXPANSION UTILITIES === */
 
 /* Utility classes for expansion states */
