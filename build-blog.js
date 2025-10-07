@@ -145,3 +145,12 @@ fs.writeFileSync(path.join(outputDirectory, 'posts.js'), postsJs);
 // Run the generator
 generatePosts();
 
+// Generate sitemap after building posts
+try {
+  const { writeSitemap } = require('./generate-sitemap.js');
+  console.log('\n🗺️  Generating sitemap...');
+  writeSitemap();
+} catch (error) {
+  console.error('⚠️  Warning: Could not generate sitemap:', error.message);
+}
+

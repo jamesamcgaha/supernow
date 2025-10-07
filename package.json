@@ -4,7 +4,9 @@
   "description": "Blog build system for supernow",
   "main": "build-blog.js",
   "scripts": {
-    "build": "node build-blog.js"
+    "build": "node build-blog.js",
+    "sitemap": "node generate-sitemap.js",
+    "build:all": "npm run build && npm run sitemap"
   },
   "dependencies": {},
   "devDependencies": {},

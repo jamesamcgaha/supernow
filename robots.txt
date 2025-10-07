@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://www.supernow-blog.com/sitemap.xml
+
+# Disallow certain paths if needed (uncomment as needed)
+# Disallow: /.git/
