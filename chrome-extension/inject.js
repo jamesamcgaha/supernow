@@ -39,10 +39,10 @@ function superNowInit(){
     let trgt = document.querySelector('.navbar-right .navbar-btn');
     if (trgt){
       //add the unlock button
-      if (superNowConfig.unlockForm && !document.getElementById('unlockBtn')) {
+      if (superNowConfig.unlockForm && !document.getElementById('superNowUnlockBtn')) {
         let btn = document.createElement("button");
         btn.type = "submit";
-        btn.id = "unlockBtn";
+        btn.id = "superNowUnlockBtn";
         btn.title = "[SuperNow] Unlock Form";
         btn.classList = "btn btn-icon icon-unlocked navbar-btn";
         btn.addEventListener('click', (e) => { 
@@ -52,10 +52,10 @@ function superNowInit(){
       }
 
       //add edit in SuperNow Explorer button
-      if (superNowConfig.editInExplorer && !document.getElementById('formBtn')) {
+      if (superNowConfig.editInExplorer && !document.getElementById('superNowFormBtn')) {
         let btn2 = document.createElement("button");
         btn2.type = "submit";
-        btn2.id = "formBtn";
+        btn2.id = "superNowFormBtn";
         btn2.title = "[SuperNow] Edit in SuperNow Explorer\nShow and edit all table columns.";
         btn2.classList = "btn btn-icon icon-panel-display-popout navbar-btn";
         btn2.addEventListener('click', (e) => { 

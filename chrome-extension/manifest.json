@@ -5,9 +5,7 @@
   "manifest_version": 3,
   "permissions": [
     "activeTab",
-    "declarativeContent",
-    "storage",
-    "contextMenus"
+    "storage"
   ],
   "action": {
     "default_popup": "supernow.html",

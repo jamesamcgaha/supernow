@@ -47,6 +47,42 @@ function displaySinglePost() {
     // Update page title
     document.title = post.title + ' - SuperNow';
     
+    // Update meta description
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+        const description = `${post.title} - ServiceNow tips and tutorials on SuperNow blog`;
+        metaDescription.setAttribute('content', description);
+    }
+    
+    // Add dynamic Open Graph meta tags
+    updateOrCreateMetaTag('property', 'og:title', post.title + ' - SuperNow');
+    updateOrCreateMetaTag('property', 'og:description', post.excerpt || post.title);
+    updateOrCreateMetaTag('property', 'og:type', 'article');
+    updateOrCreateMetaTag('property', 'og:url', window.location.href);
+    updateOrCreateMetaTag('property', 'article:author', post.author);
+    updateOrCreateMetaTag('property', 'article:published_time', post.date);
+    if (post.tags) {
+        // Remove existing article:tag meta tags
+        document.querySelectorAll('meta[property="article:tag"]').forEach(tag => tag.remove());
+        // Add new ones
+        post.tags.forEach(tag => {
+            updateOrCreateMetaTag('property', 'article:tag', tag);
+        });
+    }
+    
+    // Add Twitter Card meta tags
+    updateOrCreateMetaTag('name', 'twitter:title', post.title + ' - SuperNow');
+    updateOrCreateMetaTag('name', 'twitter:description', post.excerpt || post.title);
+    
+    // Update canonical URL
+    const canonical = document.querySelector('link[rel="canonical"]');
+    if (canonical) {
+        canonical.href = window.location.href;
+    }
+    
+    // Add structured data for the blog post
+    addStructuredDataForPost(post);
+    
     // Populate the dynamic content
     document.getElementById('post-title').textContent = post.title;
     document.getElementById('post-author').textContent = `By ${post.author}`;
@@ -109,3 +145,59 @@ window.addEventListener('load', function() {
         displaySinglePost();
     }
 });
+
+// Helper function to update or create meta tags
+function updateOrCreateMetaTag(attribute, property, content) {
+    let meta = document.querySelector(`meta[${attribute}="${property}"]`);
+    if (!meta) {
+        meta = document.createElement('meta');
+        meta.setAttribute(attribute, property);
+        document.head.appendChild(meta);
+    }
+    meta.setAttribute('content', content);
+}
+
+// Function to add structured data for blog posts
+function addStructuredDataForPost(post) {
+    // Remove existing structured data
+    const existingScript = document.querySelector('script[data-type="blog-post-schema"]');
+    if (existingScript) {
+        existingScript.remove();
+    }
+    
+    const structuredData = {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": post.title,
+        "description": post.excerpt || post.title,
+        "author": {
+            "@type": "Person",
+            "name": post.author
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "SuperNow",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://www.supernow-blog.com/images/supernow-logo-full.png"
+            }
+        },
+        "datePublished": post.date,
+        "dateModified": post.date,
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": window.location.href
+        },
+        "url": window.location.href
+    };
+    
+    if (post.tags && post.tags.length > 0) {
+        structuredData.keywords = post.tags.join(', ');
+    }
+    
+    const script = document.createElement('script');
+    script.type = 'application/ld+json';
+    script.setAttribute('data-type', 'blog-post-schema');
+    script.textContent = JSON.stringify(structuredData);
+    document.head.appendChild(script);
+}

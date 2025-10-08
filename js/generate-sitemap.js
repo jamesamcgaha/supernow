@@ -5,7 +5,7 @@ const path = require('path');
 
 // Configuration
 const SITE_URL = 'https://www.supernow-blog.com'; // Your actual domain from CNAME
-const OUTPUT_FILE = 'sitemap.xml';
+const OUTPUT_FILE = path.join(__dirname, '..', 'sitemap.xml');
 
 // Static pages with their priorities and change frequencies
 const staticPages = [
@@ -26,7 +26,7 @@ const staticPages = [
 // Function to load posts from posts.js
 function loadPosts() {
     try {
-        const postsContent = fs.readFileSync(path.join(__dirname, 'js', 'posts.js'), 'utf8');
+        const postsContent = fs.readFileSync(path.join(__dirname, 'posts.js'), 'utf8');
         
         // Extract the posts array from the JavaScript file
         const postsMatch = postsContent.match(/var posts = (\[[\s\S]*?\]);/);
@@ -84,9 +84,7 @@ function writeSitemap() {
     try {
         const sitemapXml = generateSitemap();
         fs.writeFileSync(OUTPUT_FILE, sitemapXml, 'utf8');
-        console.log(`✅ Sitemap generated successfully: ${OUTPUT_FILE}`);
-        console.log(`📍 Make sure to update SITE_URL in generate-sitemap.js to your actual domain`);
-        
+        console.log(`✅ Sitemap generated successfully: ${OUTPUT_FILE}`);        
         // Show file stats
         const stats = fs.statSync(OUTPUT_FILE);
         console.log(`📄 File size: ${stats.size} bytes`);

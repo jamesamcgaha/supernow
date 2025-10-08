@@ -7,7 +7,7 @@ on:
       - 'posts/**'
       - 'js/posts.js'
       - '*.html'
-      - 'generate-sitemap.js'
+      - 'js/generate-sitemap.js'
   workflow_dispatch: # Allow manual trigger
 
 jobs:
@@ -24,7 +24,7 @@ jobs:
         node-version: '18'
         
     - name: Generate sitemap
-      run: node generate-sitemap.js
+      run: node js/generate-sitemap.js
       
     - name: Check if sitemap changed
       id: verify-changed-sitemap

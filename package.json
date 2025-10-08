@@ -2,10 +2,10 @@
   "name": "supernow-blog",
   "version": "1.0.0",
   "description": "Blog build system for supernow",
-  "main": "build-blog.js",
+  "main": "js/build-blog.js",
   "scripts": {
-    "build": "node build-blog.js",
-    "sitemap": "node generate-sitemap.js",
+    "build": "node js/build-blog.js",
+    "sitemap": "node js/generate-sitemap.js",
     "build:all": "npm run build && npm run sitemap"
   },
   "dependencies": {},

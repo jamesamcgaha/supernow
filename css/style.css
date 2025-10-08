@@ -106,7 +106,7 @@ body {
 .hero-section {
     /*background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);*/
     color: white;
-    padding: 2.5rem 0 2rem;
+    padding: 2.5rem 0 0;
     text-align: center;
     position: relative;
     overflow: hidden;
@@ -736,6 +736,68 @@ body.content-loaded footer {
     word-wrap: break-word;
     overflow-wrap: break-word;
     word-break: break-word;
+}
+
+/* Related Posts Section for Internal Linking */
+.related-posts-section {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 2px solid #f1f5f9;
+}
+
+.related-posts-section h3 {
+    color: #2d3748;
+    margin-bottom: 1.5rem;
+    font-size: 1.25rem;
+}
+
+.related-posts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+}
+
+.related-post-card {
+    background: #f8fafc;
+    border-radius: 8px;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+    border: 1px solid #e2e8f0;
+}
+
+.related-post-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.related-post-card a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.related-post-card h4 {
+    color: #667eea;
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    line-height: 1.4;
+}
+
+.related-post-card p {
+    color: #6b7280;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    line-height: 1.5;
+}
+
+.related-post-tags {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.related-post-tags .tag {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
 }
 
 /* About page specific styles */
