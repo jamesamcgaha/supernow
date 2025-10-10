@@ -15,7 +15,7 @@ var posts = [
       "non-admin hacks",
       "tools"
     ],
-    "content": "<h2>Coming soon!</h2>\nChrome Web Store availability pending review.\n\n<h3>Features</h3>\n1. Add dot-walked columns to the list layout\n\n<p>2. Bulk open records from the list view in new tabs</p>\n\n<p>3. Make the \"is not one of\" filter operator available for other column types</p>\n\n<p>4. Make all form fields visible, editable, and non-mandatory</p>\n\n<p>5. View and edit raw values for ALL columns for a record in a new tab</p>\n\n<p>6. More coming soon!</p>"
+    "content": "<h2>Download from the Chrome Web Store</h2>\n<a href=\"https://chromewebstore.google.com/detail/supernow/onjjggbfdefphfbgdigcaghdkjoeobda\">SuperNow - Tool for ServiceNow Super Users</a>\n\n<h3>Features</h3>\n1. Add dot-walked columns to the list layout\n\n<p>2. Bulk open records from the list view in new tabs</p>\n\n<p>3. Make the \"is not one of\" filter operator available for other column types</p>\n\n<p>4. Make all form fields visible, editable, and non-mandatory</p>\n\n<p>5. View and edit raw values for ALL columns for a record in a new tab</p>\n\n<p>6. More coming soon!</p>"
   },
   {
     "id": "top-ten-time-savers",
