@@ -6,8 +6,8 @@ author: "James McGaha"
 tags: ["chrome extension","tips & tricks","non-admin hacks","tools"]
 ---
 
-## Coming soon!
-Chrome Web Store availability pending review.
+## Download from the Chrome Web Store
+[SuperNow - Tool for ServiceNow Super Users](https://chromewebstore.google.com/detail/supernow/onjjggbfdefphfbgdigcaghdkjoeobda)
 
 ### Features
 1. Add dot-walked columns to the list layout
