@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modifying ServiceNow URLs - SuperNow</title>
+    <meta name="description" content="Understanding the components of a ServiceNow URL and modifying ServiceNow URLs directly can save you a lot of time and unlock some advanced tricks.">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Modifying ServiceNow URLs">
+    <meta property="og:description" content="Understanding the components of a ServiceNow URL and modifying ServiceNow URLs directly can save you a lot of time and unlock some advanced tricks.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://www.supernow-blog.com/blog/modifying-servicenow-urls.html">
+    <meta property="og:image" content="https://www.supernow-blog.com/images/supernow-logo-full.png">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Modifying ServiceNow URLs">
+    <meta name="twitter:description" content="Understanding the components of a ServiceNow URL and modifying ServiceNow URLs directly can save you a lot of time and unlock some advanced tricks.">
+    <meta name="twitter:image" content="https://www.supernow-blog.com/images/supernow-logo-full.png">
+    
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://www.supernow-blog.com/blog/modifying-servicenow-urls.html">
+    
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="../images/supernow-32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../images/supernow-16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../images/supernow-128.png">
+    
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/post.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="site-title">
+                    <a href="../index.html">
+                        <img src="../images/supernow-logo-full.png" alt="SuperNow" class="site-logo-full">
+                    </a>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="../index.html"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="../about.html"><i class="fas fa-user"></i> About</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container">
+        <article class="post-content">
+            <div class="back-link">
+                <a href="../index.html">
+                    ← Back to all posts
+                </a>
+            </div>
+
+            <header class="post-header">
+                <h1>Modifying ServiceNow URLs</h1>
+                
+                <div class="post-meta">
+                    <span>James McGaha</span>
+                    <span class="separator">•</span>
+                    <span>October 13, 2025</span>
+                </div>
+                
+                <div class="post-tags">
+                    <a href="../index.html?tag=tips%20%26%20tricks" class="tag tag-link">tips & tricks</a><a href="../index.html?tag=non-admin%20hacks" class="tag tag-link">non-admin hacks</a><a href="../index.html?tag=list%20view%20tricks" class="tag tag-link">list view tricks</a><a href="../index.html?tag=URLs" class="tag tag-link">URLs</a>
+                </div>
+            </header>
+            
+            <div class="post-body">
+                <p>This post will focus on where I get the most value out of modifying the URL: list and forms in the classic environment without the navigation frame (e.g. <code>/incident_list.do</code>). To understand the difference between classic environment URLs and URLs for the Service Portal or a Workspace or to understand how the navigation frame impacts the format of the URL, see <a href="types-of-servicenow-urls.html">Types of ServiceNow URLs</a>.</p>
+<h3>The List View</h3>
+<p>Note: If your URL starts with <code>/now/nav/ui/classic/params/target/</code> or <code>/nav_to.do?uri=%2F</code>, then it will make modifying the form easiser if you open up that page without the navigation frame by opening the link to the list in a new tab or you can right-click the list filter condition and select "Open new window". Also, there are many chrome extensions (like <a href="https://chromewebstore.google.com/detail/jgaodbdddndbaijmcljdbglhpdhnjobg">SN Utils</a>) that make it easy to switch between having the navigation frame present or not.</p>
+<br>
+<p>A list view URL without the navigation frame will have a structure like <em>/<strong>table_name</strong>_list.do?<strong>first_parameter</strong>&<strong>second_parameter</strong> . . .</em> where the first parameter (if there are any) is separated from <strong>_list.do</strong> with a <strong>?</strong> and then every additional parameter is separated by an <strong>&</strong>. So, if you are looking to add a parameter to your URL like <code>sysparm_force_row_count=1</code>, then usually you will want to use <strong>&</strong> to connect your parameter to the existing URL, but if no other parameters are present then you will need to use <strong>?</strong>.</p>
+<br>
+<p>Here's a breakdown of the most common or most useful URL parameters for the list view:</p>
+<ol><li ><strong>sysparm_query</strong>: contains the current encoded query for the table. It will usually be URL-encoded but it can accept non-URL-encoded queries. If your <strong>sysparm_query</strong> value is URL-encoded (has <em>%5E</em> or <em>%255E</em> instead of <em>^</em>), then it may be easier to modify if you right-click the filter condition for this list, select "Copy query", and then paste that in as the <strong>sysparm_query</strong> value in the URL. By modifying the encoded query directly, you can use operators not available in the filter condition builder like <strong>NOT IN</strong> (see <a href="using-advanced-filter-operators.html">Using Advanced Filter Operators</a>), group by columns it won't let you group by in the UI (see <a href="advanced-list-view-grouping.html">Advanced List View Grouping</a>), and add related list conditions <a href="querying-related-tables.html">Querying Related Tables</a>. Note: if your query includes <strong>^</strong> as part of a text query and not as an operator--then you'll need to escape it by adding an additional ^ like <code>short_descriptionLIKEx^^2^active=true</code>.</li><li ><strong>sysparm_fixed_query</strong>: contains an encoded query that the user cannot remove using the filter condition builder (they still can manually remove it from the URL).</li><li ><strong>sysparm_view</strong>: the view used. Can make the list columns match that of a list type report by setting this parameter to be "RPT<strong>sys_id_of_the_report</strong>".</li><li ><strong>sysparm_view_forced=true</strong>: prevents the user from changing the view unless they remove this parameter from the URL. To truly enforce a specific view, you should use a view rule (sysrule_view).</li><li ><strong>sysparm_filter_only=true</strong>: shows the list with only the filter present and no data loaded yet. Great for tables that load really slowly like syslog_transaction where you'll definitely want to add a filter condition before loading the data. This parameter is what is added when you type incident.FILTER into filter navigator instead of incident.LIST.</li><li ><strong>sysparm_force_row_count</strong>: overrides your user preference for the number of rows to show per page. Very useful if you want to show like 1,000 rows if you're trying to do a big bulk list edit or if you want to show like just 1 row to make a slow list load faster (I often use <code>&sysparm_force_row_count=1</code> when I'm grouping by a column and just care about the count of records in each group). As described <a href="https://baral.me/blog/post-snutil-rows-hack/">here</a>, you can set up some cool shortcuts for this using either bookmarklets or "slashcommands" (if you have the SN Utils chrome extension) if you don't want to add this URL parameter manually each time.</li><li ><strong>sysparm_group_sort</strong>: when you have a list that is grouped by a column, SerivceNow has added a "Group sort options" icon on the type right next to where it mentions the total count of records. Clicking that icon gives you the option to sort the groups by count ascending or count descending instead of the defaul alphabetical order. When selecting to order by count, it will just reload the page with either <code>&sysparm_group_sort=COUNT</code> or <code>&sysparm_group_sort=COUNTDESC</code>. For more list grouping tricks, see <a href="advanced-list-view-grouping.html">Advanced List View Grouping</a>.</li><li ><strong>sysparm_userpref_module</strong>: when you click a module from the filter navigator, this parameter gets added with a value of the sys_id of that module. I guess this functionality exists so that when reviewing syslog_transaction you can tell what module the user used to get to that table or theoretically you could run custom client logic that checks the URL and only runs when this parameter has a specific value.</li><li ><strong>sysparm_userpref.user-preference-name</strong>: can use this parameter to dynamical set most user preference (sys_user_preference) values for the user that navigates to that URL. I've found that it doesn't work for some preferences (like setting the current application preference "apps.current_app"), but it works for most of the settings shown in the Preferences modal. Here are a couple useful examples:<ol><li ><strong>rowcount</strong>: the parameter <strong>sysparm_force_row_count</strong> is great when you want to view a non-standard rows per page just the once, but if you want to update your default rows per page for all lists then you can use a URL parameter like <strong>sysparm_userpref.rowcount=200</strong>.</li><li ><strong>glide.ui.polaris.use</strong>: if your instance doesn't have the property <strong>glide.ui.polaris.on_off_user_pref_enabled</strong> set to "true" to allow you to easily switch between the Next Experience UI and the Core UI using the preferences modal, then you can instead navigate to <code>/navpage.do?sysparm_userpref.glide.ui.polaris.use=false</code> to switch back to the Core UI (and switch that URL to have "true" to go back to the Next Experience UI).</li></ol></li><li >Exporting options</li></ol><h3>The Form View</h3>
+<ol><li ><strong>sysparm_query</strong>: auto-populate values</li></ol>
+                <div class="related-posts-section">
+                    <h3>Related Articles</h3>
+                    <div class="related-posts-grid">
+                        
+                        <div class="related-post-card">
+                            <a href="advanced-list-view-grouping.html">
+                                <h4>Advanced List View Grouping</h4>
+                                <p>Level up your list view grouping skills by grouping by dot-walked fields, not-standard columns types, and improving the performance of slow groupings.</p>
+                                <div class="related-post-tags">
+                                    <a href="../index.html?tag=tips%20%26%20tricks" class="tag tag-link">tips & tricks</a><a href="../index.html?tag=non-admin%20hacks" class="tag tag-link">non-admin hacks</a>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="related-post-card">
+                            <a href="querying-related-tables.html">
+                                <h4>Querying Related Tables</h4>
+                                <p>How to use RLQUERY, SUBQUERY, and JOIN in your list view and GlideRecord encoded queries.</p>
+                                <div class="related-post-tags">
+                                    <a href="../index.html?tag=tips%20%26%20tricks" class="tag tag-link">tips & tricks</a><a href="../index.html?tag=non-admin%20hacks" class="tag tag-link">non-admin hacks</a>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="related-post-card">
+                            <a href="using-advanced-filter-operators.html">
+                                <h4>Using Advanced Filter Operators</h4>
+                                <p></p>
+                                <div class="related-post-tags">
+                                    <a href="../index.html?tag=tips%20%26%20tricks" class="tag tag-link">tips & tricks</a><a href="../index.html?tag=non-admin%20hacks" class="tag tag-link">non-admin hacks</a>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>        </article>
+        
+        <!-- Comments Section -->
+        <div class="comments-section">
+            <div class="comments-header">
+                <h3>Comments</h3>
+                <p>Join the discussion and share your thoughts!</p>
+            </div>
+            <script src="https://utteranc.es/client.js"
+                    repo="jamesamcgaha/supernow"
+                    issue-term="url"
+                    label="blog comments"
+                    theme="github-light"
+                    crossorigin="anonymous"
+                    async>
+            </script>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <p>&copy; 2025 SuperNow. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="mailto:jamesmcgaha@supernow-blog.com" target="_blank"><i class="fa fa-envelope"></i></a>
+                <a href="https://www.linkedin.com/in/james-mcgaha-672644114" target="_blank"><i class="fab fa-linkedin"></i></a>
+                <a href="https://github.com/jamesamcgaha/supernow" target="_blank"><i class="fab fa-github"></i></a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

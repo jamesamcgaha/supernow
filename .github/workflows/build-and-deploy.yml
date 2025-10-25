@@ -1,0 +1,67 @@
+name: Build and Deploy Blog
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'posts/**'
+      - 'js/**'
+      - 'templates/**'
+      - '*.html'
+      - '*.md'
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: write
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        
+    - name: Build blog and generate sitemap
+      run: |
+        echo "🏗️  Building blog (includes HTML files and sitemap)..."
+        node js/build-blog.js
+        echo "✅ Build complete!"
+        
+    - name: Check for changes
+      id: verify-changed
+      run: |
+        git add .
+        if git diff --staged --quiet; then
+          echo "changed=false" >> $GITHUB_OUTPUT
+          echo "No changes detected"
+        else
+          echo "changed=true" >> $GITHUB_OUTPUT
+          echo "Changes detected:"
+          git diff --staged --name-only
+        fi
+      
+    - name: Commit and push if changed
+      if: steps.verify-changed.outputs.changed == 'true'
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git commit -m "🚀 Auto-build blog: Generate HTML files and update sitemap [skip ci]"
+        git push
+        
+    - name: Summary
+      run: |
+        if [ "${{ steps.verify-changed.outputs.changed }}" == "true" ]; then
+          echo "✅ Blog successfully built and deployed!"
+        else
+          echo "ℹ️  No changes needed - blog is up to date"
+        fi

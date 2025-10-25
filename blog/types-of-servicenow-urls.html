@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Types of ServiceNow URLs - SuperNow</title>
+    <meta name="description" content="How to tell whether a ServiceNow URL is for a Service Portal, Classic Environment, or Workspace page.">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Types of ServiceNow URLs">
+    <meta property="og:description" content="How to tell whether a ServiceNow URL is for a Service Portal, Classic Environment, or Workspace page.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://www.supernow-blog.com/blog/types-of-servicenow-urls.html">
+    <meta property="og:image" content="https://www.supernow-blog.com/images/supernow-logo-full.png">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Types of ServiceNow URLs">
+    <meta name="twitter:description" content="How to tell whether a ServiceNow URL is for a Service Portal, Classic Environment, or Workspace page.">
+    <meta name="twitter:image" content="https://www.supernow-blog.com/images/supernow-logo-full.png">
+    
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://www.supernow-blog.com/blog/types-of-servicenow-urls.html">
+    
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="../images/supernow-32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../images/supernow-16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../images/supernow-128.png">
+    
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/post.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="site-title">
+                    <a href="../index.html">
+                        <img src="../images/supernow-logo-full.png" alt="SuperNow" class="site-logo-full">
+                    </a>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="../index.html"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="../about.html"><i class="fas fa-user"></i> About</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container">
+        <article class="post-content">
+            <div class="back-link">
+                <a href="../index.html">
+                    ← Back to all posts
+                </a>
+            </div>
+
+            <header class="post-header">
+                <h1>Types of ServiceNow URLs</h1>
+                
+                <div class="post-meta">
+                    <span>James McGaha</span>
+                    <span class="separator">•</span>
+                    <span>October 13, 2025</span>
+                </div>
+                
+                <div class="post-tags">
+                    <a href="../index.html?tag=ServiceNow%20101" class="tag tag-link">ServiceNow 101</a><a href="../index.html?tag=URLs" class="tag tag-link">URLs</a>
+                </div>
+            </header>
+            
+            <div class="post-body">
+                <p>Note: all of the URL examples mentioned in this post are relative URLs and assume that you will include the domain of your ServiceNow site before them. For example, when this post mentions the URL <em>/incident.do</em>, for your ServiceNow instance that will looks like <em>https://dev123456.service-now.com/incident.do</em>.</p>
+<h3>Service Portal / Employee Center page</h3>
+<p>You can recognize a Service Portal URL because it will always include <strong>?id=</strong>. These pages are built using <a href="https://code.angularjs.org/1.5.9/docs/api">AngularJS</a> (with <a href="https://getbootstrap.com/docs/3.3/css/">Bootstrap CSS</a>, <a href="https://getbootstrap.com/docs/3.3/components/">Bootstrap Components</a>, and <a href="https://angular-ui.github.io/bootstrap/versioned-docs/1.2.5/">UI Bootstrap</a>).</p>
+<br>
+<p>Service Portal URLs follow the pattern:</p>
+<p><code>https://{instance}/{portal suffix}/{language}/{keywords}?id={page id}&{page parameters}</code></p>
+<br>
+<p>Example: <code>/esc?id=sc_cat_item&sys_id=186d917a6fab7980575967ddbb3ee4f2</code></p>
+<br>
+<p>Or, if human-readable/SEO URLs are enabled, it may look like this:</p>
+<p><code>https://{instance}/{portal suffix}/{guest language}/{keywords}?id={page id}&lang={language}&{page parameters"</code></p>
+<br>
+<p>Example: <code>/kb/en/life-feed-application-demo-data-for-a-what-is-template?id=kb_article_view&sysparm_article=KB0010002</code></p>
+<h3>Classic Environment / "Native UI" pages</h3>
+<p>URLs in the classic environment will always include <strong>.do</strong>. These pages are built using Jelly.</p>
+<br>
+<p>A classic environment URL can point to:</p>
+<ol><li >Processors (like /cache.do)</li><li >UI Pages (like /impersonate_dialog.do)</li><li >OOB pages we don't have access to view (like /report_home.do)</li><li >The list or table view for a table (like /incident_list.do or /incident.do)</li></ol><p>The main thing to note is that a classic environment URL will look different depending on whether or not the Navigation Frame (the global ServiceNow header) is present. The navigation frame will be present by default, but if you open any records in a new tab you may notice that the navigation frame does not get included.</p>
+<br>
+<p>When the navigation frame is not included, the URLs are the easiest to decipher. So, I often open a page in a new tab if I know I will want to modify the URL. For more information on modifying classic environment URLs, see: <a href="modifying-servicenow-urls.html">Modifying SerivceNow URLs</a>.</p>
+<br>
+<p>When the navigation frame <em>is</em> included, the URL will be essentially the same except that:</p>
+<ol><li ><code>/now/nav/ui/classic/params/target/</code> will be included at the beginning of the URL (if you are still using the Core UI instead of the Next Experience UI, the URL prefix will be <code>/nav_to.do?uri=%2F</code>)</li><li >The remainder of the URL will be URL-encoded</li></ol><p>So, without the navigation frame you'll see a simpler URL like this: <code>/sys_user_list.do?sysparm_query=first_nameLIKEjames</code></p>
+<br>
+<p>But with the navigation frame you'll get this: <code>/now/nav/ui/classic/params/target/sys_user_list.do%3Fsysparm_query%3Dfirst_nameLIKEjames</code></p>
+<h3>Workspace / UI Builder page</h3>
+<p>A workspace or UI builder page won't contain either <strong>?id=</strong> or <strong>.do</strong> and instead will just have slashes <strong>/</strong>. These pages are built using ServiceNow's "React-like" Seismic framework.</p>
+<br>
+<p>Some of these URLs are not too difficult to decipher. For example, the URL for a specific incident opened in the Service Operations Workspace is pretty straightforward and makes it easy to find the incident's sys_id: <code>/now/sow/record/incident/d492e26c83a42210675fccb6feaad363</code>. However, even a simple list view can be pretty illegible with unique identifiers for the list and base64 encoded parameters. For example: <code>/now/sow/list/params/list-id/7ae4da1ec3013010965e070e9140dd66/__state__/b64~eyJlNGQ0NmFiM2ViYzQxMjEwMzg5MGRkZGUyMzUyMjhhOCI6eyJsaXN0X2NvbnRyb2xsZXIiOnsiYWN0aXZlPXRydWUiOnsicXVlcnkiOm51bGwsImN1cnJlbnRQYWdlIjowfSwiXyI6eyJxdWVyeSI6IiIsImN1cnJlbnRQYWdlIjowfX19fQ%3D%3D</code></p>
+                <div class="related-posts-section">
+                    <h3>Related Articles</h3>
+                    <div class="related-posts-grid">
+                        
+                        <div class="related-post-card">
+                            <a href="advanced-list-view-grouping.html">
+                                <h4>Advanced List View Grouping</h4>
+                                <p>Level up your list view grouping skills by grouping by dot-walked fields, not-standard columns types, and improving the performance of slow groupings.</p>
+                                <div class="related-post-tags">
+                                    <a href="../index.html?tag=tips%20%26%20tricks" class="tag tag-link">tips & tricks</a><a href="../index.html?tag=non-admin%20hacks" class="tag tag-link">non-admin hacks</a>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="related-post-card">
+                            <a href="modifying-servicenow-urls.html">
+                                <h4>Modifying ServiceNow URLs</h4>
+                                <p>Understanding the components of a ServiceNow URL and modifying ServiceNow URLs directly can save you a lot of time and unlock some advanced tricks.</p>
+                                <div class="related-post-tags">
+                                    <a href="../index.html?tag=tips%20%26%20tricks" class="tag tag-link">tips & tricks</a><a href="../index.html?tag=non-admin%20hacks" class="tag tag-link">non-admin hacks</a>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="related-post-card">
+                            <a href="querying-related-tables.html">
+                                <h4>Querying Related Tables</h4>
+                                <p>How to use RLQUERY, SUBQUERY, and JOIN in your list view and GlideRecord encoded queries.</p>
+                                <div class="related-post-tags">
+                                    <a href="../index.html?tag=tips%20%26%20tricks" class="tag tag-link">tips & tricks</a><a href="../index.html?tag=non-admin%20hacks" class="tag tag-link">non-admin hacks</a>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>        </article>
+        
+        <!-- Comments Section -->
+        <div class="comments-section">
+            <div class="comments-header">
+                <h3>Comments</h3>
+                <p>Join the discussion and share your thoughts!</p>
+            </div>
+            <script src="https://utteranc.es/client.js"
+                    repo="jamesamcgaha/supernow"
+                    issue-term="url"
+                    label="blog comments"
+                    theme="github-light"
+                    crossorigin="anonymous"
+                    async>
+            </script>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <p>&copy; 2025 SuperNow. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="mailto:jamesmcgaha@supernow-blog.com" target="_blank"><i class="fa fa-envelope"></i></a>
+                <a href="https://www.linkedin.com/in/james-mcgaha-672644114" target="_blank"><i class="fab fa-linkedin"></i></a>
+                <a href="https://github.com/jamesamcgaha/supernow" target="_blank"><i class="fab fa-github"></i></a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

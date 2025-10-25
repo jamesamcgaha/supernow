@@ -1,0 +1,395 @@
+/* Blog post page specific styles */
+
+.container{
+    padding: 2rem 1rem;
+}
+
+.post-content {
+    background: white;
+    border-radius: 16px 16px 0 0;
+    padding: 3rem 4rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    max-width: 1100px;
+    margin: 0 auto;
+    position: relative;
+    border: 1px solid #f1f5f9;
+    overflow: hidden;
+}
+
+.post-content::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+/* Post Header */
+.post-header {
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 2px solid #f1f5f9;
+}
+
+.post-header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: #1a202c;
+    font-weight: 800;
+    line-height: 1.2;
+}
+
+.post-header .post-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    color: #64748b;
+    font-size: 0.9rem;
+}
+
+.post-header .post-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+/* Post Body Content */
+.post-body {
+    line-height: 1.8;
+    color: #4a5568;
+}
+/*
+.post-body p {
+    margin-bottom: 1.5rem;
+}
+*/
+.post-body h2 {
+    margin: 2rem 0 1rem 0;
+    color: #2d3748;
+    font-weight: 700;
+    font-size: 1.75rem;
+}
+
+.post-body h3 {
+    margin: 1.5rem 0 0.75rem 0;
+    text-decoration: underline;
+    color: #2d3748;
+    font-weight: 600;
+    font-size: 1.25rem;
+}
+
+.post-body h4 {
+    margin: 1rem 0 0.5rem 0;
+    color: #2d3748;
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.post-body ul, .post-body ol {
+    margin-bottom: 1.5rem;
+    padding-left: 2rem;
+}
+
+/* Nested list numbering styles - automatically applied by nesting depth */
+.post-body ol {
+    list-style-type: decimal; /* 1, 2, 3 */
+}
+
+.post-body ol ol {
+    list-style-type: upper-alpha; /* A, B, C */
+}
+
+.post-body ol ol ol {
+    list-style-type: lower-roman; /* i, ii, iii */
+}
+
+.post-body ol ol ol ol {
+    list-style-type: lower-alpha; /* a, b, c */
+}
+
+/* Nested lists */
+.post-body ul ul,
+.post-body ol ol {
+    margin-top: 0.25rem;
+    margin-bottom: 0.25rem;
+}
+
+.post-body li {
+    margin-bottom: 0.25rem;
+    line-height: 1.6;
+}
+
+.post-body blockquote {
+    border-left: 4px solid #667eea;
+    padding-left: 1.5rem;
+    margin: 1.5rem 0;
+    font-style: italic;
+    color: #5a6c7a;
+    background: #f8fafc;
+    padding: 1rem 1.5rem;
+    border-radius: 0 8px 8px 0;
+}
+
+.post-body code {
+    background: #f1f5f9;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-size: 0.9em;
+    color: #d63384;
+}
+
+.post-body pre {
+    background: #1e293b;
+    color: #e2e8f0;
+    padding: 1.5rem;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 1.5rem 0;
+    border: 1px solid #334155;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+.post-body pre code {
+    background: transparent;
+    padding: 0;
+    color: inherit;
+}
+
+.post-body a {
+    color: #667eea;
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: all 0.3s ease;
+    overflow-wrap: break-word;
+    hyphens: auto;
+}
+
+.post-body a:hover {
+    color: #764ba2;
+    border-bottom-color: #764ba2;
+}
+
+/* Ensure long URLs break properly on all screen sizes */
+.post-body p, 
+.post-body li, 
+.post-body div {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
+
+/* Back link */
+.back-link {
+    margin-bottom: 2rem;
+}
+
+.back-link a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #667eea;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    background: rgba(102, 126, 234, 0.1);
+    transition: all 0.3s ease;
+}
+
+.back-link a:hover {
+    background: rgba(102, 126, 234, 0.2);
+    transform: translateX(-5px);
+}
+
+/* Comments Section - Seamlessly connected */
+.comments-section {
+    background: white;
+    border-radius: 0 0 16px 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid #f1f5f9;
+    border-top: none;
+    padding: 2rem;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.comments-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.comments-header h3 {
+    color: #2d3748;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.comments-header p {
+    color: #718096;
+    font-size: 0.95rem;
+}
+
+/* Style the utterances iframe when it loads */
+.utterances {
+    max-width: 100% !important;
+}
+
+/* Responsive adjustments for comments and posts */
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+    }
+    
+    .post-content {
+        border-radius: 12px 12px 0 0;
+        padding: 1.5rem 1rem;
+    }
+    
+    .comments-section {
+        padding: 1.5rem;
+        border-radius: 0 0 12px 12px;
+    }
+    
+    .back-link,
+    .post-header,
+    .post-body {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+    }
+    
+    .post-header h1 {
+        font-size: 2rem;
+    }
+    
+    .comments-header h3 {
+        font-size: 1.3rem;
+    }
+}
+
+/* Style the utterances iframe when it loads */
+.utterances {
+    max-width: 100% !important;
+}
+
+/* Related Posts Section */
+.related-posts-section {
+    margin-top: 3rem;
+    border-top: 2px solid #f1f5f9;
+}
+
+.related-posts-section h3 {
+    color: #2d3748;
+    margin-bottom: 1.5rem;
+    font-size: 1.25rem;
+}
+
+.related-posts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+}
+
+.related-post-card {
+    background: #f8fafc;
+    border-radius: 8px;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+    border: 1px solid #e2e8f0;
+}
+
+.related-post-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.related-post-card a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.related-post-card h4 {
+    color: #667eea;
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    line-height: 1.4;
+}
+
+.related-post-card p {
+    color: #6b7280;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    line-height: 1.5;
+}
+
+.related-post-tags {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+/* Responsive - Post Pages */
+@media (max-width: 768px) {
+    .post-content {
+        padding: 2rem 1.5rem;
+        margin: 1rem;
+        border-radius: 12px;
+    }
+    
+    .post-header h1 {
+        font-size: 2rem;
+    }
+    
+    .post-body h2 {
+        font-size: 1.5rem;
+    }
+    
+    .post-body h3 {
+        font-size: 1.2rem;
+    }
+    
+    .related-posts-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .post-body pre {
+        padding: 1rem;
+        margin: 1rem -0.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .post-content {
+        padding: 1.5rem 1rem;
+        margin: 0.5rem;
+    }
+    
+    .post-header h1 {
+        font-size: 1.75rem;
+    }
+    
+    .post-header .post-meta {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    
+    .post-body ul, .post-body ol {
+        padding-left: 1.5rem;
+    }
+    
+    .post-body blockquote {
+        padding: 0.75rem 1rem;
+        margin: 1rem 0;
+    }
+}
