@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Advanced List View Grouping - SuperNow</title>
-    <meta name="description" content="Level up your list view grouping skills by grouping by dot-walked fields, not-standard columns types, and improving the performance of slow groupings.">
+    <meta name="description" content="Level up your list view grouping skills by improving the performance and grouping by columns that are dot-walked or have a type that can't normally be grouped by.">
     
     <!-- Open Graph Meta Tags -->
     <meta property="og:title" content="Advanced List View Grouping">
-    <meta property="og:description" content="Level up your list view grouping skills by grouping by dot-walked fields, not-standard columns types, and improving the performance of slow groupings.">
+    <meta property="og:description" content="Level up your list view grouping skills by improving the performance and grouping by columns that are dot-walked or have a type that can't normally be grouped by.">
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://www.supernow-blog.com/blog/advanced-list-view-grouping.html">
     <meta property="og:image" content="https://www.supernow-blog.com/images/supernow-logo-full.png">
@@ -16,7 +16,7 @@
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Advanced List View Grouping">
-    <meta name="twitter:description" content="Level up your list view grouping skills by grouping by dot-walked fields, not-standard columns types, and improving the performance of slow groupings.">
+    <meta name="twitter:description" content="Level up your list view grouping skills by improving the performance and grouping by columns that are dot-walked or have a type that can't normally be grouped by.">
     <meta name="twitter:image" content="https://www.supernow-blog.com/images/supernow-logo-full.png">
     
     <meta name="robots" content="index, follow">
@@ -62,7 +62,7 @@
                 <div class="post-meta">
                     <span>James McGaha</span>
                     <span class="separator">•</span>
-                    <span>October 13, 2025</span>
+                    <span>October 14, 2025</span>
                 </div>
                 
                 <div class="post-tags">
@@ -71,12 +71,21 @@
             </header>
             
             <div class="post-body">
-                <br>
+                <p>Level up your list view grouping skills by improving the performance and grouping by columns that are dot-walked or have a type that can't normally be grouped by.</p>
+<h3>I. Improving Grouping Performance</h3>
+<p>Grouped list views can often load pretty slowly, so being aware of ways to improve the performance of a grouped list can save you a lot of time. I've attached a list of things I've seen improve the performance of a grouped list (along with how much of an performance increase I saw while testing on the sysevent table):</p>
+<ol><li >Of course, factors that cause an ungrouped list to load slow (e.g. table size, filter condition, list layout columns, etc.) will also cause a grouped list to load slow. However, a query that would normally run slower than an unfiltered list can end up being the faster option when grouping if the slow filter returns fewer results and fewer distinct groupings (e.g. it was 95% faster to load an unfiltered syslog list than it was to load it with the filter "messageLIKEjtest"; however, after grouping by the source column, the filtered list which returned only 171 rows and 6 distinct source values loaded 61% faster than the unfiltered list that returned 449,350 rows with 785 source values)</li><li >The column you are grouping by obviously influences the performance.</li><li >Grouping by an indexed column (e.g. for a query on the sysevent table, it was 80% faster to group by the indexed column sys_created_on than the unindexed sys_updated_on--even when the query condition and sorting both used sys_updated_on).</li><li >Grouping by a column with fewer unique values (e.g. querying sysevent, grouping by "claimed_by" which had 9 groups was 84% faster than grouping by "instance" which had 3,648 groups--and there was no significant difference when using a query that resulted in the same number of unique claimed_by and instance values).</li><li >Grouping by the column you are filtering by may <em>slightly</em> help the performance (e.g. for the sysevent table, when querying based on either process_on or sys_updated_on, it was slightly faster (3%) to group by the same column as used in the query).</li><li >Sorting by the column you're grouping by (e.g. querying the sysevent table grouped by either parm1 or by parm2, it was 11% faster when sorting by the same column being grouped by)</li><li >Using fewer rows per page can dramatically help the performance. If you are showing 100 rows per page and group a list that has 100 groups that each have 100+ records, then you're effectively showing 10,000 rows. If you aren't interested in seeing all of the rows within each group, it can save a lot of time to add <strong>&sysparm_force_row_count=1</strong> to your URL (see <a href="modifying-servicenow-urls.html">Modifying ServiceNow URLs</a>) (e.g. for a query on the sysevent table grouping by sys_created_on, it was 85% faster when limiting the row count to 1).</li></ol><h3>II. Ordering the Groups</h3>
+<p>ServiceNow has added a useful "Group sort options" button that shows in the top right next to the total record count while grouping a list. You can use this to sort your groups based on "Count descending" instead of alphabetically, which is very useful when there are many groups and you just want to see the most common one (like if you want to quickly see who are the Callers with the most incidents). If you're still on a version of ServiceNow before they added this button or prefer to do through the URL, you can do the same thing the button does by adding <strong>&sysparm_group_sort=COUNTDESC</strong> to your URL (see <a href="modifying-servicenow-urls.html">Modifying ServiceNow URLs</a>). I often add via URL because I'm already modifying the URL to force the row count to be 1 and it's quickest to add both parameters at the same time like <strong>&sysparm_force_row_count=1&sysparm_group_sort=COUNTDESC</strong>.</p>
+<h3>III. Grouping by Any Type of Column</h3>
+<p>For the following column types, the "Group By" option in the column header context menu is grayed out, but you can still group by them if you manually modify the encoded query--either by updating the sysparm_query parameter in the URL (see <a href="modifying-servicenow-urls.html">Modifying ServiceNow URLs</a>) or using the <a href="https://chromewebstore.google.com/detail/jgaodbdddndbaijmcljdbglhpdhnjobg">SN Utils</a> extension and double-clicking the whitespace next to the filter condition--to include <strong>^GROUPBYcolumn_name</strong>:</p>
+<ul><li >Basic Date/Time (datetime)</li><li >Calendar Date/Time (calendar_date_time)</li><li >Data Structure (data_structure)</li><li >Date (glide_date)</li><li >Date/Time (glide_date_time)</li><li >Due Date (due_date)</li><li >Duration (glide_duration)</li><li >Dynamic Attribute Store (dynamic_attribute_store)</li><li >FX Currency (currency2)</li><li >Insert Timestamp (insert_timestamp)</li><li >Other Date (date)</li><li >Password (1 Way Encrypted) (password)</li><li >Password (2 Way Encrypted) (password2)</li><li >Properties (properties)</li><li >String (string) <strong>(If the max length is 256 or greater)</strong></li><li >Time (glide_time)</li><li >URL (url)</li><li >UTC Time (glide_utc_time)</li><li >Wiki (wiki_text)</li></ul><p>Note: for password type columns, since the hashed values are salted, rows that are set to have the same value won't group together--only empty values will be grouped together.</p>
 <br>
-<p>Group by Dates, List field, and extended fields</p>
+<p>For these 4 types of columns, it will technically let you group by them, but it won't work as there will always just be one group with the label "(empty)":</p>
+<ul><li >Journal (journal)</li><li >Journal Input (journal_input)</li><li >Journal List (journal_list)</li><li >Related Tags (related_tags)</li></ul><h3>IV. Grouping by Dot-Walked Columns</h3>
+<p>Note: grouping by a dot-walked column can be slow.</p>
 <br>
-<br>
-<p>sysparm_force_row_count=1</p>
+<p>To group by a dot-walked column, either:</p>
+<ol><li >Manually modify the encoded query to have the dot-walked column the same way as in point <strong>III.</strong> above.</li><li >Add the dot-walked column to the list view and then use the column header context menu to group by that column as normal (see <a href="add-dot-walked-columns-to-the-list-view.html">How to add dot-walked columns to the list view</a>).</li></ol>
                 <div class="related-posts-section">
                     <h3>Related Articles</h3>
                     <div class="related-posts-grid">
@@ -100,9 +109,9 @@
                             </a>
                         </div>
                         <div class="related-post-card">
-                            <a href="using-advanced-filter-operators.html">
-                                <h4>Using Advanced Filter Operators</h4>
-                                <p></p>
+                            <a href="add-dot-walked-columns-to-the-list-view.html">
+                                <h4>How to add dot-walked columns to the list view</h4>
+                                <p>There are many scenarios where a key piece of information isn't available directly on the table you are viewing.</p>
                                 <div class="related-post-tags">
                                     <a href="../index.html?tag=tips%20%26%20tricks" class="tag tag-link">tips & tricks</a><a href="../index.html?tag=non-admin%20hacks" class="tag tag-link">non-admin hacks</a>
                                 </div>
