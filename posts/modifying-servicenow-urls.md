@@ -5,6 +5,8 @@ excerpt: "Understanding the components of a ServiceNow URL and modifying Service
 author: "James McGaha"
 tags: ["tips & tricks","non-admin hacks","list view tricks","URLs"]
 ---
+Understanding the components of a ServiceNow URL and modifying ServiceNow URLs directly can save you a lot of time and unlock some advanced tricks.
+
 This post will focus on where I get the most value out of modifying the URL: list and forms in the classic environment without the navigation frame (e.g. `/incident_list.do`). To understand the difference between classic environment URLs and URLs for the Service Portal or a Workspace or to understand how the navigation frame impacts the format of the URL, see [Types of ServiceNow URLs](types-of-servicenow-urls.html).
 ### The List View
 Note: If your URL starts with `/now/nav/ui/classic/params/target/` or `/nav_to.do?uri=%2F`, then it will make modifying the form easiser if you open up that page without the navigation frame by opening the link to the list in a new tab or you can right-click the list filter condition and select "Open new window". Also, there are many chrome extensions (like [SN Utils](https://chromewebstore.google.com/detail/jgaodbdddndbaijmcljdbglhpdhnjobg)) that make it easy to switch between having the navigation frame present or not.
@@ -12,7 +14,7 @@ Note: If your URL starts with `/now/nav/ui/classic/params/target/` or `/nav_to.d
 A list view URL without the navigation frame will have a structure like */**table_name**_list.do?**first_parameter**&**second_parameter** . . .* where the first parameter (if there are any) is separated from **_list.do** with a **?** and then every additional parameter is separated by an **&**. So, if you are looking to add a parameter to your URL like `sysparm_force_row_count=1`, then usually you will want to use **&** to connect your parameter to the existing URL, but if no other parameters are present then you will need to use **?**.
 
 Here's a breakdown of the most common or most useful URL parameters for the list view:
-1. **sysparm_query**: contains the current encoded query for the table. It will usually be URL-encoded but it can accept non-URL-encoded queries. If your **sysparm_query** value is URL-encoded (has *%5E* or *%255E* instead of *^*), then it may be easier to modify if you right-click the filter condition for this list, select "Copy query", and then paste that in as the **sysparm_query** value in the URL. By modifying the encoded query directly, you can use operators not available in the filter condition builder like **NOT IN**, group by columns it won't let you group by in the UI, and add related list conditions [Querying Related Tables](querying-related-tables.html). Note: if your query includes **^** as part of a text query and not as an operator--then you'll need to escape it by adding an additional ^ like `short_descriptionLIKEx^^2^active=true`.
+1. **sysparm_query**: contains the current encoded query for the table. It will usually be URL-encoded but it can accept non-URL-encoded queries. If your **sysparm_query** value is URL-encoded (has *%5E* or *%255E* instead of *^*), then it may be easier to modify if you right-click the filter condition for this list, select "Copy query", and then paste that in as the **sysparm_query** value in the URL. By modifying the encoded query directly, you can use operators not available in the filter condition builder like **NOT IN**, group by columns it won't let you group by in the UI (see [Advanced List View Grouping](advanced-list-view-grouping.html)), and add related list conditions (see [Querying Related Tables](querying-related-tables.html)). Note: if your query includes **^** as part of a text query and not as an operator--then you'll need to escape it by adding an additional ^ like `short_descriptionLIKEx^^2^active=true`. Also, the [SN Utils](https://chromewebstore.google.com/detail/jgaodbdddndbaijmcljdbglhpdhnjobg) extension makes it easy to directly modify the encoded query for the list by double-clicking in the whitespace next to the filter condition.
 
 2. **sysparm_fixed_query**: contains an encoded query that the user cannot remove using the filter condition builder (they still can manually remove it from the URL).
 
@@ -24,7 +26,7 @@ Here's a breakdown of the most common or most useful URL parameters for the list
 
 6. **sysparm_force_row_count**: overrides your user preference for the number of rows to show per page. Very useful if you want to show like 1,000 rows if you're trying to do a big bulk list edit or if you want to show like just 1 row to make a slow list load faster (I often use `&sysparm_force_row_count=1` when I'm grouping by a column and just care about the count of records in each group). As described [here](https://baral.me/blog/post-snutil-rows-hack/), you can set up some cool shortcuts for this using either bookmarklets or "slashcommands" (if you have the SN Utils chrome extension) if you don't want to add this URL parameter manually each time.
 
-7. **sysparm_group_sort**: when you have a list that is grouped by a column, SerivceNow has added a "Group sort options" icon on the type right next to where it mentions the total count of records. Clicking that icon gives you the option to sort the groups by count ascending or count descending instead of the defaul alphabetical order. When selecting to order by count, it will just reload the page with either `&sysparm_group_sort=COUNT` or `&sysparm_group_sort=COUNTDESC`.
+7. **sysparm_group_sort**: when you have a list that is grouped by a column, SerivceNow has added a "Group sort options" icon on the type right next to where it mentions the total count of records. Clicking that icon gives you the option to sort the groups by count ascending or count descending instead of the defaul alphabetical order. When selecting to order by count, it will just reload the page with either `&sysparm_group_sort=COUNT` or `&sysparm_group_sort=COUNTDESC`. For more list grouping tricks, see [Advanced List View Grouping](advanced-list-view-grouping.html).
 
 8. **sysparm_userpref_module**: when you click a module from the filter navigator, this parameter gets added with a value of the sys_id of that module. I guess this functionality exists so that when reviewing syslog_transaction you can tell what module the user used to get to that table or theoretically you could run custom client logic that checks the URL and only runs when this parameter has a specific value.
 
@@ -34,4 +36,6 @@ Here's a breakdown of the most common or most useful URL parameters for the list
 
 10. Exporting options
 ### The Form View
+
+1. **sys_id**: a form URL will always 
 1. **sysparm_query**: auto-populate values

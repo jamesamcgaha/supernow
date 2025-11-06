@@ -3,8 +3,10 @@ title: "Querying Related Tables"
 date: "2025-10-24"
 excerpt: "How to use RLQUERY, SUBQUERY, and JOIN in your list view and GlideRecord encoded queries."
 author: "James McGaha"
-tags: ["tips & tricks","non-admin hacks","list view tricks","URLs","development"]
+tags: ["tips & tricks","non-admin hacks","list view tricks","URLs","development","advanced"]
 ---
+Note: RLQUERY, SUBQUERY, and JOIN work in the list view but can't be added through the filter condition builder (RLQUERY is availble for conditions built for a report or a workspace list). To add them you have to directly modify the sysparm_query parameter in the URL (see [Modifying ServiceNow URLs](modifying-servicenow-urls.html)) or with the [SN Utils](https://chromewebstore.google.com/detail/jgaodbdddndbaijmcljdbglhpdhnjobg) extension you can directly edit the encoded query for the list by double-clicking in the whitespace next to the filter condition.
+
 ## Options for querying related tables
 ### 1. RLQUERY
 **Pros:**
@@ -104,7 +106,8 @@ tags: ["tips & tricks","non-admin hacks","list view tricks","URLs","development"
 ### 6. Other options
 1. With GlideRecord scripting, can manually do the same idea as SUBQUERY or addJoinQuery by iterating through a seperate GlideRecord query to build an array of values and then including those as the value for an IN condition in the main GlideRecord.
 2. For some simple use cases where you don't need to perform an operation on or retrieve the full data for records, you might be able to accomplish your goal with a GlideAggregate query. Like if you need just the names of users who are the manager of two or more group records, then you could query the sys_user table with RLQUERY and >=2, but it also would work to do a GlideAggregate on sys_user_group with `groupBy('manager')` and `addHaving('COUNT','>=',2)`. 
-3. Similar to the GlideAggregate option, you can get similar results in a list view query by switching to the related table and grouping by the reference field.
+3. Similar to the GlideAggregate option, you can get similar results in a list view query by switching to the related table and grouping by the reference field. For info on improving grouping performance and grouping by dot-walked columns, see [Advanced List View Grouping](advanced-list-view-grouping.html).
+
 ## Detailed Comparison
 For each of the four joining options, here is GlideRecord code for a query to pull all active users who are the manager of an active group.
 

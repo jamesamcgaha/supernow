@@ -5,6 +5,8 @@ excerpt: "There are many scenarios where a key piece of information isn't availa
 author: "James McGaha"
 tags: ["tips & tricks","non-admin hacks","chrome extension","list view tricks"]
 ---
+There are many scenarios where a key piece of information isn't available directly on the table you are viewing.
+
 For example, you'd like to be able to view the caller's email from the list of incidents or maybe you want to see the catalog item name from the list of SC Tasks but that information is stored on the Requested Item.
 
 Someone with System Administrator access can always configure the List Layout to include a dot-walked column; however, if you don't have admin or don't want to add a "dot-walked" column to the default list view for all users, then you can still use one of these options to get the extended field added to your personalized list view:

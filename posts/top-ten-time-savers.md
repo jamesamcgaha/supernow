@@ -5,6 +5,8 @@ excerpt: "These are the top 10 tips & tricks that I save me the most time and th
 author: "James McGaha"
 tags: ["tips & tricks","non-admin hacks","tools","admin access required","development"]
 ---
+These are the top 10 tips & tricks that I save me the most time and that I'd have the hardest time doing without.
+
 1. SN Utils
 2. Windows key + V for pasting clipboard
 3. Using &sysparm_force_row_count=1&sysparm_group_sort=COUNTDESC
