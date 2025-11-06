@@ -66,12 +66,14 @@
                 </div>
                 
                 <div class="post-tags">
-                    <a href="../index.html?tag=tips%20%26%20tricks" class="tag tag-link">tips & tricks</a><a href="../index.html?tag=non-admin%20hacks" class="tag tag-link">non-admin hacks</a><a href="../index.html?tag=list%20view%20tricks" class="tag tag-link">list view tricks</a><a href="../index.html?tag=URLs" class="tag tag-link">URLs</a><a href="../index.html?tag=development" class="tag tag-link">development</a>
+                    <a href="../index.html?tag=tips%20%26%20tricks" class="tag tag-link">tips & tricks</a><a href="../index.html?tag=non-admin%20hacks" class="tag tag-link">non-admin hacks</a><a href="../index.html?tag=list%20view%20tricks" class="tag tag-link">list view tricks</a><a href="../index.html?tag=URLs" class="tag tag-link">URLs</a><a href="../index.html?tag=development" class="tag tag-link">development</a><a href="../index.html?tag=advanced" class="tag tag-link">advanced</a>
                 </div>
             </header>
             
             <div class="post-body">
-                <h2>Options for querying related tables</h2>
+                <p>Note: RLQUERY, SUBQUERY, and JOIN work in the list view but can't be added through the filter condition builder (RLQUERY is availble for conditions built for a report or a workspace list). To add them you have to directly modify the sysparm_query parameter in the URL (see <a href="modifying-servicenow-urls.html">Modifying ServiceNow URLs</a>) or with the <a href="https://chromewebstore.google.com/detail/jgaodbdddndbaijmcljdbglhpdhnjobg">SN Utils</a> extension you can directly edit the encoded query for the list by double-clicking in the whitespace next to the filter condition.</p>
+<br>
+<h2>Options for querying related tables</h2>
 <h3>1. RLQUERY</h3>
 <p><strong>Pros:</strong></p>
 <ol><li >Is the only option for filtering for when there is <em>not</em> a matching related record (only option that can do a LEFT JOIN).</li><li >Is the only option for filtering based on how many matching related records there are.</li><li >Easy to generate the syntax using a report or a workspace.</li></ol><p><strong>Cons:</strong></p>
@@ -116,7 +118,7 @@
 <p><strong>Pros:</strong></p>
 <ol><li >Lets you retrieve only the columns you need.</li><li >Only option that lets you include related table columns in the data returned.</li><li >Supports nested joins (even nested joins not supported by JOIN like if you wanted to query for users that are the manager of a user who is assigned an active task).</li></ol><p><strong>Cons:</strong></p>
 <ol><li >Have to create and save the database view configuration, so doesn't make sense for one-off or ad-hoc queries.</li><li >The records returned by a database view are read-only.</li><li >Unlike the other options that do a true database join (RLQUERY and JOIN), a database doesn't by default include GROUP BY or DISTINCT to ensure that more than one row is not returned for each matching base table record (so if you have a database view to join sys_user to the manager field on the sys_user_group table, then a user who is the manager of two groups will have two rows in your database view). Can't get around this by grouping by the base table sys_id in the list view or using GlideAggregate, but that can be less convenient then being able to access the base table rows directly.</li><li >When querying a database view through a script, you are limited to only querying 10,000 rows by default unless you adjust the property glide.db.max_view_records.</li></ol><h3>6. Other options</h3>
-<ol><li >With GlideRecord scripting, can manually do the same idea as SUBQUERY or addJoinQuery by iterating through a seperate GlideRecord query to build an array of values and then including those as the value for an IN condition in the main GlideRecord.</li><li >For some simple use cases where you don't need to perform an operation on or retrieve the full data for records, you might be able to accomplish your goal with a GlideAggregate query. Like if you need just the names of users who are the manager of two or more group records, then you could query the sys_user table with RLQUERY and >=2, but it also would work to do a GlideAggregate on sys_user_group with <code>groupBy('manager')</code> and <code>addHaving('COUNT','>=',2)</code>.</li><li >Similar to the GlideAggregate option, you can get similar results in a list view query by switching to the related table and grouping by the reference field.</li></ol><h2>Detailed Comparison</h2>
+<ol><li >With GlideRecord scripting, can manually do the same idea as SUBQUERY or addJoinQuery by iterating through a seperate GlideRecord query to build an array of values and then including those as the value for an IN condition in the main GlideRecord.</li><li >For some simple use cases where you don't need to perform an operation on or retrieve the full data for records, you might be able to accomplish your goal with a GlideAggregate query. Like if you need just the names of users who are the manager of two or more group records, then you could query the sys_user table with RLQUERY and >=2, but it also would work to do a GlideAggregate on sys_user_group with <code>groupBy('manager')</code> and <code>addHaving('COUNT','>=',2)</code>.</li><li >Similar to the GlideAggregate option, you can get similar results in a list view query by switching to the related table and grouping by the reference field. For info on improving grouping performance and grouping by dot-walked columns, see <a href="advanced-list-view-grouping.html">Advanced List View Grouping</a>.</li></ol><h2>Detailed Comparison</h2>
 <p>For each of the four joining options, here is GlideRecord code for a query to pull all active users who are the manager of an active group.</p>
 <br>
 <p>For each example I've included the raw SQL logic that each query executes (to get the SQL I included <code>gs.trace(true);</code> on the line before addEncodedQuery() and <code>gs.trace(false);</code> on the line after query()).</p>
@@ -192,18 +194,18 @@ gr.query();</code></pre>
                             </a>
                         </div>
                         <div class="related-post-card">
-                            <a href="add-dot-walked-columns-to-the-list-view.html">
-                                <h4>How to add dot-walked columns to the list view</h4>
-                                <p>There are many scenarios where a key piece of information isn't available directly on the table you are viewing.</p>
+                            <a href="advanced-list-view-grouping.html">
+                                <h4>Advanced List View Grouping</h4>
+                                <p>Level up your list view grouping skills by improving the performance and grouping by columns that are dot-walked or have a type that can't normally be grouped by.</p>
                                 <div class="related-post-tags">
                                     <a href="../index.html?tag=tips%20%26%20tricks" class="tag tag-link">tips & tricks</a><a href="../index.html?tag=non-admin%20hacks" class="tag tag-link">non-admin hacks</a>
                                 </div>
                             </a>
                         </div>
                         <div class="related-post-card">
-                            <a href="top-ten-time-savers.html">
-                                <h4>My Top 10 Time Savers</h4>
-                                <p>These are the top 10 tips & tricks that I save me the most time and that I'd have the hardest time doing without.</p>
+                            <a href="add-dot-walked-columns-to-the-list-view.html">
+                                <h4>How to add dot-walked columns to the list view</h4>
+                                <p>There are many scenarios where a key piece of information isn't available directly on the table you are viewing.</p>
                                 <div class="related-post-tags">
                                     <a href="../index.html?tag=tips%20%26%20tricks" class="tag tag-link">tips & tricks</a><a href="../index.html?tag=non-admin%20hacks" class="tag tag-link">non-admin hacks</a>
                                 </div>
