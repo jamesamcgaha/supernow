@@ -1,7 +1,7 @@
 ---
 title: "Comprehensive Search Tool"
 date: "2025-10-01"
-excerpt: "The only search tool that fully searches ALL records tracked by update sets to make sure that no matching records are missed."
+excerpt: "The only search tool that fully searches ALL records tracked by update sets to make sure that no matching records are missed. Available as a free download in ServiceNow Share."
 author: "James McGaha"
 tags: ["tools","admin access required","development"]
 ---

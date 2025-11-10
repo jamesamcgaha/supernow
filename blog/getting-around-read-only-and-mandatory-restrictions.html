@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to get around read-only and mandatory field restrictions - SuperNow</title>
+    <meta name="description" content="It's often very useful to reverse client-side logic that has marked a field as hidden, read-only, or mandatory.">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="How to get around read-only and mandatory field restrictions">
+    <meta property="og:description" content="It's often very useful to reverse client-side logic that has marked a field as hidden, read-only, or mandatory.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://www.supernow-blog.com/blog/getting-around-read-only-and-mandatory-restrictions.html">
+    <meta property="og:image" content="https://www.supernow-blog.com/images/supernow-logo-full.png">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="How to get around read-only and mandatory field restrictions">
+    <meta name="twitter:description" content="It's often very useful to reverse client-side logic that has marked a field as hidden, read-only, or mandatory.">
+    <meta name="twitter:image" content="https://www.supernow-blog.com/images/supernow-logo-full.png">
+    
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://www.supernow-blog.com/blog/getting-around-read-only-and-mandatory-restrictions.html">
+    
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="../images/supernow-32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../images/supernow-16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../images/supernow-128.png">
+    
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/post.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="site-title">
+                    <a href="../index.html">
+                        <img src="../images/supernow-logo-full.png" alt="SuperNow" class="site-logo-full">
+                    </a>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="../index.html"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="../about.html"><i class="fas fa-user"></i> About</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container">
+        <article class="post-content">
+            <div class="back-link">
+                <a href="../index.html">
+                    ← Back to all posts
+                </a>
+            </div>
+
+            <header class="post-header">
+                <h1>How to get around read-only and mandatory field restrictions</h1>
+                
+                <div class="post-meta">
+                    <span>James McGaha</span>
+                    <span class="separator">•</span>
+                    <span>November 9, 2025</span>
+                </div>
+                
+                <div class="post-tags">
+                    <a href="../index.html?tag=tips%20%26%20tricks" class="tag tag-link">tips & tricks</a><a href="../index.html?tag=non-admin%20hacks" class="tag tag-link">non-admin hacks</a><a href="../index.html?tag=chrome%20extension" class="tag tag-link">chrome extension</a>
+                </div>
+            </header>
+            
+            <div class="post-body">
+                <p>Note: there are some restrictions that cannot be gotten around without admin access:</p>
+<ol><li >Any restriction imposed by an ACL security rule (whether read, write, or list-edit)</li><li >A field marked as read-only at the dictionary entry record level</li><li >Any server-side logic (like a business rule) that prevents or adjusts certain values</li><li >Read roles and write roles specified for viewing or editing a catalog variable within a submitted request</li></ol><p>Normally, if a field has been hidden, set to be read-only, or marked as mandatory, then that restriction has been applied for good reason. If you are not familiar with all the business logic tied to a field, then it's usually best to not try to get around the restrictions the developer put in the form (e.g. ignoring a mandatory field could cause a business rule to fail if that logic expected the field to always have a value).</p>
+<br>
+<p>That being said, there are often good reasons for wanting to get around form restrictions. Also, if getting around a read-only, mandatory, or hidden restriction for a field causes an issue, then the developer should not have relied on client side logic to enforce that.</p>
+<h3>Option 1: Set values without using the form</h3>
+<p>The second option is the simplest, but it only works for fields that are present on the form. For example, if you need to edit a "List" type column that isn't present in any of the form views, then you'll need to use this option since List-type columns aren't editable from the list view.</p>
+<br>
+<p>If you have the SuperNow chrome extension, then you can use the "Edit in SuperNow Explorer" button it adds to the form header. This will open a new tab that shows a table with all fields present on the form. You can edit the field values there and when you click the Save, Insert, or Delete button then it makes the same API call as if you were on a view of the form that included <em>all</em> table columns.</p>
+<br>
+<p>If you don't have that extension, then you can use any REST client to manually make the same API call or use the <a href="https://www.servicenow.com/docs/csh?topicname=c_TableAPI.html&version=latest">Table API</a></p>
+<h3>Option 2: Use g_form to set all fields to visible, editable, and optional</h3>
+<p>If you have the <a href="supernow-chrome-extension.html">SuperNow Chrome Extension</a> installed, then you can just use the "Unlock Form" button it adds to the form header.</p>
+<br>
+<p>If you don't have that extension, then you can still accomplish the same result by using Ctrl+Shift+J and running the below code in the browser dev tools' console (or the ServiceNow "Javascript Executor" if you have admin):</p>
+<pre><code>if(typeof g_form === 'undefined') this.g_form = window.frames["gsft_main"].g_form;
+g_form.getSectionNames().forEach(section=>
+    g_form.setSectionDisplay(section,true)
+);
+g_form.elements.forEach(field=>{
+    g_form.setVisible(field.fieldName,true);
+    g_form.setDisplay(field.fieldName,true);
+    g_form.setReadOnly(field.fieldName,false);
+    g_form.setMandatory(field.fieldName,false);
+});
+g_form.nameMap.forEach(field=>{
+    g_form.setVisible(field.prettyName,true);
+    g_form.setDisplay(field.prettyName,true);
+    g_form.setReadOnly(field.prettyName,false);
+    g_form.setMandatory(field.prettyName,false);
+});</code></pre>
+<p>Note: the first line is only there to handle the case when the navigation frame is present and the browser console has to get g_form from the iframe that contains the form.</p>
+<br>
+<p>If you plan to use this often and don't have the SuperNow chrome extension, then it might be useful to set up a "bookmarklet" for this by creating a bookmark and putting the below code as the "URL" value for the bookmark, and then you can just click that bookmark to run the code (it's essentially the same code as above, just set up to be a single line):</p>
+<pre><code>javascript:var f=window.frames["gsft_main"]!==undefined?window.frames["gsft_main"].g_form:g_form;f.getSectionNames().forEach(section=>f.setSectionDisplay(section,true));f.elements.forEach(field=>{f.setVisible(field.fieldName,true);f.setDisplay(field.fieldName,true);f.setReadOnly(field.fieldName,false);f.setMandatory(field.fieldName,false);});f.nameMap.forEach(field=>{f.setVisible(field.prettyName,true);f.setDisplay(field.prettyName,true);f.setReadOnly(field.prettyName,false);f.setMandatory(field.prettyName,false);}); </code></pre>
+<h3>Service Portal</h3>
+<p>While in the Service Portal (filling out a catalog item, on a portal page with the Form widget, etc.), the process is the same as Option 2 but you'll need a slightly different script:</p>
+<pre><code>var formScope = angular.element($("sp-variable-layout")).scope();
+var g_form = formScope.getGlideForm() || formScope.$parent.getGlideForm(); 
+g_form.getFieldNames().forEach(field=>{
+    g_form.setVisible(field,true);
+    g_form.setDisplay(field,true);
+    g_form.setReadOnly(field,false);
+    g_form.setMandatory(field,false);
+});</code></pre>
+<p>And the single-line version if you want to create a bookmarklet:</p>
+<pre><code>javascript:var formScope = angular.element($("sp-variable-layout")).scope();var g_form=formScope.getGlideForm()||formScope.$parent.getGlideForm();g_form.getFieldNames().forEach(field=>{g_form.setVisible(field,true);g_form.setDisplay(field,true);g_form.setReadOnly(field,false);g_form.setMandatory(field,false);});</code></pre>
+<p>Note: if you're on a Service Portal page but not a page for a catalog item or form that would have g_form, you can still access the client logic for the widgets and get around any non-server-side restrictions that may be in place:</p>
+<ol><li >This line is useful for quickly showing any elements that are not shown because of an ng-show/ng-hide attribute: <code>$('.ng-hide').removeClass('ng-hide');</code></li><li >For more advanced options like modifying the client data for widgets, this knowledge article is very helpful: <a href="https://support.servicenow.com/kb?id=kb_article_view&sysparm_article=KB0677496">KB0677496: Debugging Service Portal Widgets</a></li></ol>
+                <div class="related-posts-section">
+                    <h3>Related Articles</h3>
+                    <div class="related-posts-grid">
+                        
+                        <div class="related-post-card">
+                            <a href="supernow-chrome-extension.html">
+                                <h4>SuperNow Chrome Extension</h4>
+                                <p>A chrome extension for ServiceNow super users that adds useful options and tools to make it easier to get around platform restrictions and limitations.</p>
+                                <div class="related-post-tags">
+                                    <a href="../index.html?tag=chrome%20extension" class="tag tag-link">chrome extension</a><a href="../index.html?tag=tips%20%26%20tricks" class="tag tag-link">tips & tricks</a>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="related-post-card">
+                            <a href="add-dot-walked-columns-to-the-list-view.html">
+                                <h4>How to add dot-walked columns to the list view</h4>
+                                <p>Personalize your list view to include values from other tables.</p>
+                                <div class="related-post-tags">
+                                    <a href="../index.html?tag=tips%20%26%20tricks" class="tag tag-link">tips & tricks</a><a href="../index.html?tag=non-admin%20hacks" class="tag tag-link">non-admin hacks</a>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="related-post-card">
+                            <a href="modifying-servicenow-urls.html">
+                                <h4>Modifying ServiceNow URLs</h4>
+                                <p>Understanding the components of a ServiceNow URL and modifying ServiceNow URLs directly can save you a lot of time and unlock some advanced tricks.</p>
+                                <div class="related-post-tags">
+                                    <a href="../index.html?tag=tips%20%26%20tricks" class="tag tag-link">tips & tricks</a><a href="../index.html?tag=non-admin%20hacks" class="tag tag-link">non-admin hacks</a>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>        </article>
+        
+        <!-- Comments Section -->
+        <div class="comments-section">
+            <div class="comments-header">
+                <h3>Comments</h3>
+                <p>Join the discussion and share your thoughts!</p>
+            </div>
+            <script src="https://utteranc.es/client.js"
+                    repo="jamesamcgaha/supernow"
+                    issue-term="url"
+                    label="blog comments"
+                    theme="github-light"
+                    crossorigin="anonymous"
+                    async>
+            </script>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <p>&copy; 2025 SuperNow. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="mailto:jamesmcgaha@supernow-blog.com" target="_blank"><i class="fa fa-envelope"></i></a>
+                <a href="https://www.linkedin.com/in/james-mcgaha-672644114" target="_blank"><i class="fab fa-linkedin"></i></a>
+                <a href="https://github.com/jamesamcgaha/supernow" target="_blank"><i class="fab fa-github"></i></a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

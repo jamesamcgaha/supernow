@@ -1,9 +1,9 @@
 ---
 title: "SuperNow Chrome Extension"
 date: "2025-10-06"
-excerpt: "ServiceNow extension for super users."
+excerpt: "A chrome extension for ServiceNow super users that adds useful options and tools to make it easier to get around platform restrictions and limitations."
 author: "James McGaha"
-tags: ["chrome extension","tips & tricks","non-admin hacks","tools"]
+tags: ["chrome extension","tips & tricks","non-admin hacks","tools","advanced"]
 ---
 ## Download from the Chrome Web Store
 [SuperNow - Tool for ServiceNow Super Users](https://chromewebstore.google.com/detail/supernow/onjjggbfdefphfbgdigcaghdkjoeobda)

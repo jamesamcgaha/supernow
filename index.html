@@ -75,7 +75,7 @@
     <!-- Hero Section - Outside container for full-width gradient -->
     <section class="hero-section">
         <div class="hero-container">
-            <h1 class="hero-title">SuperNow</h1>
+            <h1 class="hero-title">SuperNow Blog</h1>
             <p class="hero-subtitle">Unlock your ServiceNow super powers with tips & tricks, custom tools, and undocumented fun!</p>
         </div>
     </section>
@@ -93,35 +93,35 @@
             <div id="tagTabsContainer" class="tag-tabs-container">
                 <!-- START:TAG_TABS -->
         <button class="tag-tab active" data-tag="all">
-            All Posts<span class="tag-count">8</span>
+            All Posts<span class="tag-count">10</span>
         </button>
         
         <button class="tag-tab" data-tag="tips & tricks">
-            tips & tricks<span class="tag-count">6</span>
+            tips & tricks<span class="tag-count">8</span>
         </button>
         <button class="tag-tab" data-tag="non-admin hacks">
-            non-admin hacks<span class="tag-count">6</span>
+            non-admin hacks<span class="tag-count">8</span>
         </button>
         <button class="tag-tab" data-tag="list view tricks">
-            list view tricks<span class="tag-count">4</span>
+            list view tricks<span class="tag-count">5</span>
         </button>
         <button class="tag-tab" data-tag="URLs">
-            URLs<span class="tag-count">4</span>
+            URLs<span class="tag-count">5</span>
         </button>
-        <button class="tag-tab" data-tag="development">
-            development<span class="tag-count">3</span>
+        <button class="tag-tab" data-tag="chrome extension">
+            chrome extension<span class="tag-count">3</span>
         </button>
         <button class="tag-tab" data-tag="tools">
             tools<span class="tag-count">3</span>
         </button>
-        <button class="tag-tab" data-tag="chrome extension">
-            chrome extension<span class="tag-count">2</span>
+        <button class="tag-tab" data-tag="development">
+            development<span class="tag-count">3</span>
+        </button>
+        <button class="tag-tab" data-tag="advanced">
+            advanced<span class="tag-count">2</span>
         </button>
         <button class="tag-tab" data-tag="admin access required">
             admin access required<span class="tag-count">2</span>
-        </button>
-        <button class="tag-tab" data-tag="advanced">
-            advanced<span class="tag-count">1</span>
         </button>
         <button class="tag-tab" data-tag="ServiceNow 101">
             ServiceNow 101<span class="tag-count">1</span>
@@ -133,18 +133,63 @@
         <!-- Blog Posts Grid -->
         <div id="postsContainer" class="posts-container">
             <!-- START:BLOG_POSTS -->
-        <article class="post-card" data-tags="tips & tricks,non-admin hacks,chrome extension,list view tricks" data-title="how to add dot-walked columns to the list view" data-excerpt="there are many scenarios where a key piece of information isn't available directly on the table you are viewing." data-url="blog/add-dot-walked-columns-to-the-list-view.html">
+        <article class="post-card favorite" data-tags="chrome extension,tips & tricks,non-admin hacks,tools,advanced" data-title="supernow chrome extension" data-excerpt="a chrome extension for servicenow super users that adds useful options and tools to make it easier to get around platform restrictions and limitations." data-url="blog/supernow-chrome-extension.html">
+            <div class="favorite-indicator"></div><a href="blog/supernow-chrome-extension.html" class="post-card-link">
+                <h2 class="post-title">
+                    SuperNow Chrome Extension
+                </h2>
+                <div class="post-tags"><button class="tag tag-clickable" data-tag="chrome extension">chrome extension</button><button class="tag tag-clickable" data-tag="tips & tricks">tips & tricks</button><button class="tag tag-clickable" data-tag="non-admin hacks">non-admin hacks</button><button class="tag tag-clickable" data-tag="tools">tools</button><button class="tag tag-clickable" data-tag="advanced">advanced</button></div>
+                <p class="post-excerpt">A chrome extension for ServiceNow super users that adds useful options and tools to make it easier to get around platform restrictions and limitations.</p>
+                <div class="post-meta">
+                    <span class="read-more-btn">
+                        Read More <i class="fas fa-arrow-right"></i>
+                    </span>
+                    <span class="post-date">October 5, 2025</span>
+                </div>
+            </a>
+        </article>
+        <article class="post-card favorite" data-tags="tools,admin access required,development" data-title="comprehensive search tool" data-excerpt="the only search tool that fully searches all records tracked by update sets to make sure that no matching records are missed. available as a free download in servicenow share." data-url="blog/comprehensive-search.html">
+            <div class="favorite-indicator"></div><a href="blog/comprehensive-search.html" class="post-card-link">
+                <h2 class="post-title">
+                    Comprehensive Search Tool
+                </h2>
+                <div class="post-tags"><button class="tag tag-clickable" data-tag="tools">tools</button><button class="tag tag-clickable" data-tag="admin access required">admin access required</button><button class="tag tag-clickable" data-tag="development">development</button></div>
+                <p class="post-excerpt">The only search tool that fully searches ALL records tracked by update sets to make sure that no matching records are missed. Available as a free download in ServiceNow Share.</p>
+                <div class="post-meta">
+                    <span class="read-more-btn">
+                        Read More <i class="fas fa-arrow-right"></i>
+                    </span>
+                    <span class="post-date">September 30, 2025</span>
+                </div>
+            </a>
+        </article>
+        <article class="post-card" data-tags="tips & tricks,non-admin hacks,chrome extension" data-title="how to get around read-only and mandatory field restrictions" data-excerpt="it's often very useful to reverse client-side logic that has marked a field as hidden, read-only, or mandatory." data-url="blog/getting-around-read-only-and-mandatory-restrictions.html">
+            <a href="blog/getting-around-read-only-and-mandatory-restrictions.html" class="post-card-link">
+                <h2 class="post-title">
+                    How to get around read-only and mandatory field restrictions
+                </h2>
+                <div class="post-tags"><button class="tag tag-clickable" data-tag="tips & tricks">tips & tricks</button><button class="tag tag-clickable" data-tag="non-admin hacks">non-admin hacks</button><button class="tag tag-clickable" data-tag="chrome extension">chrome extension</button></div>
+                <p class="post-excerpt">It's often very useful to reverse client-side logic that has marked a field as hidden, read-only, or mandatory.</p>
+                <div class="post-meta">
+                    <span class="read-more-btn">
+                        Read More <i class="fas fa-arrow-right"></i>
+                    </span>
+                    <span class="post-date">November 9, 2025</span>
+                </div>
+            </a>
+        </article>
+        <article class="post-card" data-tags="tips & tricks,non-admin hacks,chrome extension,list view tricks" data-title="how to add dot-walked columns to the list view" data-excerpt="personalize your list view to include values from other tables." data-url="blog/add-dot-walked-columns-to-the-list-view.html">
             <a href="blog/add-dot-walked-columns-to-the-list-view.html" class="post-card-link">
                 <h2 class="post-title">
                     How to add dot-walked columns to the list view
                 </h2>
                 <div class="post-tags"><button class="tag tag-clickable" data-tag="tips & tricks">tips & tricks</button><button class="tag tag-clickable" data-tag="non-admin hacks">non-admin hacks</button><button class="tag tag-clickable" data-tag="chrome extension">chrome extension</button><button class="tag tag-clickable" data-tag="list view tricks">list view tricks</button></div>
-                <p class="post-excerpt">There are many scenarios where a key piece of information isn't available directly on the table you are viewing.</p>
+                <p class="post-excerpt">Personalize your list view to include values from other tables.</p>
                 <div class="post-meta">
                     <span class="read-more-btn">
                         Read More <i class="fas fa-arrow-right"></i>
                     </span>
-                    <span class="post-date">October 24, 2025</span>
+                    <span class="post-date">October 23, 2025</span>
                 </div>
             </a>
         </article>
@@ -159,7 +204,7 @@
                     <span class="read-more-btn">
                         Read More <i class="fas fa-arrow-right"></i>
                     </span>
-                    <span class="post-date">October 24, 2025</span>
+                    <span class="post-date">October 23, 2025</span>
                 </div>
             </a>
         </article>
@@ -174,7 +219,7 @@
                     <span class="read-more-btn">
                         Read More <i class="fas fa-arrow-right"></i>
                     </span>
-                    <span class="post-date">October 24, 2025</span>
+                    <span class="post-date">October 23, 2025</span>
                 </div>
             </a>
         </article>
@@ -189,62 +234,47 @@
                     <span class="read-more-btn">
                         Read More <i class="fas fa-arrow-right"></i>
                     </span>
-                    <span class="post-date">October 24, 2025</span>
+                    <span class="post-date">October 23, 2025</span>
                 </div>
             </a>
         </article>
-        <article class="post-card" data-tags="tips & tricks,non-admin hacks,list view tricks,URLs" data-title="advanced list view grouping" data-excerpt="level up your list view grouping skills by improving the performance and grouping by columns that are dot-walked or have a type that can't normally be grouped by." data-url="blog/advanced-list-view-grouping.html">
+        <article class="post-card" data-tags="tips & tricks,non-admin hacks,list view tricks,URLs" data-title="advanced list view grouping" data-excerpt="improve grouping performance and group by dot-walked columns or column types you normally can't group by." data-url="blog/advanced-list-view-grouping.html">
             <a href="blog/advanced-list-view-grouping.html" class="post-card-link">
                 <h2 class="post-title">
                     Advanced List View Grouping
                 </h2>
                 <div class="post-tags"><button class="tag tag-clickable" data-tag="tips & tricks">tips & tricks</button><button class="tag tag-clickable" data-tag="non-admin hacks">non-admin hacks</button><button class="tag tag-clickable" data-tag="list view tricks">list view tricks</button><button class="tag tag-clickable" data-tag="URLs">URLs</button></div>
-                <p class="post-excerpt">Level up your list view grouping skills by improving the performance and grouping by columns that are dot-walked or have a type that can't normally be grouped by.</p>
+                <p class="post-excerpt">Improve grouping performance and group by dot-walked columns or column types you normally can't group by.</p>
                 <div class="post-meta">
                     <span class="read-more-btn">
                         Read More <i class="fas fa-arrow-right"></i>
                     </span>
-                    <span class="post-date">October 14, 2025</span>
+                    <span class="post-date">October 13, 2025</span>
                 </div>
             </a>
         </article>
-        <article class="post-card" data-tags="chrome extension,tips & tricks,non-admin hacks,tools" data-title="supernow chrome extension" data-excerpt="servicenow extension for super users." data-url="blog/supernow-chrome-extension.html">
-            <a href="blog/supernow-chrome-extension.html" class="post-card-link">
+        <article class="post-card" data-tags="tips & tricks,non-admin hacks,list view tricks,URLs" data-title="using advanced filter operators" data-excerpt="" data-url="blog/using-advanced-filter-operators.html">
+            <a href="blog/using-advanced-filter-operators.html" class="post-card-link">
                 <h2 class="post-title">
-                    SuperNow Chrome Extension
+                    Using Advanced Filter Operators
                 </h2>
-                <div class="post-tags"><button class="tag tag-clickable" data-tag="chrome extension">chrome extension</button><button class="tag tag-clickable" data-tag="tips & tricks">tips & tricks</button><button class="tag tag-clickable" data-tag="non-admin hacks">non-admin hacks</button><button class="tag tag-clickable" data-tag="tools">tools</button></div>
-                <p class="post-excerpt">ServiceNow extension for super users.</p>
+                <div class="post-tags"><button class="tag tag-clickable" data-tag="tips & tricks">tips & tricks</button><button class="tag tag-clickable" data-tag="non-admin hacks">non-admin hacks</button><button class="tag tag-clickable" data-tag="list view tricks">list view tricks</button><button class="tag tag-clickable" data-tag="URLs">URLs</button></div>
+                <p class="post-excerpt"></p>
                 <div class="post-meta">
                     <span class="read-more-btn">
                         Read More <i class="fas fa-arrow-right"></i>
                     </span>
-                    <span class="post-date">October 6, 2025</span>
+                    <span class="post-date">October 13, 2025</span>
                 </div>
             </a>
         </article>
-        <article class="post-card" data-tags="tips & tricks,non-admin hacks,tools,admin access required,development" data-title="my top 10 time savers" data-excerpt="these are the top 10 tips & tricks that i save me the most time and that i'd have the hardest time doing without." data-url="blog/top-ten-time-savers.html">
+        <article class="post-card" data-tags="tips & tricks,non-admin hacks,tools,admin access required,development" data-title="my top 10 time savers" data-excerpt="these are the top 10 tips & tricks that save me the most time and that i'd have the hardest time doing without." data-url="blog/top-ten-time-savers.html">
             <a href="blog/top-ten-time-savers.html" class="post-card-link">
                 <h2 class="post-title">
                     My Top 10 Time Savers
                 </h2>
                 <div class="post-tags"><button class="tag tag-clickable" data-tag="tips & tricks">tips & tricks</button><button class="tag tag-clickable" data-tag="non-admin hacks">non-admin hacks</button><button class="tag tag-clickable" data-tag="tools">tools</button><button class="tag tag-clickable" data-tag="admin access required">admin access required</button><button class="tag tag-clickable" data-tag="development">development</button></div>
-                <p class="post-excerpt">These are the top 10 tips & tricks that I save me the most time and that I'd have the hardest time doing without.</p>
-                <div class="post-meta">
-                    <span class="read-more-btn">
-                        Read More <i class="fas fa-arrow-right"></i>
-                    </span>
-                    <span class="post-date">October 2, 2025</span>
-                </div>
-            </a>
-        </article>
-        <article class="post-card" data-tags="tools,admin access required,development" data-title="comprehensive search tool" data-excerpt="the only search tool that fully searches all records tracked by update sets to make sure that no matching records are missed." data-url="blog/comprehensive-search.html">
-            <a href="blog/comprehensive-search.html" class="post-card-link">
-                <h2 class="post-title">
-                    Comprehensive Search Tool
-                </h2>
-                <div class="post-tags"><button class="tag tag-clickable" data-tag="tools">tools</button><button class="tag tag-clickable" data-tag="admin access required">admin access required</button><button class="tag tag-clickable" data-tag="development">development</button></div>
-                <p class="post-excerpt">The only search tool that fully searches ALL records tracked by update sets to make sure that no matching records are missed.</p>
+                <p class="post-excerpt">These are the top 10 tips & tricks that save me the most time and that I'd have the hardest time doing without.</p>
                 <div class="post-meta">
                     <span class="read-more-btn">
                         Read More <i class="fas fa-arrow-right"></i>

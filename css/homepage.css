@@ -1,7 +1,7 @@
 /* Hero Section */
 .hero-section {
     color: white;
-    padding: 4rem 0 0 0;
+    padding: 3rem 0 0 0;
     text-align: center;
     position: relative;
     overflow: hidden;
@@ -27,7 +27,7 @@
 }
 
 .hero-title {
-    font-size: 2.8rem;
+    font-size: 3.5rem;
     font-weight: 800;
     margin-bottom: 0.75rem;
     background: linear-gradient(135deg, #ffffff 0%, #f7fafc 100%);
@@ -38,9 +38,10 @@
 }
 
 .hero-subtitle {
-    font-size: 1.1rem;
+    font-size: 1.5rem;
     opacity: 0.9;
-    font-weight: 300;
+    font-weight: 400;
+    text-shadow: 0px 2px 4px hsl(0deg 0% 0%);
     margin-left: auto;
     margin-right: auto;
 }
@@ -161,7 +162,7 @@
     padding: 2rem;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     transition: all 0.3s ease;
-    border: 1px solid #f1f5f9;
+    /* border: 1px solid #f1f5f9; */
     position: relative;
     overflow: hidden;
     cursor: pointer;
@@ -317,11 +318,11 @@
     }
     
     .hero-section {
-        padding: 2rem 0;
+        padding: 2rem 0 0 0;
     }
     
     .hero-container {
-        padding: 1rem;
+        padding: 1rem 1rem 0 1rem;
     }
     
     .controls-container {
@@ -353,11 +354,11 @@
     }
     
     .hero-section {
-        padding: 2rem 1rem;
+        padding: 2rem 1rem 0 1rem;
     }
     
     .hero-container {
-        padding: 1rem;
+        padding: 1rem 1rem 0 1rem;
     }
     
     .controls-container {
@@ -371,5 +372,47 @@
     
     .tag-tabs-container {
         padding: 0 0.5rem;
+    }
+}
+
+/* Favorite indicator styling */
+.favorite-indicator {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 0;
+    height: 0;
+    border-left: 40px solid transparent;
+    border-top: 40px solid #FFD700; /* Gold color */
+    z-index: 10;
+}
+
+.favorite-indicator::after {
+    content: "★";
+    position: absolute;
+    top: -40px;
+    right: 5px;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+
+.post-card.favorite {
+    position: relative;
+    overflow: hidden;
+}
+
+/* Mobile adjustments for favorite indicator */
+@media (max-width: 768px) {
+    .favorite-indicator {
+        border-left-width: 35px;
+        border-top-width: 35px;
+    }
+    
+    .favorite-indicator::after {
+        font-size: 14px;
+        top: -35px;
+        right: 5px;
     }
 }

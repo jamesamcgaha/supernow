@@ -294,6 +294,9 @@ function generateSitemap(posts = []) {
 function generatePosts() {
   console.log('Generating blog posts...');
   
+  // Define favorite posts
+  const favoritePostIds = ['supernow-chrome-extension', 'comprehensive-search'];
+  
   // Read template files
   const headerTemplate = fs.readFileSync(path.join(templatesDirectory, 'header.html'), 'utf8');
   const footerTemplate = fs.readFileSync(path.join(templatesDirectory, 'footer.html'), 'utf8');
@@ -316,10 +319,17 @@ function generatePosts() {
         excerpt: data.excerpt || '',
         author: data.author || 'Anonymous',
         tags: data.tags || [],
-        content: markdownToHtml(content)
+        content: markdownToHtml(content),
+        isFavorite: favoritePostIds.includes(id)
       };
     })
-    .sort((a, b) => new Date(b.date) - new Date(a.date));
+    .sort((a, b) => {
+      // First, sort by favorite status (favorites first)
+      if (a.isFavorite && !b.isFavorite) return -1;
+      if (!a.isFavorite && b.isFavorite) return 1;
+      // Then by date (newest first)
+      return new Date(b.date) - new Date(a.date);
+    });
 
   // Generate individual HTML files for each post
   posts.forEach(post => {
@@ -425,8 +435,11 @@ function generatePosts() {
       ? post.tags.map(tag => `<button class="tag tag-clickable" data-tag="${tag}">${tag}</button>`).join('')
       : '';
     
-    return `        <article class="post-card" data-tags="${post.tags ? post.tags.join(',') : ''}" data-title="${post.title.toLowerCase()}" data-excerpt="${post.excerpt.toLowerCase()}" data-url="blog/${post.id}.html">
-            <a href="blog/${post.id}.html" class="post-card-link">
+    const favoriteClass = post.isFavorite ? ' favorite' : '';
+    const favoriteIndicator = post.isFavorite ? '<div class="favorite-indicator"></div>' : '';
+    
+    return `        <article class="post-card${favoriteClass}" data-tags="${post.tags ? post.tags.join(',') : ''}" data-title="${post.title.toLowerCase()}" data-excerpt="${post.excerpt.toLowerCase()}" data-url="blog/${post.id}.html">
+            ${favoriteIndicator}<a href="blog/${post.id}.html" class="post-card-link">
                 <h2 class="post-title">
                     ${post.title}
                 </h2>

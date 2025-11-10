@@ -1,7 +1,7 @@
 ---
 title: "Advanced List View Grouping"
-date: "2025-10-14"
-excerpt: "Level up your list view grouping skills by improving the performance and grouping by columns that are dot-walked or have a type that can't normally be grouped by."
+date: "2025-11-06"
+excerpt: "Improve grouping performance and group by dot-walked columns or column types you normally can't group by."
 author: "James McGaha"
 tags: ["tips & tricks","non-admin hacks","list view tricks","URLs"]
 ---

@@ -1,6 +1,6 @@
 ---
 title: "Modifying ServiceNow URLs"
-date: "2025-10-24"
+date: "2025-10-25"
 excerpt: "Understanding the components of a ServiceNow URL and modifying ServiceNow URLs directly can save you a lot of time and unlock some advanced tricks."
 author: "James McGaha"
 tags: ["tips & tricks","non-admin hacks","list view tricks","URLs"]

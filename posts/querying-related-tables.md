@@ -1,6 +1,6 @@
 ---
 title: "Querying Related Tables"
-date: "2025-10-24"
+date: "2025-10-26"
 excerpt: "How to use RLQUERY, SUBQUERY, and JOIN in your list view and GlideRecord encoded queries."
 author: "James McGaha"
 tags: ["tips & tricks","non-admin hacks","list view tricks","URLs","development","advanced"]
