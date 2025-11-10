@@ -33,9 +33,9 @@ jobs:
         
     - name: Build blog and generate sitemap
       run: |
-        echo "🏗️  Building blog (includes HTML files and sitemap)..."
+        echo "Building blog (includes HTML files and sitemap)..."
         node js/build-blog.js
-        echo "✅ Build complete!"
+        echo "Build complete!"
         
     - name: Check for changes
       id: verify-changed
@@ -55,13 +55,13 @@ jobs:
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git commit -m "🚀 Auto-build blog: Generate HTML files and update sitemap [skip ci]"
+        git commit -m "Auto-build blog: Generate HTML files and update sitemap [skip ci]"
         git push
         
     - name: Summary
       run: |
         if [ "${{ steps.verify-changed.outputs.changed }}" == "true" ]; then
-          echo "✅ Blog successfully built and deployed!"
+          echo "Blog successfully built and deployed!"
         else
-          echo "ℹ️  No changes needed - blog is up to date"
+          echo "No changes needed - blog is up to date"
         fi

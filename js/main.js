@@ -208,7 +208,7 @@ function initializePage() {
     // Apply initial filter (including URL parameter)
     filterPostCards();
     
-    console.log('✅ Page initialization complete!');
+    console.log('Page initialization complete!');
 }
 
 // Start initialization when DOM is ready

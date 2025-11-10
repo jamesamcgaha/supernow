@@ -281,12 +281,12 @@ function generateSitemap(posts = []) {
   
   try {
     fs.writeFileSync(OUTPUT_FILE, xml, 'utf8');
-    console.log(`✅ Sitemap generated successfully: ${OUTPUT_FILE}`);
+    console.log(`Sitemap generated successfully: ${OUTPUT_FILE}`);
     // Show file stats
     const stats = fs.statSync(OUTPUT_FILE);
-    console.log(`📄 File size: ${stats.size} bytes`);
+    console.log(`File size: ${stats.size} bytes`);
   } catch (error) {
-    console.error('❌ Error generating sitemap:', error);
+    console.error('Error generating sitemap:', error);
     process.exit(1);
   }
 }
@@ -398,10 +398,10 @@ function generatePosts() {
   });
 
   // No longer need posts.js since everything is pre-rendered
-  console.log('📦 Skipping posts.js generation - using pre-rendered content');
+  console.log('Skipping posts.js generation - using pre-rendered content');
 
   // Update index.html with pre-rendered blog posts and tag tabs
-  console.log('🏠 Updating index.html with pre-rendered posts...');
+  console.log('Updating index.html with pre-rendered posts...');
   const indexPath = path.join(rootDirectory, 'index.html');
   let indexHtml = fs.readFileSync(indexPath, 'utf8');
   
@@ -473,10 +473,10 @@ function generatePosts() {
   // Write the updated index.html file
   fs.writeFileSync(indexPath, indexHtml);
   
-  console.log(`✅ Generated index.html with ${posts.length} pre-rendered posts!`);
+  console.log(`Generated index.html with ${posts.length} pre-rendered posts!`);
   
-  console.log(`\n✅ Generated ${posts.length} individual HTML files successfully!`);
-  console.log('📄 HTML Files:', posts.map(p => `${p.id}.html`));
+  console.log(`\nGenerated ${posts.length} individual HTML files successfully!`);
+  console.log('HTML Files:', posts.map(p => `${p.id}.html`));
   
   return posts; // Return posts for sitemap generation
 }

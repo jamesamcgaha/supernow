@@ -244,7 +244,9 @@ img {
 }
 
 /* Mobile background fixes */
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 768px), 
+       only screen and (max-device-width: 1024px) and (orientation: landscape),
+       only screen and (max-height: 768px) and (orientation: landscape) {
     body {
         /* Ensure background works properly on mobile devices */
         background: url('../images/background.png') center top / cover;
