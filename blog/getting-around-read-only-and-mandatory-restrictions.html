@@ -62,7 +62,7 @@
                 <div class="post-meta">
                     <span>James McGaha</span>
                     <span class="separator">•</span>
-                    <span>November 9, 2025</span>
+                    <span>November 10, 2025</span>
                 </div>
                 
                 <div class="post-tags">
@@ -75,14 +75,14 @@
 <ol><li >Any restriction imposed by an ACL security rule (whether read, write, or list-edit)</li><li >A field marked as read-only at the dictionary entry record level</li><li >Any server-side logic (like a business rule) that prevents or adjusts certain values</li><li >Read roles and write roles specified for viewing or editing a catalog variable within a submitted request</li></ol><p>Normally, if a field has been hidden, set to be read-only, or marked as mandatory, then that restriction has been applied for good reason. If you are not familiar with all the business logic tied to a field, then it's usually best to not try to get around the restrictions the developer put in the form (e.g. ignoring a mandatory field could cause a business rule to fail if that logic expected the field to always have a value).</p>
 <br>
 <p>That being said, there are often good reasons for wanting to get around form restrictions. Also, if getting around a read-only, mandatory, or hidden restriction for a field causes an issue, then the developer should not have relied on client side logic to enforce that.</p>
-<h3>Option 1: Set values without using the form</h3>
-<p>The second option is the simplest, but it only works for fields that are present on the form. For example, if you need to edit a "List" type column that isn't present in any of the form views, then you'll need to use this option since List-type columns aren't editable from the list view.</p>
+<h3>Approach 1: Set values without using the form</h3>
+<p>The second approach is the simplest, but it only works for fields that are present on the form. In some cases, this option is as simple as just adding the column you want to update to your personalized list view and modifying the value there. However, there are some types of columns that aren't editable from the list view (like "List"-type columns), and if that column isn't available in any of the form views, then you'll need to use one of the options described below for this approach.</p>
 <br>
-<p>If you have the SuperNow chrome extension, then you can use the "Edit in SuperNow Explorer" button it adds to the form header. This will open a new tab that shows a table with all fields present on the form. You can edit the field values there and when you click the Save, Insert, or Delete button then it makes the same API call as if you were on a view of the form that included <em>all</em> table columns.</p>
+<p>If you have the <a href="https://chromewebstore.google.com/detail/supernow-tool-for-service/onjjggbfdefphfbgdigcaghdkjoeobda">SuperNow Chrome Extension</a>, then you can use the "Edit in SuperNow Explorer" button it adds to the form header. This will open a new tab that shows a table with all fields present on the form. You can edit the field values there and when you click the Save, Insert, or Delete button then it makes the same API call as if you were on a view of the form that included <em>all</em> table columns.</p>
 <br>
 <p>If you don't have that extension, then you can use any REST client to manually make the same API call or use the <a href="https://www.servicenow.com/docs/csh?topicname=c_TableAPI.html&version=latest">Table API</a></p>
-<h3>Option 2: Use g_form to set all fields to visible, editable, and optional</h3>
-<p>If you have the <a href="supernow-chrome-extension.html">SuperNow Chrome Extension</a> installed, then you can just use the "Unlock Form" button it adds to the form header.</p>
+<h3>Approach 2: Use g_form to set all fields to visible, editable, and optional</h3>
+<p>If you have the <a href="https://chromewebstore.google.com/detail/supernow-tool-for-service/onjjggbfdefphfbgdigcaghdkjoeobda">SuperNow Chrome Extension</a> installed, then you can just use the "Unlock Form" button it adds to the form header.</p>
 <br>
 <p>If you don't have that extension, then you can still accomplish the same result by using Ctrl+Shift+J and running the below code in the browser dev tools' console (or the ServiceNow "Javascript Executor" if you have admin):</p>
 <pre><code>if(typeof g_form === 'undefined') this.g_form = window.frames["gsft_main"].g_form;
@@ -105,8 +105,9 @@ g_form.nameMap.forEach(field=>{
 <br>
 <p>If you plan to use this often and don't have the SuperNow chrome extension, then it might be useful to set up a "bookmarklet" for this by creating a bookmark and putting the below code as the "URL" value for the bookmark, and then you can just click that bookmark to run the code (it's essentially the same code as above, just set up to be a single line):</p>
 <pre><code>javascript:var f=window.frames["gsft_main"]!==undefined?window.frames["gsft_main"].g_form:g_form;f.getSectionNames().forEach(section=>f.setSectionDisplay(section,true));f.elements.forEach(field=>{f.setVisible(field.fieldName,true);f.setDisplay(field.fieldName,true);f.setReadOnly(field.fieldName,false);f.setMandatory(field.fieldName,false);});f.nameMap.forEach(field=>{f.setVisible(field.prettyName,true);f.setDisplay(field.prettyName,true);f.setReadOnly(field.prettyName,false);f.setMandatory(field.prettyName,false);}); </code></pre>
+<p>You can also use this approach to run any other client scripts you might need (whether you just want to directly use <em>g_form.setValue</em> or if you need a more complicated script like a GlideAjax call)—just make sure to include that first line to find the g_form object if the navigation frame is present.</p>
 <h3>Service Portal</h3>
-<p>While in the Service Portal (filling out a catalog item, on a portal page with the Form widget, etc.), the process is the same as Option 2 but you'll need a slightly different script:</p>
+<p>While in the Service Portal (filling out a catalog item, on a portal page with the Form widget, etc.), the process is the same as Approach 2 but you'll need a slightly different script:</p>
 <pre><code>var formScope = angular.element($("sp-variable-layout")).scope();
 var g_form = formScope.getGlideForm() || formScope.$parent.getGlideForm(); 
 g_form.getFieldNames().forEach(field=>{
@@ -142,9 +143,9 @@ g_form.getFieldNames().forEach(field=>{
                             </a>
                         </div>
                         <div class="related-post-card">
-                            <a href="modifying-servicenow-urls.html">
-                                <h4>Modifying ServiceNow URLs</h4>
-                                <p>Understanding the components of a ServiceNow URL and modifying ServiceNow URLs directly can save you a lot of time and unlock some advanced tricks.</p>
+                            <a href="advanced-list-view-grouping.html">
+                                <h4>Advanced List View Grouping</h4>
+                                <p>Improve grouping performance and group by dot-walked columns or column types you normally can't group by.</p>
                                 <div class="related-post-tags">
                                     <a href="../index.html?tag=tips%20%26%20tricks" class="tag tag-link">tips & tricks</a><a href="../index.html?tag=non-admin%20hacks" class="tag tag-link">non-admin hacks</a>
                                 </div>

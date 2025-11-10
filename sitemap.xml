@@ -31,20 +31,20 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.supernow-blog.com/blog/add-dot-walked-columns-to-the-list-view.html</loc>
-    <lastmod>2025-10-24</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://www.supernow-blog.com/blog/modifying-servicenow-urls.html</loc>
-    <lastmod>2025-10-24</lastmod>
+    <loc>https://www.supernow-blog.com/blog/advanced-list-view-grouping.html</loc>
+    <lastmod>2025-11-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://www.supernow-blog.com/blog/querying-related-tables.html</loc>
-    <lastmod>2025-10-24</lastmod>
+    <lastmod>2025-10-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.supernow-blog.com/blog/modifying-servicenow-urls.html</loc>
+    <lastmod>2025-10-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -55,14 +55,8 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.supernow-blog.com/blog/advanced-list-view-grouping.html</loc>
-    <lastmod>2025-10-14</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://www.supernow-blog.com/blog/using-advanced-filter-operators.html</loc>
-    <lastmod>2025-10-14</lastmod>
+    <loc>https://www.supernow-blog.com/blog/add-dot-walked-columns-to-the-list-view.html</loc>
+    <lastmod>2025-10-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
