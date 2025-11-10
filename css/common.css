@@ -10,7 +10,7 @@ body {
     line-height: 1.6;
     color: #2d3748;
     background: url('../images/background.png') center top / cover no-repeat;
-    background-attachment: fixed;
+    background-attachment: fixed; /* Keep fixed for desktop */
     min-height: 100vh;
 }
 
@@ -241,4 +241,27 @@ img {
 
 .tag-link:hover {
     text-decoration: none;
+}
+
+/* Mobile background fixes */
+@media only screen and (max-width: 768px) {
+    body {
+        /* Ensure background works properly on mobile devices */
+        background: url('../images/background.png') center top / cover;
+        background-attachment: scroll; /* Explicitly set scroll for mobile */
+        min-height: 100vh;
+        min-height: -webkit-fill-available; /* iOS Safari fix */
+    }
+    
+    html {
+        height: -webkit-fill-available; /* iOS Safari fix */
+    }
+}
+
+/* iOS-specific fixes */
+@supports (-webkit-touch-callout: none) {
+    body {
+        background-attachment: scroll !important;
+        min-height: -webkit-fill-available;
+    }
 }

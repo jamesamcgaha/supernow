@@ -340,11 +340,11 @@
 
 /* Responsive - Post Pages */
 @media (max-width: 768px) {
-    .post-content {
+   /* .post-content {
         padding: 2rem 1.5rem;
         margin: 1rem;
         border-radius: 12px;
-    }
+    }*/
     
     .post-header h1 {
         font-size: 2rem;
@@ -370,8 +370,12 @@
 
 @media (max-width: 480px) {
     .post-content {
-        padding: 1.5rem 1rem;
-        margin: 0.5rem;
+        /* padding: 1.5rem 1rem; */
+        margin: 0 0.5rem 0 0.5rem;
+    }
+    
+    .comments-section {
+        margin: 0 0.5rem 0 0.5rem;
     }
     
     .post-header h1 {
