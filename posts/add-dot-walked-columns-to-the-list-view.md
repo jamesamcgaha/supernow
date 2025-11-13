@@ -9,10 +9,7 @@ There are many scenarios where a key piece of information isn't available direct
 
 Someone with System Administrator access can always configure the List Layout to include a dot-walked column; however, if you don't have admin or don't want to add a "dot-walked" column to the default list view for all users, then you can still use one of these options to get the extended field added to your personalized list view:
 
-1. You can create a new report with type List and the reporting interface allows to expand reference fields and add dot-walked columns. If want to have those same columns available in the normal list view outside of a report, then you can:
-    A. Save the report
-    B. Copy the "sys_id" from the report's URL
-    c. In your list view you can add/adjust the "sysparm_view" value in the list URL to be "RPT" and then your sys_id (e.g. sysparm_view=RPTaa6d3aec9fec3a546c1551361824ab8a). See: [Modifying ServiceNow URLs](modifying-servicenow-urls.html).
+1. You can create a new report with type List and the reporting interface allows to expand reference fields and add dot-walked columns. If want to have those same columns available in the normal list view outside of a report, then you can select a column to group the report by (ideally by a column all rows have the same value for), save the report, and then click the label of the group—which will take you to the list view with the same filter condition and the columns you specified in your report (it does this by adding a URL parameter like *&sysparm_view=RPT**aa6d3aec9fec3a546c1551361824ab8a*** where the bolded portion is the "sys_id" of your report).
 2. If you have the [SuperNow chrome extension](supernow-chrome-extension.html) installed, you will see an "unlock" icon next to the normal "personalize list" cog icon which will open up an enhanced personalize list modal that supports expanding reference fields.
 3. If you have the [SN Utils chrome extension](https://chromewebstore.google.com/detail/jgaodbdddndbaijmcljdbglhpdhnjobg) installed, then you can double click any of the whitespace in the personalize list modal to have an input added below the "Selected" side of the slushbucket where you can type the internal name of the dot-walked field (e.g. caller_id.email).
 4. You can manually add a dot-walked field by:

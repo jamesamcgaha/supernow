@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Specificity in the Service Portal - SuperNow</title>
+    <meta name="description" content="Deep dive into how CSS styles are applied in the Service Portal and how that affects the specificity of the selectors.">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="CSS Specificity in the Service Portal">
+    <meta property="og:description" content="Deep dive into how CSS styles are applied in the Service Portal and how that affects the specificity of the selectors.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://www.supernow-blog.com/blog/css-specificity-in-the-service-portal.html">
+    <meta property="og:image" content="https://www.supernow-blog.com/images/supernow-logo-full.png">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="CSS Specificity in the Service Portal">
+    <meta name="twitter:description" content="Deep dive into how CSS styles are applied in the Service Portal and how that affects the specificity of the selectors.">
+    <meta name="twitter:image" content="https://www.supernow-blog.com/images/supernow-logo-full.png">
+    
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://www.supernow-blog.com/blog/css-specificity-in-the-service-portal.html">
+    
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="../images/supernow-32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../images/supernow-16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../images/supernow-128.png">
+    
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/post.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="site-title">
+                    <a href="../index.html">
+                        <img src="../images/supernow-logo-full.png" alt="SuperNow" class="site-logo-full">
+                    </a>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="../index.html"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="../about.html"><i class="fas fa-user"></i> About</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container">
+        <article class="post-content">
+            <div class="back-link">
+                <a href="../index.html">
+                    ← Back to all posts
+                </a>
+            </div>
+
+            <header class="post-header">
+                <h1>CSS Specificity in the Service Portal</h1>
+                
+                <div class="post-meta">
+                    <span>James McGaha</span>
+                    <span class="separator">•</span>
+                    <span>November 12, 2025</span>
+                </div>
+                
+                <div class="post-tags">
+                    <a href="../index.html?tag=developer" class="tag tag-link">developer</a><a href="../index.html?tag=service%20portal" class="tag tag-link">service portal</a><a href="../index.html?tag=advanced" class="tag tag-link">advanced</a>
+                </div>
+            </header>
+            
+            <div class="post-body">
+                <h2>I. Calculating Specificity</h2>
+<p>If multiple CSS declarations apply to the same element, here's how you can determine which one will be applied:</p>
+<h3>1). Calculate the specificity of the selector</h3>
+<p>Add the points shown below for each that apply:</p>
+<br>
+<p>(10,000) Value has "!important" appended - Example: <em>color: black !important;</em></p>
+<p>(1,000) Inline styles - Example: <em>&lt;h1 style="color: pink;"&gt;</em></p>
+<p>(100) IDs - Example: <em>#navbar</em></p>
+<p>(10) Classes, pseudo-classes, attribute selectors - Example: <em>.test, :hover, [href]</em></p>
+<p>(1) Elements and pseudo-elements - Example: <em>h1, ::before</em></p>
+<br>
+<p>Note: if the selector has multiple parts, add points for each part (for example, <code>div.text-blue</code> would get 11 points; <code>.btn-container #submit-button</code> would get 110 points).</p>
+<br>
+<p>For more information: <a href="https://www.w3schools.com/css/css_specificity.asp">https://www.w3schools.com/css/css_specificity.asp</a></p>
+<h3>2). Add in points for additions ServiceNow makes to the selector</h3>
+<ol><li >If the element is within a widget, there is a widget instance that has CSS, and the declaration is present in the <strong>widget instance</strong> CSS, the portal record CSS, or the theme CSS: <strong>add 100 points</strong></li><li >Else if the element is within a widget, that widget has CSS, and the declaration is present in the <strong>widget</strong>, portal, or theme CSS: <strong>add 10 points</strong></li><li >Else if the page has CSS and the declaration is present in the <strong>page</strong>, portal, or theme CSS: <strong>add 10 points</strong></li></ol><p><em>For example, if the declaration is present in the portal record's CSS and the widget instance does not have any CSS defined, but the widget does, then would add 10 points; if the declaration is present in the theme's CSS but the element referenced is not within a widget, then add 10 points if the page has CSS, otherwise add none.</em></p>
+<h3>3). If the points for two declarations are tied, then compare the source of the declarations</h3>
+<p>The declaration whose source is highest on this list will be the one that is applied:</p>
+<br>
+<ol><li >&lt;style&gt; tag in the HTML (if multiple, whichever is farthest to the bottom of the HTML)</li><li >embedded widget</li><li >(if embedded widget has CSS) theme</li><li >(if embedded widget has CSS) portal</li><li >widget instance</li><li >(if widget instance has CSS) theme</li><li >(if widget instance has CSS) portal</li><li >widget</li><li >(if widget has CSS) theme</li><li >(if widget has CSS) portal</li><li >page</li><li >(if page has CSS) theme</li><li >(if page has CSS) portal</li><li >the stylesheet attached to the theme with the biggest order number</li><li >(if there is a stylesheet attached to the theme) theme</li><li >(if there is a stylesheet attached to the theme) portal</li><li >all other stylesheets attached to the theme ranked from biggest to smallest order value</li><li >bootstrap accessibility CSS</li><li >theme</li><li >portal</li><li >font awesome CSS</li><li >bootstrap CSS</li><li >OOB service portal CSS</li></ol><p><em>For example, if there is an element with the class "container" and the ID "case-header", and the widget instance has a declaration with the selector <code>.container</code> and the widget has a declaration with the selector <code>#case-header</code>, then (after adding in the bonus points from step 2) both declarations would have 110 points, but the widget instance's styling would be applied because it is number 2 in the list compared to number 5.</em></p>
+<br>
+<p><em>Note: skip 2-10 if the element is located outside of a widget (e.g. the page background or an element within a popup), skip 5-7 if the widget does not have an instance (e.g. the portal header widget).</em></p>
+<h3>4). If the declarations are located within the same source, whichever declaration is lowest down in the stylesheet gets applied</h3>
+<h2>II. Explaining ServiceNow's Impact on Specificity</h2>
+<h3>1). Portal and theme CSS gets added onto all other CSS stylesheets</h3>
+<p>ServiceNow allows you to put any CSS in the portal or theme records; however, these places are really only meant to contain CSS variables that can be used by other stylesheets within the portal. When ServiceNow compiles all the CSS, it creates and adds to the HTML for the page a &lt;style&gt; element for each of the possible places for CSS to be located (only if those sources have a value): widget instances, widgets, the page, and any stylesheets attached to the theme (styling defined directly in the HTML of a widget or angular template are not touched). For each of these stylesheets, it adds the CSS from the portal and then from the theme to the top. It does this so variables defined at the portal or theme are available everywhere you might add styling. However, this means that if you add a normal CSS declaration to the portal or theme, this declaration gets copied to the top of the CSS for every single widget instance, widget, page, and stylesheet on that page that have CSS.</p>
+<h3>2). ServiceNow adds "scoping" selectors to widget and page CSS</h3>
+<p>Also, when ServiceNow compiles all the CSS for a portal page, it adds to some selectors to help the declarations get applied in the right order and to make CSS scoped to the right elements. The following selectors are added to the front of all CSS declarations for widget instance, widget, and page CSS:</p>
+<br>
+<p>Widget Instance: #x[instance_sys_id]</p>
+<p>Widget: .v[widget_sys_id]</p>
+<p>Page: .page-[page_sys_id]</p>
+<br>
+<p>This means that if you had a widget with a selector like <code>.panel</code> and a widget instance with a selector like <code>div</code>, then those would get compiled to look like <code>.vc583d3ce1bdddd94d7b4eb12604bcb36 .panel</code> and <code>#x3c29786e87133200e0ef0cf888cb0bdf div</code>. So, even though the widget instance's element selector has a lower specificity than the widget's class selector, after compiling the points come out to 20 for the widget and 101 for the widget instance (the ID selector that ServiceNow adds to widget instance CSS helping to ensure that you are able to effectively overwrite generic widget CSS for specific instances of that widget).</p>
+<br>
+<p>One benefit of this is that by adding a widget to a page, you never have to worry about that widget's CSS messing up the styling of other widgets on that page.</p>
+<h3>3). All CSS is added within the HTML in a specific order</h3>
+<p>Lastly, once everything is all compiled by ServiceNow, all CSS (except for in-line styling) gets added to the HTML for the page within &lt;style&gt; tags. And the way CSS works is that CSS is applied from the top to the bottom, so (in the case where there are multiple declarations with the same specificity) whichever declaration is found closest to the bottom is the one that will get applied.</p>
+<br>
+<p>The order mentioned in step 3 of "Calculating Specificity" is essentially just the reverse of the order that the different &lt;style&gt; tags appear in the HTML for a portal page.</p>
+                <div class="related-posts-section">
+                    <h3>Related Articles</h3>
+                    <div class="related-posts-grid">
+                        
+                        <div class="related-post-card">
+                            <a href="supernow-chrome-extension.html">
+                                <h4>SuperNow Chrome Extension</h4>
+                                <p>A chrome extension for ServiceNow super users that adds useful options and tools to make it easier to get around platform restrictions and limitations.</p>
+                                <div class="related-post-tags">
+                                    <a href="../index.html?tag=chrome%20extension" class="tag tag-link">chrome extension</a><a href="../index.html?tag=tips%20%26%20tricks" class="tag tag-link">tips & tricks</a>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="related-post-card">
+                            <a href="querying-related-tables.html">
+                                <h4>Querying Related Tables</h4>
+                                <p>How to use RLQUERY, SUBQUERY, and JOIN in your list view and GlideRecord encoded queries.</p>
+                                <div class="related-post-tags">
+                                    <a href="../index.html?tag=tips%20%26%20tricks" class="tag tag-link">tips & tricks</a><a href="../index.html?tag=non-admin%20hacks" class="tag tag-link">non-admin hacks</a>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>        </article>
+        
+        <!-- Comments Section -->
+        <div class="comments-section">
+            <div class="comments-header">
+                <h3>Comments</h3>
+                <p>Join the discussion and share your thoughts!</p>
+            </div>
+            <script src="https://utteranc.es/client.js"
+                    repo="jamesamcgaha/supernow"
+                    issue-term="url"
+                    label="blog comments"
+                    theme="github-light"
+                    crossorigin="anonymous"
+                    async>
+            </script>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <p>&copy; 2025 SuperNow. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="mailto:jamesmcgaha@supernow-blog.com" target="_blank"><i class="fa fa-envelope"></i></a>
+                <a href="https://www.linkedin.com/in/james-mcgaha-672644114" target="_blank"><i class="fab fa-linkedin"></i></a>
+                <a href="https://github.com/jamesamcgaha/supernow" target="_blank"><i class="fab fa-github"></i></a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
