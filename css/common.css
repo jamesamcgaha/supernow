@@ -9,9 +9,37 @@ body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
     line-height: 1.6;
     color: #2d3748;
-    background: url('../images/background.png') center top / cover no-repeat;
-    background-attachment: fixed; /* Keep fixed for desktop */
+   /* background: url('../images/background.png') center top / cover no-repeat; */
+   /* background-attachment: fixed; *//* Keep fixed for desktop */
+  /* background: linear-gradient(-45deg, #4f52bd, #4f7dbd, #4fa5bd, #4fbdbd, #4fa5bd, #4f7dbd, #4f52bd, #7d52bd, #a552bd, #bd52a5, #a552bd, #7d52bd, #4f52bd);
+   	background-size: 400% 400%;*/
+     /*   background: linear-gradient(-45deg, #4f52bd, #4f52bd, #4f52bd, #4f7dbd, #4fa5bd, #4fbdbd, #4fa5bd, #4f7dbd, #4f52bd, #7d52bd, #a552bd, #bd52a5, #a552bd, #7d52bd, #4f52bd);
+    background-size: 400% 100%;
+    */
+    /*background: linear-gradient(-45deg, 
+    #4f52bd, #4f52bd, #4f52bd, #4f7dbd, #4fa5bd, #4fbdbd, #4fa5bd, #4f7dbd, #4f52bd, #7d52bd, #a552bd, #bd52a5, #a552bd, #7d52bd, #4f52bd,
+    #7d52bd, #a552bd, #bd52a5, #a552bd, #7d52bd, #4f52bd, #4f7dbd, #4fa5bd, #4fbdbd, #4fa5bd, #4f7dbd, #4f52bd, #4f52bd, #4f52bd
+);*/
+
+
+    background: linear-gradient(-45deg, #4f52bd, #4f52bd, #4f52bd, #4f7dbd, #4fa5bd, #4fbdbd, #4fa5bd, #4f7dbd, #4f52bd, #7d52bd, #a552bd, #bd52a5, #a552bd, #7d52bd, #4f52bd);
+    background-size: 1200vh 100%;
+/*background-size: 400vw 200vh;*/
+	/* animation: gradient 15s ease infinite; */
+    animation: gradient 30s linear infinite;
     min-height: 100vh;
+}
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+	    background-position: 100% 50%;
+       /*background-position: 100% 100%;*/
+	}
+	100% {
+		background-position: 0% 50%;
+	}
 }
 
 /* Main content container */
@@ -30,7 +58,7 @@ body {
 .navbar {
     background: white;
     border-bottom: 1px solid #e2e8f0;
-    padding: 1rem 0;
+    padding: 0.5rem 0;
     position: sticky;
     top: 0;
     z-index: 100;
@@ -244,26 +272,25 @@ img {
 }
 
 /* Mobile background fixes */
+/*
 @media only screen and (max-width: 768px), 
        only screen and (max-device-width: 1024px) and (orientation: landscape),
        only screen and (max-height: 768px) and (orientation: landscape) {
     body {
-        /* Ensure background works properly on mobile devices */
         background: url('../images/background.png') center top / cover;
-        background-attachment: scroll; /* Explicitly set scroll for mobile */
+        background-attachment: scroll; 
         min-height: 100vh;
-        min-height: -webkit-fill-available; /* iOS Safari fix */
+        min-height: -webkit-fill-available;
     }
     
     html {
-        height: -webkit-fill-available; /* iOS Safari fix */
-    }
+        height: -webkit-fill-available;
 }
 
-/* iOS-specific fixes */
 @supports (-webkit-touch-callout: none) {
     body {
         background-attachment: scroll !important;
         min-height: -webkit-fill-available;
     }
 }
+    */

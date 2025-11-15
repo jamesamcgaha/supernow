@@ -420,14 +420,24 @@ function generatePosts() {
     .map(tag => ({ name: tag, count: tagCounts[tag] }))
     .sort((a, b) => b.count - a.count);
   
-  // Generate static HTML for tag tabs
+  // Generate static HTML for tag tabs with mobile "show more" functionality
+  const maxTagsMobile = 3; // Show first 3 tags on mobile
+  const visibleTags = sortedTags.slice(0, maxTagsMobile);
+  const hiddenTags = sortedTags.slice(maxTagsMobile);
+  
   const tagTabsHtml = `        <button class="tag-tab active" data-tag="all">
             All Posts<span class="tag-count">${posts.length}</span>
         </button>
-        ${sortedTags.map(tag => `
+        ${visibleTags.map(tag => `
         <button class="tag-tab" data-tag="${tag.name}">
             ${tag.name}<span class="tag-count">${tag.count}</span>
-        </button>`).join('')}`;
+        </button>`).join('')}${hiddenTags.map(tag => `
+        <button class="tag-tab hidden-tag-tab" data-tag="${tag.name}">
+            ${tag.name}<span class="tag-count">${tag.count}</span>
+        </button>`).join('')}${hiddenTags.length > 0 ? `
+        <button class="tag-tab tag-more-btn" onclick="event.stopPropagation(); showAllTagTabs(this); return false;">
+            +${hiddenTags.length} more
+        </button>` : ''}`;
   
   // Generate HTML for all blog posts
   const blogPostsHtml = posts.map(post => {

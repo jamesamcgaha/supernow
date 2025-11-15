@@ -41,7 +41,7 @@
     font-size: 1.5rem;
     opacity: 0.9;
     font-weight: 400;
-    text-shadow: 0px 2px 4px hsl(0deg 0% 0%);
+    /* text-shadow: 0px 2px 4px hsl(0deg 0% 0%); */
     margin-left: auto;
     margin-right: auto;
 }
@@ -103,6 +103,14 @@
     gap: 0.5rem;
     justify-content: center;
     margin-bottom: 1.5rem;
+}
+
+/* Hidden tag tabs container */
+.hidden-tag-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
 }
 
 .tag-tab {
@@ -276,6 +284,28 @@
     margin-top: 1rem;
     margin-bottom: 0.5rem;
 }
+
+/* Hidden tag tabs - individual buttons */
+.hidden-tag-tab {
+    display: inline-flex;
+}
+
+/* Tag more button for filter tabs - hidden on desktop, shown on mobile */
+.tag-more-btn {
+    display: none !important;
+}
+
+/* Show tag-more button and hide extra tags only on mobile */
+@media (max-width: 768px) {
+    .tag-more-btn {
+        display: inline-flex !important;
+    }
+    
+    .hidden-tag-tab {
+        display: none;
+    }
+}
+
 
 /* No Results State */
 .no-results {

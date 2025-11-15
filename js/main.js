@@ -5,6 +5,17 @@ console.log('main.js starting...');
 let currentFilter = 'all';
 let currentSearchTerm = '';
 
+// Global function to show all tag filter tabs on mobile
+window.showAllTagTabs = function(button) {
+    const hiddenTabs = document.querySelectorAll('.hidden-tag-tab');
+    
+    hiddenTabs.forEach(tab => {
+        tab.style.display = 'inline-flex';
+    });
+    
+    button.style.setProperty('display', 'none', 'important');
+};
+
 // Function to get URL parameters
 function getUrlParameter(name) {
     const urlParams = new URLSearchParams(window.location.search);
@@ -44,8 +55,10 @@ function filterPostCards() {
         if (currentSearchTerm && shouldShow) {
             const title = card.getAttribute('data-title') || '';
             const excerpt = card.getAttribute('data-excerpt') || '';
+            const tags = card.getAttribute('data-tags') || '';
             const searchLower = currentSearchTerm.toLowerCase();
-            shouldShow = title.includes(searchLower) || excerpt.includes(searchLower);
+            const tagsLower = tags.toLowerCase();
+            shouldShow = title.includes(searchLower) || excerpt.includes(searchLower) || tagsLower.includes(searchLower);
         }
         
         // Reset animation state for all cards
