@@ -66,7 +66,7 @@
                 </div>
                 
                 <div class="post-tags">
-                    <a href="../index.html?tag=developer" class="tag tag-link">developer</a><a href="../index.html?tag=service%20portal" class="tag tag-link">service portal</a><a href="../index.html?tag=advanced" class="tag tag-link">advanced</a>
+                    <a href="../index.html?tag=development" class="tag tag-link">development</a><a href="../index.html?tag=service%20portal" class="tag tag-link">service portal</a><a href="../index.html?tag=deep%20dive" class="tag tag-link">deep dive</a>
                 </div>
             </header>
             
@@ -85,7 +85,7 @@
 <p>Note: if the selector has multiple parts, add points for each part (for example, <code>div.text-blue</code> would get 11 points; <code>.btn-container #submit-button</code> would get 110 points).</p>
 <br>
 <p>For more information: <a href="https://www.w3schools.com/css/css_specificity.asp">https://www.w3schools.com/css/css_specificity.asp</a></p>
-<h3>2). Add in points for additions ServiceNow makes to the selector</h3>
+<h3>2). Add points for additions ServiceNow makes to the selector</h3>
 <ol><li >If the element is within a widget, there is a widget instance that has CSS, and the declaration is present in the <strong>widget instance</strong> CSS, the portal record CSS, or the theme CSS: <strong>add 100 points</strong></li><li >Else if the element is within a widget, that widget has CSS, and the declaration is present in the <strong>widget</strong>, portal, or theme CSS: <strong>add 10 points</strong></li><li >Else if the page has CSS and the declaration is present in the <strong>page</strong>, portal, or theme CSS: <strong>add 10 points</strong></li></ol><p><em>For example, if the declaration is present in the portal record's CSS and the widget instance does not have any CSS defined, but the widget does, then would add 10 points; if the declaration is present in the theme's CSS but the element referenced is not within a widget, then add 10 points if the page has CSS, otherwise add none.</em></p>
 <h3>3). If the points for two declarations are tied, then compare the source of the declarations</h3>
 <p>The declaration whose source is highest on this list will be the one that is applied:</p>
@@ -95,9 +95,9 @@
 <h3>4). If the declarations are located within the same source, whichever declaration is lowest down in the stylesheet gets applied</h3>
 <h2>II. Explaining ServiceNow's Impact on Specificity</h2>
 <h3>1). Portal and theme CSS gets added onto all other CSS stylesheets</h3>
-<p>ServiceNow allows you to put any CSS in the portal or theme records; however, these places are really only meant to contain CSS variables that can be used by other stylesheets within the portal. When ServiceNow compiles all the CSS, it creates and adds to the HTML for the page a &lt;style&gt; element for each of the possible places for CSS to be located (only if those sources have a value): widget instances, widgets, the page, and any stylesheets attached to the theme (styling defined directly in the HTML of a widget or angular template are not touched). For each of these stylesheets, it adds the CSS from the portal and then from the theme to the top. It does this so variables defined at the portal or theme are available everywhere you might add styling. However, this means that if you add a normal CSS declaration to the portal or theme, this declaration gets copied to the top of the CSS for every single widget instance, widget, page, and stylesheet on that page that have CSS.</p>
+<p>ServiceNow allows you to put any CSS in the portal or theme records; however, these places are really only meant to contain CSS variables that can be used by other stylesheets within the portal. When ServiceNow compiles all the CSS, it creates and adds to the HTML for the page a &lt;style&gt; element for each of the possible places for CSS to be located (only if those sources have a value): widget instances, widgets, the page, and any stylesheets attached to the theme (styling defined directly in the HTML of a widget or angular template are not touched). For each of these stylesheets, it adds the CSS from the portal and then from the theme to the top. It does this so variables defined at the portal or theme are available everywhere you might add styling. However, this means that if you add a normal CSS declaration to the portal or theme, this declaration gets copied to the top of the CSS for every single widget instance, widget, page, and stylesheet on that page that has CSS.</p>
 <h3>2). ServiceNow adds "scoping" selectors to widget and page CSS</h3>
-<p>Also, when ServiceNow compiles all the CSS for a portal page, it adds to some selectors to help the declarations get applied in the right order and to make CSS scoped to the right elements. The following selectors are added to the front of all CSS declarations for widget instance, widget, and page CSS:</p>
+<p>Also, when ServiceNow compiles all the CSS for a portal page, it adds some selectors to help the declarations get applied in the right order and to make CSS scoped to the right elements. The following selectors are added to the front of all CSS declarations for widget instance, widget, and page CSS:</p>
 <br>
 <p>Widget Instance: #x[instance_sys_id]</p>
 <p>Widget: .v[widget_sys_id]</p>
@@ -115,11 +115,11 @@
                     <div class="related-posts-grid">
                         
                         <div class="related-post-card">
-                            <a href="supernow-chrome-extension.html">
-                                <h4>SuperNow Chrome Extension</h4>
-                                <p>A chrome extension for ServiceNow super users that adds useful options and tools to make it easier to get around platform restrictions and limitations.</p>
+                            <a href="comprehensive-search.html">
+                                <h4>Comprehensive Search Tool</h4>
+                                <p>The only search tool that fully searches ALL records tracked by update sets to make sure that no matching records are missed. Available as a free download in ServiceNow Share.</p>
                                 <div class="related-post-tags">
-                                    <a href="../index.html?tag=chrome%20extension" class="tag tag-link">chrome extension</a><a href="../index.html?tag=tips%20%26%20tricks" class="tag tag-link">tips & tricks</a>
+                                    <a href="../index.html?tag=tools" class="tag tag-link">tools</a><a href="../index.html?tag=development" class="tag tag-link">development</a>
                                 </div>
                             </a>
                         </div>
@@ -127,6 +127,15 @@
                             <a href="querying-related-tables.html">
                                 <h4>Querying Related Tables</h4>
                                 <p>How to use RLQUERY, SUBQUERY, and JOIN in your list view and GlideRecord encoded queries.</p>
+                                <div class="related-post-tags">
+                                    <a href="../index.html?tag=tips%20%26%20tricks" class="tag tag-link">tips & tricks</a><a href="../index.html?tag=non-admin%20hacks" class="tag tag-link">non-admin hacks</a>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="related-post-card">
+                            <a href="top-ten-time-savers.html">
+                                <h4>My Top 10 Time Savers</h4>
+                                <p>These are the top 10 tips & tricks that save me the most time and that I'd have the hardest time doing without.</p>
                                 <div class="related-post-tags">
                                     <a href="../index.html?tag=tips%20%26%20tricks" class="tag tag-link">tips & tricks</a><a href="../index.html?tag=non-admin%20hacks" class="tag tag-link">non-admin hacks</a>
                                 </div>
