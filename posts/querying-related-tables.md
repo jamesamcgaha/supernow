@@ -3,7 +3,7 @@ title: "Querying Related Tables"
 date: "2025-11-16"
 excerpt: "How to use RLQUERY, SUBQUERY, and JOIN in your list view and GlideRecord encoded queries."
 author: "James McGaha"
-tags: ["tips & tricks","non-admin hacks","list view tricks","URLs","development","deep-dive"]
+tags: ["tips & tricks","non-admin hacks","list view tricks","URLs","development","deep dive"]
 ---
 Note: RLQUERY, SUBQUERY, and JOIN work in the list view but can't be added through the filter condition builder (RLQUERY is available for conditions built for a report or a workspace list). To add them you have to directly modify the sysparm_query parameter in the URL (see [Modifying ServiceNow URLs](modifying-servicenow-urls.html)) or with the [SN Utils](https://chromewebstore.google.com/detail/jgaodbdddndbaijmcljdbglhpdhnjobg) extension you can directly edit the encoded query for the list by double-clicking in the whitespace next to the filter condition.
 
