@@ -103,10 +103,13 @@
             non-admin hacks<span class="tag-count">7</span>
         </button>
         <button class="tag-tab" data-tag="list view tricks">
-            list view tricks<span class="tag-count">4</span>
+            list view tricks<span class="tag-count">5</span>
         </button>
         <button class="tag-tab hidden-tag-tab" data-tag="URLs">
-            URLs<span class="tag-count">4</span>
+            URLs<span class="tag-count">5</span>
+        </button>
+        <button class="tag-tab hidden-tag-tab" data-tag="development">
+            development<span class="tag-count">4</span>
         </button>
         <button class="tag-tab hidden-tag-tab" data-tag="chrome extension">
             chrome extension<span class="tag-count">3</span>
@@ -114,26 +117,20 @@
         <button class="tag-tab hidden-tag-tab" data-tag="tools">
             tools<span class="tag-count">3</span>
         </button>
-        <button class="tag-tab hidden-tag-tab" data-tag="advanced">
-            advanced<span class="tag-count">3</span>
-        </button>
-        <button class="tag-tab hidden-tag-tab" data-tag="development">
-            development<span class="tag-count">3</span>
-        </button>
-        <button class="tag-tab hidden-tag-tab" data-tag="admin access required">
-            admin access required<span class="tag-count">2</span>
-        </button>
-        <button class="tag-tab hidden-tag-tab" data-tag="developer">
-            developer<span class="tag-count">1</span>
+        <button class="tag-tab hidden-tag-tab" data-tag="deep-dive">
+            deep-dive<span class="tag-count">1</span>
         </button>
         <button class="tag-tab hidden-tag-tab" data-tag="service portal">
             service portal<span class="tag-count">1</span>
         </button>
-        <button class="tag-tab hidden-tag-tab" data-tag="ServiceNow 101">
-            ServiceNow 101<span class="tag-count">1</span>
+        <button class="tag-tab hidden-tag-tab" data-tag="deep dive">
+            deep dive<span class="tag-count">1</span>
+        </button>
+        <button class="tag-tab hidden-tag-tab" data-tag="servicenow 101">
+            servicenow 101<span class="tag-count">1</span>
         </button>
         <button class="tag-tab tag-more-btn" onclick="event.stopPropagation(); showAllTagTabs(this); return false;">
-            +9 more
+            +8 more
         </button>
                 <!-- END:TAG_TABS -->
             </div>
@@ -142,12 +139,12 @@
         <!-- Blog Posts Grid -->
         <div id="postsContainer" class="posts-container">
             <!-- START:BLOG_POSTS -->
-        <article class="post-card favorite" data-tags="chrome extension,tips & tricks,non-admin hacks,tools,advanced" data-title="supernow chrome extension" data-excerpt="a chrome extension for servicenow super users that adds useful options and tools to make it easier to get around platform restrictions and limitations." data-url="blog/supernow-chrome-extension.html">
+        <article class="post-card favorite" data-tags="chrome extension,tips & tricks,non-admin hacks,tools" data-title="supernow chrome extension" data-excerpt="a chrome extension for servicenow super users that adds useful options and tools to make it easier to get around platform restrictions and limitations." data-url="blog/supernow-chrome-extension.html">
             <div class="favorite-indicator"></div><a href="blog/supernow-chrome-extension.html" class="post-card-link">
                 <h2 class="post-title">
                     SuperNow Chrome Extension
                 </h2>
-                <div class="post-tags"><button class="tag tag-clickable" data-tag="chrome extension">chrome extension</button><button class="tag tag-clickable" data-tag="tips & tricks">tips & tricks</button><button class="tag tag-clickable" data-tag="non-admin hacks">non-admin hacks</button><button class="tag tag-clickable" data-tag="tools">tools</button><button class="tag tag-clickable" data-tag="advanced">advanced</button></div>
+                <div class="post-tags"><button class="tag tag-clickable" data-tag="chrome extension">chrome extension</button><button class="tag tag-clickable" data-tag="tips & tricks">tips & tricks</button><button class="tag tag-clickable" data-tag="non-admin hacks">non-admin hacks</button><button class="tag tag-clickable" data-tag="tools">tools</button></div>
                 <p class="post-excerpt">A chrome extension for ServiceNow super users that adds useful options and tools to make it easier to get around platform restrictions and limitations.</p>
                 <div class="post-meta">
                     <span class="read-more-btn">
@@ -157,12 +154,12 @@
                 </div>
             </a>
         </article>
-        <article class="post-card favorite" data-tags="tools,admin access required,development" data-title="comprehensive search tool" data-excerpt="the only search tool that fully searches all records tracked by update sets to make sure that no matching records are missed. available as a free download in servicenow share." data-url="blog/comprehensive-search.html">
+        <article class="post-card favorite" data-tags="tools,development" data-title="comprehensive search tool" data-excerpt="the only search tool that fully searches all records tracked by update sets to make sure that no matching records are missed. available as a free download in servicenow share." data-url="blog/comprehensive-search.html">
             <div class="favorite-indicator"></div><a href="blog/comprehensive-search.html" class="post-card-link">
                 <h2 class="post-title">
                     Comprehensive Search Tool
                 </h2>
-                <div class="post-tags"><button class="tag tag-clickable" data-tag="tools">tools</button><button class="tag tag-clickable" data-tag="admin access required">admin access required</button><button class="tag tag-clickable" data-tag="development">development</button></div>
+                <div class="post-tags"><button class="tag tag-clickable" data-tag="tools">tools</button><button class="tag tag-clickable" data-tag="development">development</button></div>
                 <p class="post-excerpt">The only search tool that fully searches ALL records tracked by update sets to make sure that no matching records are missed. Available as a free download in ServiceNow Share.</p>
                 <div class="post-meta">
                     <span class="read-more-btn">
@@ -172,12 +169,27 @@
                 </div>
             </a>
         </article>
-        <article class="post-card" data-tags="developer,service portal,advanced" data-title="css specificity in the service portal" data-excerpt="deep dive into how css styles are applied in the service portal and how that affects the specificity of the selectors." data-url="blog/css-specificity-in-the-service-portal.html">
+        <article class="post-card" data-tags="tips & tricks,non-admin hacks,list view tricks,URLs,development,deep-dive" data-title="querying related tables" data-excerpt="how to use rlquery, subquery, and join in your list view and gliderecord encoded queries." data-url="blog/querying-related-tables.html">
+            <a href="blog/querying-related-tables.html" class="post-card-link">
+                <h2 class="post-title">
+                    Querying Related Tables
+                </h2>
+                <div class="post-tags"><button class="tag tag-clickable" data-tag="tips & tricks">tips & tricks</button><button class="tag tag-clickable" data-tag="non-admin hacks">non-admin hacks</button><button class="tag tag-clickable" data-tag="list view tricks">list view tricks</button><button class="tag tag-clickable" data-tag="URLs">URLs</button><button class="tag tag-clickable" data-tag="development">development</button><button class="tag tag-clickable" data-tag="deep-dive">deep-dive</button></div>
+                <p class="post-excerpt">How to use RLQUERY, SUBQUERY, and JOIN in your list view and GlideRecord encoded queries.</p>
+                <div class="post-meta">
+                    <span class="read-more-btn">
+                        Read More <i class="fas fa-arrow-right"></i>
+                    </span>
+                    <span class="post-date">November 16, 2025</span>
+                </div>
+            </a>
+        </article>
+        <article class="post-card" data-tags="development,service portal,deep dive" data-title="css specificity in the service portal" data-excerpt="deep dive into how css styles are applied in the service portal and how that affects the specificity of the selectors." data-url="blog/css-specificity-in-the-service-portal.html">
             <a href="blog/css-specificity-in-the-service-portal.html" class="post-card-link">
                 <h2 class="post-title">
                     CSS Specificity in the Service Portal
                 </h2>
-                <div class="post-tags"><button class="tag tag-clickable" data-tag="developer">developer</button><button class="tag tag-clickable" data-tag="service portal">service portal</button><button class="tag tag-clickable" data-tag="advanced">advanced</button></div>
+                <div class="post-tags"><button class="tag tag-clickable" data-tag="development">development</button><button class="tag tag-clickable" data-tag="service portal">service portal</button><button class="tag tag-clickable" data-tag="deep dive">deep dive</button></div>
                 <p class="post-excerpt">Deep dive into how CSS styles are applied in the Service Portal and how that affects the specificity of the selectors.</p>
                 <div class="post-meta">
                     <span class="read-more-btn">
@@ -217,21 +229,6 @@
                 </div>
             </a>
         </article>
-        <article class="post-card" data-tags="tips & tricks,non-admin hacks,list view tricks,URLs,development,advanced" data-title="querying related tables" data-excerpt="how to use rlquery, subquery, and join in your list view and gliderecord encoded queries." data-url="blog/querying-related-tables.html">
-            <a href="blog/querying-related-tables.html" class="post-card-link">
-                <h2 class="post-title">
-                    Querying Related Tables
-                </h2>
-                <div class="post-tags"><button class="tag tag-clickable" data-tag="tips & tricks">tips & tricks</button><button class="tag tag-clickable" data-tag="non-admin hacks">non-admin hacks</button><button class="tag tag-clickable" data-tag="list view tricks">list view tricks</button><button class="tag tag-clickable" data-tag="URLs">URLs</button><button class="tag tag-clickable" data-tag="development">development</button><button class="tag tag-clickable" data-tag="advanced">advanced</button></div>
-                <p class="post-excerpt">How to use RLQUERY, SUBQUERY, and JOIN in your list view and GlideRecord encoded queries.</p>
-                <div class="post-meta">
-                    <span class="read-more-btn">
-                        Read More <i class="fas fa-arrow-right"></i>
-                    </span>
-                    <span class="post-date">October 26, 2025</span>
-                </div>
-            </a>
-        </article>
         <article class="post-card" data-tags="tips & tricks,non-admin hacks,list view tricks,URLs" data-title="modifying servicenow urls" data-excerpt="understanding the components of a servicenow url and modifying servicenow urls directly can save you a lot of time and unlock some advanced tricks." data-url="blog/modifying-servicenow-urls.html">
             <a href="blog/modifying-servicenow-urls.html" class="post-card-link">
                 <h2 class="post-title">
@@ -247,12 +244,12 @@
                 </div>
             </a>
         </article>
-        <article class="post-card" data-tags="ServiceNow 101,URLs" data-title="types of servicenow urls" data-excerpt="how to tell whether a servicenow url is for a service portal, classic environment, or workspace page." data-url="blog/types-of-servicenow-urls.html">
+        <article class="post-card" data-tags="servicenow 101,URLs" data-title="types of servicenow urls" data-excerpt="how to tell whether a servicenow url is for a service portal, classic environment, or workspace page." data-url="blog/types-of-servicenow-urls.html">
             <a href="blog/types-of-servicenow-urls.html" class="post-card-link">
                 <h2 class="post-title">
                     Types of ServiceNow URLs
                 </h2>
-                <div class="post-tags"><button class="tag tag-clickable" data-tag="ServiceNow 101">ServiceNow 101</button><button class="tag tag-clickable" data-tag="URLs">URLs</button></div>
+                <div class="post-tags"><button class="tag tag-clickable" data-tag="servicenow 101">servicenow 101</button><button class="tag tag-clickable" data-tag="URLs">URLs</button></div>
                 <p class="post-excerpt">How to tell whether a ServiceNow URL is for a Service Portal, Classic Environment, or Workspace page.</p>
                 <div class="post-meta">
                     <span class="read-more-btn">
@@ -277,12 +274,12 @@
                 </div>
             </a>
         </article>
-        <article class="post-card" data-tags="tips & tricks,non-admin hacks,tools,admin access required,development" data-title="my top 10 time savers" data-excerpt="these are the top 10 tips & tricks that save me the most time and that i'd have the hardest time doing without." data-url="blog/top-ten-time-savers.html">
+        <article class="post-card" data-tags="tips & tricks,non-admin hacks,list view tricks,URLs,tools,development" data-title="my top 10 time savers" data-excerpt="these are the top 10 tips & tricks that save me the most time and that i'd have the hardest time doing without." data-url="blog/top-ten-time-savers.html">
             <a href="blog/top-ten-time-savers.html" class="post-card-link">
                 <h2 class="post-title">
                     My Top 10 Time Savers
                 </h2>
-                <div class="post-tags"><button class="tag tag-clickable" data-tag="tips & tricks">tips & tricks</button><button class="tag tag-clickable" data-tag="non-admin hacks">non-admin hacks</button><button class="tag tag-clickable" data-tag="tools">tools</button><button class="tag tag-clickable" data-tag="admin access required">admin access required</button><button class="tag tag-clickable" data-tag="development">development</button></div>
+                <div class="post-tags"><button class="tag tag-clickable" data-tag="tips & tricks">tips & tricks</button><button class="tag tag-clickable" data-tag="non-admin hacks">non-admin hacks</button><button class="tag tag-clickable" data-tag="list view tricks">list view tricks</button><button class="tag tag-clickable" data-tag="URLs">URLs</button><button class="tag tag-clickable" data-tag="tools">tools</button><button class="tag tag-clickable" data-tag="development">development</button></div>
                 <p class="post-excerpt">These are the top 10 tips & tricks that save me the most time and that I'd have the hardest time doing without.</p>
                 <div class="post-meta">
                     <span class="read-more-btn">
