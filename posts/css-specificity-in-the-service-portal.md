@@ -3,7 +3,7 @@ title: "CSS Specificity in the Service Portal"
 date: "2025-11-13"
 excerpt: "Deep dive into how CSS styles are applied in the Service Portal and how that affects the specificity of the selectors."
 author: "James McGaha"
-tags: ["developer","service portal","advanced"]
+tags: ["development","service portal","deep dive"]
 ---
 ## I. Calculating Specificity
 If multiple CSS declarations apply to the same element, here's how you can determine which one will be applied:
@@ -19,7 +19,7 @@ Add the points shown below for each that apply:
 Note: if the selector has multiple parts, add points for each part (for example, `div.text-blue` would get 11 points; `.btn-container #submit-button` would get 110 points).
 
 For more information: [https://www.w3schools.com/css/css_specificity.asp](https://www.w3schools.com/css/css_specificity.asp)
-### 2). Add in points for additions ServiceNow makes to the selector
+### 2). Add points for additions ServiceNow makes to the selector
 A. If the element is within a widget, there is a widget instance that has CSS, and the declaration is present in the **widget instance** CSS, the portal record CSS, or the theme CSS: **add 100 points**
 B. Else if the element is within a widget, that widget has CSS, and the declaration is present in the **widget**, portal, or theme CSS: **add 10 points**
 C. Else if the page has CSS and the declaration is present in the **page**, portal, or theme CSS: **add 10 points**
@@ -57,9 +57,9 @@ The declaration whose source is highest on this list will be the one that is app
 ### 4). If the declarations are located within the same source, whichever declaration is lowest down in the stylesheet gets applied
 ## II. Explaining ServiceNow's Impact on Specificity
 ### 1). Portal and theme CSS gets added onto all other CSS stylesheets
-ServiceNow allows you to put any CSS in the portal or theme records; however, these places are really only meant to contain CSS variables that can be used by other stylesheets within the portal. When ServiceNow compiles all the CSS, it creates and adds to the HTML for the page a &lt;style&gt; element for each of the possible places for CSS to be located (only if those sources have a value): widget instances, widgets, the page, and any stylesheets attached to the theme (styling defined directly in the HTML of a widget or angular template are not touched). For each of these stylesheets, it adds the CSS from the portal and then from the theme to the top. It does this so variables defined at the portal or theme are available everywhere you might add styling. However, this means that if you add a normal CSS declaration to the portal or theme, this declaration gets copied to the top of the CSS for every single widget instance, widget, page, and stylesheet on that page that have CSS.
+ServiceNow allows you to put any CSS in the portal or theme records; however, these places are really only meant to contain CSS variables that can be used by other stylesheets within the portal. When ServiceNow compiles all the CSS, it creates and adds to the HTML for the page a &lt;style&gt; element for each of the possible places for CSS to be located (only if those sources have a value): widget instances, widgets, the page, and any stylesheets attached to the theme (styling defined directly in the HTML of a widget or angular template are not touched). For each of these stylesheets, it adds the CSS from the portal and then from the theme to the top. It does this so variables defined at the portal or theme are available everywhere you might add styling. However, this means that if you add a normal CSS declaration to the portal or theme, this declaration gets copied to the top of the CSS for every single widget instance, widget, page, and stylesheet on that page that has CSS.
 ### 2). ServiceNow adds "scoping" selectors to widget and page CSS
-Also, when ServiceNow compiles all the CSS for a portal page, it adds to some selectors to help the declarations get applied in the right order and to make CSS scoped to the right elements. The following selectors are added to the front of all CSS declarations for widget instance, widget, and page CSS:
+Also, when ServiceNow compiles all the CSS for a portal page, it adds some selectors to help the declarations get applied in the right order and to make CSS scoped to the right elements. The following selectors are added to the front of all CSS declarations for widget instance, widget, and page CSS:
 
 Widget Instance: #x[instance_sys_id]
 Widget: .v[widget_sys_id]

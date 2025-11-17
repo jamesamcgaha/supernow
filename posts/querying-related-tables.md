@@ -1,11 +1,11 @@
 ---
 title: "Querying Related Tables"
-date: "2025-10-26"
+date: "2025-11-16"
 excerpt: "How to use RLQUERY, SUBQUERY, and JOIN in your list view and GlideRecord encoded queries."
 author: "James McGaha"
-tags: ["tips & tricks","non-admin hacks","list view tricks","URLs","development","advanced"]
+tags: ["tips & tricks","non-admin hacks","list view tricks","URLs","development","deep-dive"]
 ---
-Note: RLQUERY, SUBQUERY, and JOIN work in the list view but can't be added through the filter condition builder (RLQUERY is availble for conditions built for a report or a workspace list). To add them you have to directly modify the sysparm_query parameter in the URL (see [Modifying ServiceNow URLs](modifying-servicenow-urls.html)) or with the [SN Utils](https://chromewebstore.google.com/detail/jgaodbdddndbaijmcljdbglhpdhnjobg) extension you can directly edit the encoded query for the list by double-clicking in the whitespace next to the filter condition.
+Note: RLQUERY, SUBQUERY, and JOIN work in the list view but can't be added through the filter condition builder (RLQUERY is available for conditions built for a report or a workspace list). To add them you have to directly modify the sysparm_query parameter in the URL (see [Modifying ServiceNow URLs](modifying-servicenow-urls.html)) or with the [SN Utils](https://chromewebstore.google.com/detail/jgaodbdddndbaijmcljdbglhpdhnjobg) extension you can directly edit the encoded query for the list by double-clicking in the whitespace next to the filter condition.
 
 ## Options for querying related tables
 ### 1. RLQUERY
@@ -54,7 +54,7 @@ Note: RLQUERY, SUBQUERY, and JOIN work in the list view but can't be added throu
 
 **Cons:**
 1. Can't nest within an RLQUERY or have an RLQUERY nested within it.
-2. Can only somewhat nest JOIN queries. You can't specify a JOIN query within the condition if another JOIN, but you can have independent JOIN statements that functionaly nest within each other as long as two JOIN queries don't share the same table (or base table) for the left half of the join. (like you can have a query to get users who are the manager of an assignment group that has open tasks assigned by doing `JOINsys_user.sys_id=sys_user_group.manager!^JOINsys_user_group.sys_id=task.assignment_group!active=true`, but if you do something like this: `JOINsys_user.sys_id=sys_user.manager!^JOINsys_user.sys_id=task.assigned_to!active=true` then since both joins have "sys_user" on the left side then it queries for users who are a manager *and* are assigned a task--doesn't query for managers of users who are assigned a task).
+2. Can only somewhat nest JOIN queries. You can't specify a JOIN query within the condition if another JOIN, but you can have independent JOIN statements that functionally nest within each other as long as two JOIN queries don't share the same table (or base table) for the left half of the join. (like you can have a query to get users who are the manager of an assignment group that has open tasks assigned by doing `JOINsys_user.sys_id=sys_user_group.manager!^JOINsys_user_group.sys_id=task.assignment_group!active=true`, but if you do something like this: `JOINsys_user.sys_id=sys_user.manager!^JOINsys_user.sys_id=task.assigned_to!active=true` then since both joins have "sys_user" on the left side then it queries for users who are a manager *and* are assigned a task--doesn't query for managers of users who are assigned a task).
 3. When joining to a table that extends another table, technically it will join using the base table but add a condition like `sys_class_name=child_table`--except if you add your own condition to the join then it is no longer included by default so you have to add it manually (e.g. `JOINproblem.short_description=incident.short_description!active=true^^sys_class_name=incident`).
 
 **Syntax:**
@@ -101,10 +101,10 @@ Note: RLQUERY, SUBQUERY, and JOIN work in the list view but can't be added throu
 **Cons:**
 1. Have to create and save the database view configuration, so doesn't make sense for one-off or ad-hoc queries.
 2. The records returned by a database view are read-only.
-3. Unlike the other options that do a true database join (RLQUERY and JOIN), a database doesn't by default include GROUP BY or DISTINCT to ensure that more than one row is not returned for each matching base table record (so if you have a database view to join sys_user to the manager field on the sys_user_group table, then a user who is the manager of two groups will have two rows in your database view). Can't get around this by grouping by the base table sys_id in the list view or using GlideAggregate, but that can be less convenient then being able to access the base table rows directly.
+3. Unlike the other options that do a true database join (RLQUERY and JOIN), a database doesn't by default include GROUP BY or DISTINCT to ensure that more than one row is not returned for each matching base table record (so if you have a database view to join sys_user to the manager field on the sys_user_group table, then a user who is the manager of two groups will have two rows in your database view). Can't get around this by grouping by the base table sys_id in the list view or using GlideAggregate, but that can be less convenient than being able to access the base table rows directly.
 4. When querying a database view through a script, you are limited to only querying 10,000 rows by default unless you adjust the property glide.db.max_view_records.
 ### 6. Other options
-1. With GlideRecord scripting, can manually do the same idea as SUBQUERY or addJoinQuery by iterating through a seperate GlideRecord query to build an array of values and then including those as the value for an IN condition in the main GlideRecord.
+1. With GlideRecord scripting, can manually do the same idea as SUBQUERY or addJoinQuery by iterating through a separate GlideRecord query to build an array of values and then including those as the value for an IN condition in the main GlideRecord.
 2. For some simple use cases where you don't need to perform an operation on or retrieve the full data for records, you might be able to accomplish your goal with a GlideAggregate query. Like if you need just the names of users who are the manager of two or more group records, then you could query the sys_user table with RLQUERY and >=2, but it also would work to do a GlideAggregate on sys_user_group with `groupBy('manager')` and `addHaving('COUNT','>=',2)`. 
 3. Similar to the GlideAggregate option, you can get similar results in a list view query by switching to the related table and grouping by the reference field. For info on improving grouping performance and grouping by dot-walked columns, see [Advanced List View Grouping](advanced-list-view-grouping.html).
 
@@ -133,7 +133,7 @@ This query runs the following SQL:
 ```SELECT * FROM sys_user sys_user0  WHERE sys_user0.`active` = 1 AND sys_user0.`sys_id` IN ('46d44a23a9fe19810012d100cca80666' , '506c0f9cd7011200f2d224837e61030f' , '62826bf03710200044e0bfc8bcbe5df1' , '9ee1b13dc6112271007f9d0efdb69cd0' , 'a8f98bb0eb32010045e1a5115206fe3a' , 'b6b364e253131300e321ddeeff7b121b' , 'cf1ec0b4530360100999ddeeff7b129f' , 'f298d2d2c611227b0106c6be7f154bc8')```
 Notes:
 1. Only option that splits the SQL into more than one statement. The subqueries are actually executed when addEncodedQuery() is run and then the values returned by the subqueries are included within the main query that only executes when query() is run.
-2. True to it's name, technically performs a subquery rather than doing a true database join.
+2. True to its name, technically performs a subquery rather than doing a true database join.
 ### JOIN
 ```var gr = new GlideRecord('sys_user');
 gr.addEncodedQuery('active=true^JOINsys_user.sys_id=sys_user_group.manager!active=true');
@@ -142,7 +142,7 @@ This query runs the following SQL:
 ```SELECT DISTINCT * FROM (sys_user sys_user0  INNER JOIN sys_user_group sys_user_group0 ON sys_user0.`sys_id` = sys_user_group0.`manager` )  WHERE sys_user0.`active` = 1 AND sys_user_group0.`active` = 1```
 Notes:
 1. All join statements are moved to the front and the base table and related table conditions are all combined into one WHERE clause at the end. Understanding this helps explain the behavior using ^OR or ^NQ. For example, an encoded query like `condition`**^ORJOIN**`table_1_join`**!**`table_1_condition`**^ORJOIN**`table_2_join`**!**`table_2_condition` should be considered to actually work like **JOIN**`table_1_join`**^JOIN**`table_2_join`**^**`condition`**^OR**`table_1_condition`**^OR**`table_2_condition`
-2. If the main table being queried or the joined table are a child table (like incident), then the joins are performed using the base table (like task). Also, if there is a storage alias for the column, then that is used instead and it's possible that a different child table uses that same alias for a different field. For more details, refer to Example 1 under Further Examples.
+2. If the main table being queried or the joined table is a child table (like incident), then the joins are performed using the base table (like task). Also, if there is a storage alias for the column, then that is used instead and it's possible that a different child table uses that same alias for a different field. For more details, refer to Example 1 under Further Examples.
 ### addJoinQuery
 ```var gr = new GlideRecord('sys_user');
 gr.addEncodedQuery('active=true');
@@ -152,7 +152,7 @@ gr.query();```
 This query runs the following SQL:
 ```SELECT * FROM sys_user sys_user0  WHERE sys_user0.`active` = 1 AND sys_user0.`sys_id` IN (SELECT sys_user_group0.`manager` FROM sys_user_group sys_user_group0  WHERE sys_user_group0.`active` = 1 ORDER BY sys_user_group0.`sys_id`)```
 Notes:
-1. Despite it's name, this performs a subquery rather than a true database join. It's essentially the same as using SUBQUERY, except it is all executed as one SQL query.
+1. Despite its name, this performs a subquery rather than a true database join. It's essentially the same as using SUBQUERY, except it is all executed as one SQL query.
 2. Includes an ORDER BY statement at the end. For these 4 example GlideRecord queries listed here, I noticed that addJoinQuery and JOIN returned the users in the same order while RLQUERY and SUBQUERY shared a different ordering of the users.
 ### Database view
 Assuming that a sys_db_view record, "u_sys_user_group_managers", has already been created by joining sys_user and sys_user_group with a where clause for the sys_user_group view table like `group_manager = user_sys_id`.
@@ -189,4 +189,4 @@ In this example, I'm concerned about requests for the catalog item "Apple iPad 3
 ```SELECT DISTINCT sys_user_group0.`manager` FROM sys_user_group sys_user_group0  WHERE sys_user_group0.`sys_id` = '8a4cb6d4c61122780043b1642efcd52b' ```
 ``` SELECT DISTINCT sys_user0.`manager` FROM sys_user sys_user0  WHERE sys_user0.`sys_id` = '46d44a23a9fe19810012d100cca80666' ```
 ```SELECT * FROM sys_user sys_user0  WHERE sys_user0.`sys_id` = '5a826bf03710200044e0bfc8bcbe5dcc'```
-You can see it starts with the innermost SUBQUERY, executes that an independent SQL statement, and uses the returned values for the condition in the next innermost query (if multiple values were returned, the **=** would be replaced by **IN**).
+You can see it starts with the innermost SUBQUERY, executes that as an independent SQL statement, and uses the returned values for the condition in the next innermost query (if multiple values were returned, the **=** would be replaced by **IN**).

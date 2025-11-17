@@ -13,7 +13,7 @@ Note: there are some restrictions that cannot be gotten around without admin acc
 
 Normally, if a field has been hidden, set to be read-only, or marked as mandatory, then that restriction has been applied for good reason. If you are not familiar with all the business logic tied to a field, then it's usually best to not try to get around the restrictions the developer put in the form (e.g. ignoring a mandatory field could cause a business rule to fail if that logic expected the field to always have a value).
 
-That being said, there are often good reasons for wanting to get around form restrictions. Also, if getting around a read-only, mandatory, or hidden restriction for a field causes an issue, then the developer should not have relied on client side logic to enforce that.
+That being said, there are often good reasons for wanting to get around form restrictions. Also, if getting around a read-only, mandatory, or hidden restriction for a field causes an issue, then the developer should not have relied on client-side logic to enforce that.
 ### Approach 1: Set values without using the form
 The second approach is the simplest, but it only works for fields that are present on the form. In some cases, this option is as simple as just adding the column you want to update to your personalized list view and modifying the value there. However, there are some types of columns that aren't editable from the list view (like "List"-type columns), and if that column isn't available in any of the form views, then you'll need to use one of the options described below for this approach.
 

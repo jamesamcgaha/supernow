@@ -3,11 +3,11 @@ title: "Types of ServiceNow URLs"
 date: "2025-10-24"
 excerpt: "How to tell whether a ServiceNow URL is for a Service Portal, Classic Environment, or Workspace page."
 author: "James McGaha"
-tags: ["ServiceNow 101", "URLs"]
+tags: ["servicenow 101", "URLs"]
 ---
 How to tell whether a ServiceNow URL is for a Service Portal, Classic Environment, or Workspace page.
 
-Note: all of the URL examples mentioned in this post are relative URLs and assume that you will include the domain of your ServiceNow site before them. For example, when this post mentions the URL */incident.do*, for your ServiceNow instance that will looks like *https://dev123456.service-now.com/incident.do*.
+Note: all the URL examples mentioned in this post are relative URLs and assume that you will include the domain of your ServiceNow site before them. For example, when this post mentions the URL */incident.do*, for your ServiceNow instance that will looks like *https://dev123456.service-now.com/incident.do*.
 ### Service Portal / Employee Center page
 You can recognize a Service Portal URL because it will always include **?id=**. These pages are built using [AngularJS](https://code.angularjs.org/1.5.9/docs/api) (with [Bootstrap CSS](https://getbootstrap.com/docs/3.3/css/), [Bootstrap Components](https://getbootstrap.com/docs/3.3/components/), and [UI Bootstrap](https://angular-ui.github.io/bootstrap/versioned-docs/1.2.5/)).
 
