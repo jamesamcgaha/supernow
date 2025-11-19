@@ -17,7 +17,7 @@ Service Portal URLs follow the pattern:
 Example: `/esc?id=sc_cat_item&sys_id=186d917a6fab7980575967ddbb3ee4f2`
 
 Or, if human-readable/SEO URLs are enabled, it may look like this:
-`https://{instance}/{portal suffix}/{guest language}/{keywords}?id={page id}&lang={language}&{page parameters"`
+`https://{instance}/{portal suffix}/{guest language}/{keywords}?id={page id}&lang={language}&{page parameters}`
 
 Example: `/kb/en/life-feed-application-demo-data-for-a-what-is-template?id=kb_article_view&sysparm_article=KB0010002`
 ### Classic Environment / "Native UI" pages
@@ -31,7 +31,7 @@ A classic environment URL can point to:
 
 The main thing to note is that a classic environment URL will look different depending on whether or not the Navigation Frame (the global ServiceNow header) is present. The navigation frame will be present by default, but if you open any records in a new tab you may notice that the navigation frame does not get included.
 
-When the navigation frame is not included, the URLs are the easiest to decipher. So, I often open a page in a new tab if I know I will want to modify the URL. For more information on modifying classic environment URLs, see: [Modifying SerivceNow URLs](modifying-servicenow-urls.html).
+When the navigation frame is not included, the URLs are the easiest to decipher. So, I often open a page in a new tab if I know I will want to modify the URL. For more information on modifying classic environment URLs, see: [Modifying ServiceNow URLs](modifying-servicenow-urls.html).
 
 When the navigation frame *is* included, the URL will be essentially the same except that:
 1. `/now/nav/ui/classic/params/target/` will be included at the beginning of the URL (if you are still using the Core UI instead of the Next Experience UI, the URL prefix will be `/nav_to.do?uri=%2F`)
