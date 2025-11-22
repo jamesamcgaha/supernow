@@ -1,12 +1,13 @@
 ---
-title: "SuperNow Chrome Extension"
+title: "SuperNow Browser Extension"
 date: "2025-10-06"
-excerpt: "A chrome extension for ServiceNow super users that adds useful options and tools to make it easier to get around platform restrictions and limitations."
+excerpt: "A browser extension for ServiceNow super users that adds useful options and tools to make it easier to get around platform restrictions and limitations."
 author: "James McGaha"
-tags: ["chrome extension","tips & tricks","non-admin hacks","tools"]
+tags: ["browser extension","tips & tricks","non-admin hacks","tools"]
 ---
-## Download from the Chrome Web Store
-[SuperNow - Tool for ServiceNow Super Users](https://chromewebstore.google.com/detail/supernow/onjjggbfdefphfbgdigcaghdkjoeobda)
+## Get the SuperNow Browser Extension
+[Google Chrome Extension](https://chromewebstore.google.com/detail/supernow/onjjggbfdefphfbgdigcaghdkjoeobda)
+[Microsoft Edge Extension](https://microsoftedge.microsoft.com/addons/detail/supernow-tool-for-servi/eaocfajieaohoohdehbgfcalmdcihfnb)
 ### Features
 1. **Add dot-walked columns to the list layout.** Next to the default "cog" icon for "Update personalized list", an "unlock" icon is added to the list view that opens an enhanced version of the personalize columns popup. This enhanced version is based on the column picker available in reports where you can expand reference fields and even include variables from requested items and catalog tasks.
 2. **Bulk open records from the list view in new tabs.** Next to the icon added for the above point, another icon is added that will open the selected rows in new tabs (or all rows if no rows are selected). Note: this only allows a maximum of 100 rows to be opened this way—and I would recommend only doing 20 or so at a time as opening too many at once can cause you to hit a transaction quota limit which would make some of the tabs might not load the form.
