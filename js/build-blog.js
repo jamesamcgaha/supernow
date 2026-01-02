@@ -315,7 +315,7 @@ function generatePosts() {
       return {
         id,
         title: data.title || 'Untitled',
-        date: data.date || '2025-01-01',
+        date: data.date || '2026-01-01',
         excerpt: data.excerpt || '',
         author: data.author || 'Anonymous',
         tags: data.tags || [],
