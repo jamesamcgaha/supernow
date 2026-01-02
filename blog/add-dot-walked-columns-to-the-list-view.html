@@ -66,7 +66,7 @@
                 </div>
                 
                 <div class="post-tags">
-                    <a href="../index.html?tag=tips%20%26%20tricks" class="tag tag-link">tips & tricks</a><a href="../index.html?tag=non-admin%20hacks" class="tag tag-link">non-admin hacks</a><a href="../index.html?tag=chrome%20extension" class="tag tag-link">chrome extension</a><a href="../index.html?tag=list%20view%20tricks" class="tag tag-link">list view tricks</a>
+                    <a href="../index.html?tag=tips%20%26%20tricks" class="tag tag-link">tips & tricks</a><a href="../index.html?tag=non-admin%20hacks" class="tag tag-link">non-admin hacks</a><a href="../index.html?tag=browser%20extension" class="tag tag-link">browser extension</a><a href="../index.html?tag=list%20view%20tricks" class="tag tag-link">list view tricks</a>
                 </div>
             </header>
             
@@ -74,18 +74,17 @@
                 <p>There are many scenarios where a key piece of information isn't available directly on the table you are viewing. For example, you'd like to be able to view the caller's email from the list of incidents or maybe you want to see the catalog item name from the list of SC Tasks but that information is stored on the Requested Item.</p>
 <br>
 <p>Someone with System Administrator access can always configure the List Layout to include a dot-walked column; however, if you don't have admin or don't want to add a "dot-walked" column to the default list view for all users, then you can still use one of these options to get the extended field added to your personalized list view:</p>
-<br>
-<ol><li >You can create a new report with type List and the reporting interface allows you to expand reference fields and add dot-walked columns. If want to have those same columns available in the normal list view outside of a report, then you can select a column to group the report by (ideally by a column all rows have the same value for), save the report, and then click the label of the group—which will take you to the list view with the same filter condition and the columns you specified in your report (it does this by adding a URL parameter like <em>&sysparm_view=RPT<strong>aa6d3aec9fec3a546c1551361824ab8a</strong></em> where the bolded portion is the "sys_id" of your report).</li><li >If you have the <a href="supernow-chrome-extension.html">SuperNow chrome extension</a> installed, you will see an "unlock" icon next to the normal "personalize list" cog icon which will open up an enhanced personalize list modal that supports expanding reference fields.</li><li >If you have the <a href="https://chromewebstore.google.com/detail/jgaodbdddndbaijmcljdbglhpdhnjobg">SN Utils chrome extension</a> installed, then you can double click any of the whitespace in the personalize list modal to have an input added below the "Selected" side of the slushbucket where you can type the internal name of the dot-walked field (e.g. caller_id.email).</li><li >You can manually add a dot-walked field by:<ol><li >Opening up the personalize list modal</li><li >Adding any field you don't need</li><li >Right-click that field after adding it to the Selected side</li><li >Select "Inspect" to view that element in your browser's dev tools</li><li >Manually change the "value" attribute for that option to be the internal name of the dot-walked field (e.g. caller_id.email)</li><li >Nothing will appear to change, but when you hit the "ok" button to dismiss the modal your dot-walked column will be there</li></ol></li></ol>
+<ol><li >You can create a new report with type List and the reporting interface allows you to expand reference fields and add dot-walked columns. If want to have those same columns available in the normal list view outside of a report, then you can select a column to group the report by (ideally by a column all rows have the same value for), save the report, and then click the label of the group—which will take you to the list view with the same filter condition and the columns you specified in your report (it does this by adding a URL parameter like <em>&sysparm_view=RPT<strong>aa6d3aec9fec3a546c1551361824ab8a</strong></em> where the bolded portion is the "sys_id" of your report).</li><li >If you have the <a href="supernow-chrome-extension.html">SuperNow browser extension</a> installed, you will see an "unlock" icon next to the normal "personalize list" cog icon which will open up an enhanced personalize list modal that supports expanding reference fields.</li><li >If you have the <a href="https://chromewebstore.google.com/detail/jgaodbdddndbaijmcljdbglhpdhnjobg">SN Utils chrome extension</a> installed, then you can double click any of the whitespace in the personalize list modal to have an input added below the "Selected" side of the slushbucket where you can type the internal name of the dot-walked field (e.g. caller_id.email).</li><li >You can manually add a dot-walked field by:<ol><li >Opening up the personalize list modal</li><li >Adding any field you don't need</li><li >Right-click that field after adding it to the Selected side</li><li >Select "Inspect" to view that element in your browser's dev tools</li><li >Manually change the "value" attribute for that option to be the internal name of the dot-walked field (e.g. caller_id.email)</li><li >Nothing will appear to change, but when you hit the "ok" button to dismiss the modal your dot-walked column will be there</li></ol></li></ol>
                 <div class="related-posts-section">
                     <h3>Related Articles</h3>
                     <div class="related-posts-grid">
                         
                         <div class="related-post-card">
                             <a href="supernow-chrome-extension.html">
-                                <h4>SuperNow Chrome Extension</h4>
-                                <p>A chrome extension for ServiceNow super users that adds useful options and tools to make it easier to get around platform restrictions and limitations.</p>
+                                <h4>SuperNow Browser Extension</h4>
+                                <p>A browser extension for ServiceNow super users that adds useful options and tools to make it easier to get around platform restrictions and limitations.</p>
                                 <div class="related-post-tags">
-                                    <a href="../index.html?tag=chrome%20extension" class="tag tag-link">chrome extension</a><a href="../index.html?tag=tips%20%26%20tricks" class="tag tag-link">tips & tricks</a>
+                                    <a href="../index.html?tag=browser%20extension" class="tag tag-link">browser extension</a><a href="../index.html?tag=tips%20%26%20tricks" class="tag tag-link">tips & tricks</a>
                                 </div>
                             </a>
                         </div>
@@ -120,7 +119,7 @@
             <script src="https://utteranc.es/client.js"
                     repo="jamesamcgaha/supernow"
                     issue-term="url"
-                    label="blog comments"
+                    label="blog-comments"
                     theme="github-light"
                     crossorigin="anonymous"
                     async>
