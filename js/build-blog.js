@@ -384,7 +384,8 @@ function generatePosts() {
     
     // Adjust footer paths for blog subdirectory
     let postFooter = footerTemplate
-      .replace(/src="js\//g, 'src="../js/');
+      .replace(/src="js\//g, 'src="../js/')
+      .replace(/{{YEAR}}/g, new Date().getFullYear());
     
     // Combine header, content, and footer
     const fullHtml = postHeader + postContent + postFooter;
