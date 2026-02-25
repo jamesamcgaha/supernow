@@ -4,7 +4,6 @@ date: "2026-02-25"
 excerpt: "Level up your request forms with advanced custom inputs and components."
 author: "James McGaha"
 tags: ["development", "deep dive", "service portal"]
-hidden: true
 ---
 In general, the best catalog items are simple, straightforward, and easy to maintain. Adding custom embedded widgets to a catalog form can often make support and future enhancements more complicated and confusing. However, when used correctly, reusable custom widgets can add significant value across your whole catalog while introducing minimal additional complexity. 
 
@@ -100,9 +99,9 @@ api.controller=function($scope, $rootScope) {
 			Applies for type: "field", "block-skeleton", and "block-loader"
 			
 		EXAMPLES:
-		{type: 'field', field: 'test' disableField: false}
-		{type: 'block-loader', field: 'test', action: 'show'}
-		{text: 'Loading form data . . . '}
+		{"type": "field", "field": "test", "disableField": false}
+		{"type": "block-loader", "field": "test", "action": "show"}
+		{"text": "Loading form data . . . ""}
 	*/
 	var fieldChangeListener = $rootScope.$on("field.change."+$scope.page.field.name, function(evt, parms) {
 		if(parms.newValue){
