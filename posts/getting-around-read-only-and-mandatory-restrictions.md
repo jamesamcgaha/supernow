@@ -24,7 +24,8 @@ If you don't have that extension, then you can use any REST client to manually m
 If you have the [SuperNow Browser Extension](supernow-chrome-extension.html) installed, then you can just use the "Unlock Form" button it adds to the form header.
 
 If you don't have that extension, then you can still accomplish the same result by using Ctrl+Shift+J and running the below code in the browser dev tools' console (or the ServiceNow "Javascript Executor" if you have admin):
-```if(typeof g_form === 'undefined') this.g_form = window.frames["gsft_main"].g_form;
+```javascript
+if(typeof g_form === 'undefined') this.g_form = window.frames["gsft_main"].g_form;
 g_form.getSectionNames().forEach(section=>
     g_form.setSectionDisplay(section,true)
 );
@@ -39,24 +40,31 @@ g_form.nameMap.forEach(field=>{
     g_form.setDisplay(field.prettyName,true);
     g_form.setReadOnly(field.prettyName,false);
     g_form.setMandatory(field.prettyName,false);
-});```
+});
+```
 Note: the first line is only there to handle the case when the navigation frame is present and the browser console has to get g_form from the iframe that contains the form.
 
 If you plan to use this often and don't have the SuperNow browser extension, then it might be useful to set up a "bookmarklet" for this by creating a bookmark and putting the below code as the "URL" value for the bookmark, and then you can just click that bookmark to run the code (it's essentially the same code as above, just set up to be a single line):
-```javascript:var f=window.frames["gsft_main"]!==undefined?window.frames["gsft_main"].g_form:g_form;f.getSectionNames().forEach(section=>f.setSectionDisplay(section,true));f.elements.forEach(field=>{f.setVisible(field.fieldName,true);f.setDisplay(field.fieldName,true);f.setReadOnly(field.fieldName,false);f.setMandatory(field.fieldName,false);});f.nameMap.forEach(field=>{f.setVisible(field.prettyName,true);f.setDisplay(field.prettyName,true);f.setReadOnly(field.prettyName,false);f.setMandatory(field.prettyName,false);}); ```
+```javascript
+javascript:var f=window.frames["gsft_main"]!==undefined?window.frames["gsft_main"].g_form:g_form;f.getSectionNames().forEach(section=>f.setSectionDisplay(section,true));f.elements.forEach(field=>{f.setVisible(field.fieldName,true);f.setDisplay(field.fieldName,true);f.setReadOnly(field.fieldName,false);f.setMandatory(field.fieldName,false);});f.nameMap.forEach(field=>{f.setVisible(field.prettyName,true);f.setDisplay(field.prettyName,true);f.setReadOnly(field.prettyName,false);f.setMandatory(field.prettyName,false);});
+```
 You can also use this approach to run any other client scripts you might need (whether you just want to directly use *g_form.setValue* or if you need a more complicated script like a GlideAjax call)—just make sure to include that first line to find the g_form object if the navigation frame is present.
 ### Service Portal
 While in the Service Portal (filling out a catalog item, on a portal page with the Form widget, etc.), the process is the same as Approach 2 but you'll need a slightly different script:
-```var formScope = angular.element($("sp-variable-layout")).scope();
+```javascript
+var formScope = angular.element($("sp-variable-layout")).scope();
 var g_form = formScope.getGlideForm() || formScope.$parent.getGlideForm(); 
 g_form.getFieldNames().forEach(field=>{
     g_form.setVisible(field,true);
     g_form.setDisplay(field,true);
     g_form.setReadOnly(field,false);
     g_form.setMandatory(field,false);
-});```
+});
+```
 And the single-line version if you want to create a bookmarklet:
-```javascript:var formScope = angular.element($("sp-variable-layout")).scope();var g_form=formScope.getGlideForm()||formScope.$parent.getGlideForm();g_form.getFieldNames().forEach(field=>{g_form.setVisible(field,true);g_form.setDisplay(field,true);g_form.setReadOnly(field,false);g_form.setMandatory(field,false);});```
+```javascript
+javascript:var formScope = angular.element($("sp-variable-layout")).scope();var g_form=formScope.getGlideForm()||formScope.$parent.getGlideForm();g_form.getFieldNames().forEach(field=>{g_form.setVisible(field,true);g_form.setDisplay(field,true);g_form.setReadOnly(field,false);g_form.setMandatory(field,false);});
+```
 Note: if you're on a Service Portal page but not a page for a catalog item or form that would have g_form, you can still access the client logic for the widgets and get around any non-server-side restrictions that may be in place:
 1. This line is useful for quickly showing any elements that are not shown because of an ng-show/ng-hide attribute: `$('.ng-hide').removeClass('ng-hide');`
 2. For more advanced options like modifying the client data for widgets, this knowledge article is very helpful: [KB0677496: Debugging Service Portal Widgets](https://support.servicenow.com/kb?id=kb_article_view&sysparm_article=KB0677496) 

@@ -149,7 +149,7 @@
     padding: 1.5rem;
     border-radius: 8px;
     overflow-x: auto;
-    margin: 1.5rem 0;
+    margin: 0;
     border: 1px solid #334155;
     white-space: pre-wrap;
     word-wrap: break-word;
@@ -159,6 +159,12 @@
     background: transparent;
     padding: 0;
     color: inherit;
+}
+
+/* Prevent highlight.js from overriding the pre container's background/padding */
+.post-body pre code.hljs {
+    background: transparent;
+    padding: 0;
 }
 
 .post-body a {
@@ -182,6 +188,139 @@
     word-wrap: break-word;
     overflow-wrap: break-word;
     word-break: break-word;
+}
+
+/* Tabbed code/screenshot blocks */
+.code-tabs {
+    margin: 1.5rem 0;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #334155;
+}
+
+.tab-buttons {
+    display: flex;
+    background: #1e293b;
+    border-bottom: 1px solid #334155;
+}
+
+.tab-btn {
+    background: transparent;
+    border: none;
+    border-right: 1px solid #334155;
+    color: #94a3b8;
+    padding: 0.35rem 0.9rem;
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-weight: 500;
+    font-family: inherit;
+    transition: color 0.2s, background 0.2s;
+}
+
+.tab-btn:hover {
+    color: #e2e8f0;
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.tab-btn.active {
+    color: #e2e8f0;
+    background: rgba(102, 126, 234, 0.15);
+    border-bottom: 2px solid #667eea;
+}
+
+.tab-panel {
+    display: none;
+}
+
+.tab-panel.active {
+    display: block;
+}
+
+/* Code panels — dark, scrollable */
+.tab-panel-code {
+    background: #1e293b;
+    position: relative;
+}
+
+.tab-panel-code pre {
+    font-size: 12px;
+    margin: 0;
+    border: none;
+    border-radius: 0;
+    max-height: 360px;
+    overflow-y: auto;
+    padding: 0 0.75rem;
+}
+
+/* Copy button inside tab panels */
+.copy-btn {
+    position: absolute;
+    top: 0.4rem;
+    right: 0.5rem;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid #334155;
+    border-radius: 4px;
+    color: #94a3b8;
+    padding: 0.25rem 0.5rem;
+    cursor: pointer;
+    font-size: 0.75rem;
+    transition: color 0.2s, background 0.2s;
+    z-index: 1;
+}
+
+.copy-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: #e2e8f0;
+}
+
+.copy-btn::after {
+    content: 'Copy';
+    position: absolute;
+    bottom: calc(100% + 6px);
+    right: 0;
+    background: #0f172a;
+    color: #e2e8f0;
+    font-size: 0.7rem;
+    padding: 0.2rem 0.45rem;
+    border-radius: 4px;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.15s;
+}
+
+.copy-btn:hover::after {
+    opacity: 1;
+}
+
+/* Line numbers inside tab panels */
+.tab-panel-code .hljs-ln-numbers {
+    user-select: none;
+    text-align: right;
+    color: #475569;
+    border-right: 1px solid #334155;
+    padding: 0 0.75rem 0 0.5rem;
+    min-width: 2rem;
+}
+
+.tab-panel-code .hljs-ln-code {
+    padding-left: 1rem;
+}
+
+/* Screenshot / text panels — light */
+.tab-panel-light {
+    background: #f8fafc;
+    padding: 0.75rem 1rem;
+    color: #4a5568;
+}
+
+.tab-panel-light img {
+    max-height: 336px;
+    max-width: 100%;
+    display: block;
+    margin: 0 auto;
+    border-radius: 6px;
+    border: 1px solid #e2e8f0;
 }
 
 /* Back link */
@@ -400,4 +539,29 @@
         padding: 0.75rem 1rem;
         margin: 1rem 0;
     }
+}
+
+/* Line number table (replaces highlightjs-line-numbers.js CDN plugin) */
+.hljs-ln {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.hljs-ln td {
+    padding: 0;
+}
+
+.hljs-ln-numbers {
+    user-select: none;
+    text-align: right;
+    color: #636d83;
+    border-right: 1px solid #3e4451;
+    padding-right: 0.75em;
+    vertical-align: top;
+    white-space: nowrap;
+    width: 1%;
+}
+
+.hljs-ln-code {
+    padding-left: 0.75em;
 }

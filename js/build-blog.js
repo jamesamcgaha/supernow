@@ -1,5 +1,9 @@
 const fs = require('fs');
+const hljs = require('highlight.js');
 const path = require('path');
+
+// Global counter to ensure unique tab IDs across all posts
+let globalTabCounter = 0;
 
 const postsDirectory = path.join(__dirname, '..', 'posts');
 const outputDirectory = path.join(__dirname);
@@ -49,57 +53,155 @@ function parseFrontmatter(fileContents) {
   return { data, content: contentLines.join('\n') };
 }
 
-// Helper function to nest list items based on indentation
-function nestListItems(listItemsHtml, listType) {
-  const items = listItemsHtml.match(/<li class="[^"]*"[^>]*>.*?<\/li>/g) || [];
-  if (items.length === 0) return listItemsHtml;
-  
-  let result = '';
-  let i = 0;
-  
-  function processItems(currentIndent) {
-    let html = '';
-    
-    while (i < items.length) {
-      const item = items[i];
-      const indentMatch = item.match(/data-indent="(\d+)"/);
-      const indent = indentMatch ? parseInt(indentMatch[1]) : 0;
-      
-      if (indent < currentIndent) {
-        // We've outdented, return to parent level
+// Detect list marker type and nesting level for a line.
+// Returns { level, type, content } or null if not a list item.
+function detectListMarker(line) {
+  const trimmed = line.trimStart();
+  const spaces = line.length - trimmed.length;
+  const spaceLevel = Math.floor(spaces / 4);
+
+  // Uppercase alpha (A., B., C., etc.) - minimum level 1
+  if (/^[A-Z]\.\s/.test(trimmed)) {
+    return { level: Math.max(spaceLevel, 1), type: 'ol', content: trimmed.replace(/^[A-Z]\.\s/, '') };
+  }
+
+  // Lowercase roman numerals (i., ii., iii., iv., v., vi., vii., viii., ix., x., xi., xii., xiii., xiv., xv.)
+  // minimum level 2
+  if (/^(?:i{1,3}|iv|vi{0,3}|ix|x(?:i{0,3}|iv|v)?)\.\s/.test(trimmed)) {
+    return { level: Math.max(spaceLevel, 2), type: 'ol', content: trimmed.replace(/^[ivx]+\.\s/, '') };
+  }
+
+  // Decimal numbers (1., 2., etc.) - level based on indentation
+  if (/^\d+\.\s/.test(trimmed)) {
+    return { level: spaceLevel, type: 'ol', content: trimmed.replace(/^\d+\.\s/, '') };
+  }
+
+  // Unordered bullet items (-, *, +)
+  if (/^[-*+]\s/.test(trimmed)) {
+    return { level: spaceLevel, type: 'ul', content: trimmed.replace(/^[-*+]\s/, '') };
+  }
+
+  // Other alphanumeric markers (catch-all: a., b., c., etc.)
+  if (/^[A-Za-z0-9]+\.\s/.test(trimmed)) {
+    return { level: spaceLevel, type: 'ol', content: trimmed.replace(/^[A-Za-z0-9]+\.\s/, '') };
+  }
+
+  return null;
+}
+
+// Parse a list block starting at lines[startI].
+// Recursively handles nested lists and includes non-list content in the preceding list item.
+// Returns { listNode, nextI }.
+function parseListBlock(lines, startI) {
+  const firstMarker = detectListMarker(lines[startI]);
+  if (!firstMarker) return null;
+
+  const listLevel = firstMarker.level;
+  const listType = firstMarker.type;
+  const items = [];
+  let currentItem = null;
+  let i = startI;
+
+  while (i < lines.length) {
+    const line = lines[i];
+    const trimmed = line.trim();
+    const marker = detectListMarker(line);
+
+    if (marker) {
+      if (marker.level < listLevel || (marker.level === listLevel && marker.type !== listType)) {
+        // Shallower level or different list type at same level - end this list
         break;
-      }
-      
-      if (indent > currentIndent) {
-        // Skip - will be handled by parent
-        break;
-      }
-      
-      // Same level - process this item
-      const content = item.replace(/class="[^"]*"\s*data-indent="\d+"\s*>/, '>').replace(/<\/li>$/, '');
-      i++;
-      
-      // Check if next item is nested
-      if (i < items.length) {
-        const nextIndentMatch = items[i].match(/data-indent="(\d+)"/);
-        const nextIndent = nextIndentMatch ? parseInt(nextIndentMatch[1]) : 0;
-        
-        if (nextIndent > indent) {
-          // Has nested items
-          html += content + `<${listType}>` + processItems(nextIndent) + `</${listType}></li>`;
-        } else {
-          html += content + '</li>';
-        }
+      } else if (marker.level === listLevel) {
+        // Same level, same type - start a new item
+        if (currentItem) items.push(currentItem);
+        currentItem = { content: marker.content, subLists: [], extraContent: [] };
+        i++;
       } else {
-        html += content + '</li>';
+        // Deeper level - parse as a nested list under the current item
+        if (!currentItem) {
+          currentItem = { content: '', subLists: [], extraContent: [] };
+        }
+        const result = parseListBlock(lines, i);
+        if (result) {
+          currentItem.subLists.push(result.listNode);
+          i = result.nextI;
+          // If the next line is non-list content, end this list so the
+          // paragraph isn't absorbed into the current item's extraContent
+          if (i < lines.length && lines[i].trim() && !detectListMarker(lines[i])) {
+            break;
+          }
+        } else {
+          i++;
+        }
+      }
+    } else {
+      if (!trimmed) {
+        // Blank line - look ahead to see if the list continues
+        let j = i + 1;
+        while (j < lines.length && !lines[j].trim()) j++;
+        if (j >= lines.length || !detectListMarker(lines[j])) {
+          // Next non-blank content is not a list item - end this list,
+          // consuming the trailing blank lines so they don't become <br> tags
+          i = j;
+          break;
+        }
+        // Skip blank lines and keep going
+        i = j;
+      } else if (/^<h[1-6]>/.test(trimmed)) {
+        // Heading ends the list
+        break;
+      } else {
+        // Non-list content between markers - append to current item
+        if (currentItem) {
+          currentItem.extraContent.push(line);
+        }
+        i++;
       }
     }
-    
-    return html;
   }
-  
-  result = processItems(0);
-  return `<${listType}>` + result + `</${listType}>`;
+
+  if (currentItem) items.push(currentItem);
+  return { listNode: { type: 'list', listType, items }, nextI: i };
+}
+
+// Render a parsed list node to HTML string.
+function renderListNode(listNode) {
+  const tag = listNode.listType;
+  const itemsHtml = listNode.items.map(item => {
+    // Render extra content (code block placeholders, paragraphs) inside the <li>
+    const extraHtml = item.extraContent.map(line => {
+      const trimmed = line.trim();
+      if (!trimmed) return '';
+      if (/^___CODEBLOCK_\d+___$/.test(trimmed)) return trimmed;
+      if (/^___TABBLOCK_\d+___$/.test(trimmed)) return trimmed;
+      if (/^<(h[1-6]|ul|ol|li|pre|div|blockquote|hr|table|br)/.test(trimmed)) return trimmed;
+      return `<p>${trimmed}</p>`;
+    }).filter(Boolean).join('\n');
+
+    // Render any nested sub-lists
+    const subListsHtml = item.subLists.map(renderListNode).join('\n');
+
+    const innerContent = item.content +
+      (extraHtml ? '\n' + extraHtml : '') +
+      (subListsHtml ? '\n' + subListsHtml : '');
+
+    return `<li>${innerContent}</li>`;
+  }).join('\n');
+
+  return `<${tag}>\n${itemsHtml}\n</${tag}>`;
+}
+
+function escapeHtml(str) {
+  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+function addLineNumbers(highlightedHtml) {
+  const lines = highlightedHtml.split('\n');
+  if (lines[lines.length - 1] === '') lines.pop();
+  const rows = lines.map((line, i) =>
+    `<tr><td class="hljs-ln-numbers"><div class="hljs-ln-n">${i + 1}</div></td><td class="hljs-ln-code">${line}</td></tr>`
+  ).join('');
+  return `<table class="hljs-ln"><tbody>${rows}</tbody></table>`;
 }
 
 // Simple markdown to HTML converter
@@ -108,15 +210,82 @@ function markdownToHtml(markdown) {
     // Clean up Windows line endings
     .replace(/\r\n/g, '\n')
     .replace(/\r/g, '\n');
-  
-  // Process code blocks first and protect them from inline code processing
-  const codeBlocks = [];
-  html = html.replace(/```([\s\S]*?)```/gm, function(match, code) {
-    const placeholder = `___CODEBLOCK_${codeBlocks.length}___`;
-    codeBlocks.push('<pre><code>' + code + '</code></pre>');
+
+  // Extract tab blocks first (they contain code fences which must be handled separately)
+  const tabBlocks = [];
+  html = html.replace(/:::tabs\n([\s\S]*?):::endtabs/gm, function(_, innerContent) {
+    const placeholder = `___TABBLOCK_${tabBlocks.length}___`;
+    const blockId = `tabs-${globalTabCounter++}`;
+
+    // Split on :::tab lines to get individual tabs
+    const tabParts = innerContent.split(/(?=:::tab )/);
+    const tabs = [];
+    for (const part of tabParts) {
+      const m = part.match(/^:::tab ([^\n]+)\n?([\s\S]*)/);
+      if (m) {
+        tabs.push({ name: m[1].trim(), content: (m[2] || '').trimEnd() });
+      }
+    }
+
+    const buttons = tabs.map((tab, idx) => {
+      const cls = idx === 0 ? ' active' : '';
+      return `<button class="tab-btn${cls}" onclick="switchTab(this,'${blockId}-${idx}')">${tab.name}</button>`;
+    }).join('');
+
+    const panels = tabs.map((tab, idx) => {
+      const cls = idx === 0 ? ' active' : '';
+      let content = tab.content.trim();
+
+      // Code panels get a dark background; screenshot/text panels get a light one
+      const hasCodeBlock = /```[\s\S]*?```/.test(content);
+      const panelType = hasCodeBlock ? 'tab-panel-code' : 'tab-panel-light';
+
+      // Process code fences within this tab (with syntax highlighting and line numbers)
+      content = content.replace(/```(\w*)\n?([\s\S]*?)```/gm, (_, lang, code) => {
+        const rawCode = code.replace(/\n$/, '');
+        let codeHtml;
+        if (lang && hljs.getLanguage(lang)) {
+          const highlighted = hljs.highlight(rawCode, { language: lang }).value;
+          codeHtml = addLineNumbers(highlighted);
+        } else {
+          codeHtml = escapeHtml(rawCode);
+        }
+        const langClass = lang ? ` class="hljs language-${lang}"` : ' class="hljs"';
+        return `<pre><code${langClass}>${codeHtml}</code></pre>`;
+      });
+
+      // Process basic inline markdown
+      content = content
+        .replace(/!\[([^\]]*)\]\(([^)]*)\)/gim, '<img src="$2" alt="$1" />')
+        .replace(/\[([^\]]*)\]\(([^)]*)\)/gim, '<a href="$2">$1</a>')
+        .replace(/\*\*(.*?)\*\*/gim, '<strong>$1</strong>')
+        .replace(/`([^`]*)`/gim, '<code>$1</code>');
+
+      const copyBtn = panelType === 'tab-panel-code' ? '<button class="copy-btn" title="Copy code"><i class="fas fa-copy"></i></button>' : '';
+      return `<div id="${blockId}-${idx}" class="tab-panel ${panelType}${cls}">${content}${copyBtn}</div>`;
+    }).join('');
+
+    const tabHtml = `<div class="code-tabs"><div class="tab-buttons">${buttons}</div><div class="tab-panels">${panels}</div></div>`;
+    tabBlocks.push(tabHtml);
     return placeholder;
   });
-  
+
+  // Process code blocks first and protect them from inline code processing
+  const codeBlocks = [];
+  html = html.replace(/```(\w*)\n?([\s\S]*?)```/gm, function(match, lang, code) {
+    const placeholder = `___CODEBLOCK_${codeBlocks.length}___`;
+    const rawCode = code.replace(/\n$/, '');
+    let codeHtml;
+    if (lang && hljs.getLanguage(lang)) {
+      codeHtml = hljs.highlight(rawCode, { language: lang }).value;
+    } else {
+      codeHtml = escapeHtml(rawCode);
+    }
+    const langClass = lang ? ` class="hljs language-${lang}"` : ' class="hljs"';
+    codeBlocks.push(`<pre><code${langClass}>${codeHtml}</code></pre>`);
+    return placeholder;
+  });
+
   html = html
     // Headers
     .replace(/^### (.*$)/gim, '<h3>$1</h3>')
@@ -131,58 +300,53 @@ function markdownToHtml(markdown) {
     // Links
     .replace(/\[([^\]]*)\]\(([^)]*)\)/gim, '<a href="$2">$1</a>')
     // Inline code (now safe since code blocks are protected)
-    .replace(/`([^`]*)`/gim, '<code>$1</code>')
-    // Lists - handle each line separately with nesting support
-    .split('\n')
-    .map(line => {
-      // Detect indentation level (4 spaces = 1 level)
-      const leadingSpaces = line.match(/^( *)/)[1].length;
-      const indentLevel = Math.floor(leadingSpaces / 4);
-      const trimmed = line.trim();
-      
-      // Bullet lists
-      if (trimmed.startsWith('- ')) {
-        return `<li class="ul-item" data-indent="${indentLevel}">${trimmed.substring(2)}</li>`;
+    .replace(/`([^`]*)`/gim, '<code>$1</code>');
+
+  // Process lines with stateful, context-aware list handling
+  const lines = html.split('\n');
+  const resultParts = [];
+  let i = 0;
+
+  while (i < lines.length) {
+    const line = lines[i];
+    const marker = detectListMarker(line);
+
+    if (marker) {
+      // Parse the complete list block (including nested items and their embedded content)
+      const result = parseListBlock(lines, i);
+      if (result) {
+        resultParts.push(renderListNode(result.listNode));
+        i = result.nextI;
+      } else {
+        i++;
       }
-      
-      // Any numbered/lettered lists (1. A. a. i. etc.)
-      if (/^[A-Za-z0-9]+\.\s/.test(trimmed)) {
-        return `<li class="ol-item" data-indent="${indentLevel}">${trimmed.replace(/^[A-Za-z0-9]+\.\s/, '')}</li>`;
-      }
-      
-      return line;
-    })
-    .join('\n')
-    // Paragraphs - split by single newlines for line-by-line processing
-    .split('\n')
-    .map(line => {
+    } else {
       const trimmed = line.trim();
-      // Empty lines become line breaks for spacing
-      if (!trimmed) return '<br>';
-      // Don't wrap if already a block-level HTML element or list item
-      if (/^<(h[1-6]|ul|ol|li|pre|div|blockquote|hr|table|br)/.test(trimmed)) return trimmed;
-      // Don't wrap placeholders
-      if (/^___CODEBLOCK_\d+___$/.test(trimmed)) return trimmed;
-      // Wrap everything else in paragraph tag (including lines with inline elements like <strong>, <code>, etc.)
-      return '<p>' + trimmed + '</p>';
-    })
-    .join('\n')
-    // NOW group consecutive bullet list items with nesting (after paragraph processing)
-    .replace(/(?:<li class="ul-item"[^>]*>.*?<\/li>(?:\n|<br>)*)+/g, function(match) {
-      // Remove any <br> tags that got in between list items
-      const cleaned = match.replace(/<br>/g, '\n');
-      return nestListItems(cleaned, 'ul');
-    })
-    // Group consecutive numbered list items with nesting (after paragraph processing)
-    .replace(/(?:<li class="ol-item"[^>]*>.*?<\/li>(?:\n|<br>)*)+/g, function(match) {
-      // Remove any <br> tags that got in between list items
-      const cleaned = match.replace(/<br>/g, '\n');
-      return nestListItems(cleaned, 'ol');
-    });
-  
+      if (!trimmed) {
+        resultParts.push('<br>');
+      } else if (/^<(h[1-6]|ul|ol|li|pre|div|blockquote|hr|table|br)/.test(trimmed)) {
+        resultParts.push(trimmed);
+      } else if (/^___CODEBLOCK_\d+___$/.test(trimmed)) {
+        resultParts.push(trimmed);
+      } else if (/^___TABBLOCK_\d+___$/.test(trimmed)) {
+        resultParts.push(trimmed);
+      } else {
+        resultParts.push('<p>' + trimmed + '</p>');
+      }
+      i++;
+    }
+  }
+
+  html = resultParts.join('\n');
+
   // Restore code blocks
   codeBlocks.forEach((block, index) => {
     html = html.replace(`___CODEBLOCK_${index}___`, block);
+  });
+
+  // Restore tab blocks
+  tabBlocks.forEach((block, index) => {
+    html = html.replace(`___TABBLOCK_${index}___`, block);
   });
 
   return html;
@@ -191,7 +355,7 @@ function markdownToHtml(markdown) {
 // Function to calculate related posts based on shared tags
 function calculateRelatedPosts(currentPost, allPosts, maxResults = 3) {
   const relatedPosts = allPosts
-    .filter(post => post.id !== currentPost.id)
+    .filter(post => post.id !== currentPost.id && !post.hidden)
     .map(post => {
       const sharedTags = currentPost.tags.filter(tag => 
         post.tags.some(pTag => pTag.toLowerCase().includes(tag.toLowerCase()) || 
@@ -266,8 +430,8 @@ function generateSitemap(posts = []) {
     xml += '  </url>\n';
   });
   
-  // Add blog posts
-  posts.forEach(post => {
+  // Add blog posts (exclude hidden posts from sitemap)
+  posts.filter(post => !post.hidden).forEach(post => {
     const postUrl = `/blog/${post.id}.html`;
     xml += '  <url>\n';
     xml += `    <loc>${SITE_URL}${postUrl}</loc>\n`;
@@ -320,7 +484,8 @@ function generatePosts() {
         author: data.author || 'Anonymous',
         tags: data.tags || [],
         content: markdownToHtml(content),
-        isFavorite: favoritePostIds.includes(id)
+        isFavorite: favoritePostIds.includes(id),
+        hidden: data.hidden === 'true'
       };
     })
     .sort((a, b) => {
@@ -405,10 +570,12 @@ function generatePosts() {
   console.log('Updating index.html with pre-rendered posts...');
   const indexPath = path.join(rootDirectory, 'index.html');
   let indexHtml = fs.readFileSync(indexPath, 'utf8');
-  
+
+  const visiblePosts = posts.filter(post => !post.hidden);
+
   // Calculate tag counts
   const tagCounts = {};
-  posts.forEach(post => {
+  visiblePosts.forEach(post => {
     if (post.tags && Array.isArray(post.tags)) {
       post.tags.forEach(tag => {
         tagCounts[tag] = (tagCounts[tag] || 0) + 1;
@@ -427,7 +594,7 @@ function generatePosts() {
   const hiddenTags = sortedTags.slice(maxTagsMobile);
   
   const tagTabsHtml = `        <button class="tag-tab active" data-tag="all">
-            All Posts<span class="tag-count">${posts.length}</span>
+            All Posts<span class="tag-count">${visiblePosts.length}</span>
         </button>
         ${visibleTags.map(tag => `
         <button class="tag-tab" data-tag="${tag.name}">
@@ -441,7 +608,7 @@ function generatePosts() {
         </button>` : ''}`;
   
   // Generate HTML for all blog posts
-  const blogPostsHtml = posts.map(post => {
+  const blogPostsHtml = visiblePosts.map(post => {
     const postTags = post.tags && post.tags.length > 0 
       ? post.tags.map(tag => `<button class="tag tag-clickable" data-tag="${tag}">${tag}</button>`).join('')
       : '';

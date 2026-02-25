@@ -115,53 +115,81 @@ For each example I've included the raw SQL logic that each query executes (to ge
 
 Note: for any SQL statements shown that include `SELECT * FROM` or `SELECT DISTINCT * FROM`, technically the gs.trace() doesn't ever use * and instead lists out all fields from the table being query. For readability, I have replaced anywhere it lists out all columns for a table with *.
 ### RLQUERY
-```var gr = new GlideRecord('sys_user');
+```javascript
+var gr = new GlideRecord('sys_user');
 gr.addEncodedQuery('active=true^RLQUERYsys_user_group.manager,>=1^active=true^ENDRLQUERY');
-gr.query();```
+gr.query();
+```
 This query runs the following SQL:
-```SELECT sys_user0.`sys_id` FROM (sys_user sys_user0  INNER JOIN sys_user_group sj0 ON sj0.`manager`=sys_user0.`sys_id` AND sj0.`active` = 1 )  WHERE sys_user0.`active` = 1 GROUP BY sys_user0.`sys_id` HAVING count(sj0.`sys_id`) >= 1```
+```sql
+SELECT sys_user0.`sys_id` FROM (sys_user sys_user0  INNER JOIN sys_user_group sj0 ON sj0.`manager`=sys_user0.`sys_id` AND sj0.`active` = 1 )  WHERE sys_user0.`active` = 1 GROUP BY sys_user0.`sys_id` HAVING count(sj0.`sys_id`) >= 1
+```
+
 Notes:
 1. Only option that includes the `GROUP BY . . . HAVING` syntax.
 2. The related table condition is included within the JOIN statement.
 3. `INNER JOIN` changes to `LEFT JOIN` when the querying for no matching related records.
 ### SUBQUERY
-```var gr = new GlideRecord('sys_user');
+```javascript
+var gr = new GlideRecord('sys_user');
 gr.addEncodedQuery('active=true^SUBQUERYsys_id,manager,sys_user_group^active=true^ENDSUBQUERY');
-gr.query();```
+gr.query();
+```
 This query runs the following SQL:
-```SELECT DISTINCT sys_user_group0.`manager` FROM sys_user_group sys_user_group0  WHERE sys_user_group0.`active` = 1 ```
-```SELECT * FROM sys_user sys_user0  WHERE sys_user0.`active` = 1 AND sys_user0.`sys_id` IN ('46d44a23a9fe19810012d100cca80666' , '506c0f9cd7011200f2d224837e61030f' , '62826bf03710200044e0bfc8bcbe5df1' , '9ee1b13dc6112271007f9d0efdb69cd0' , 'a8f98bb0eb32010045e1a5115206fe3a' , 'b6b364e253131300e321ddeeff7b121b' , 'cf1ec0b4530360100999ddeeff7b129f' , 'f298d2d2c611227b0106c6be7f154bc8')```
+```sql
+SELECT DISTINCT sys_user_group0.`manager` FROM sys_user_group sys_user_group0  WHERE sys_user_group0.`active` = 1 
+```
+
+```sql
+SELECT * FROM sys_user sys_user0  WHERE sys_user0.`active` = 1 AND sys_user0.`sys_id` IN ('46d44a23a9fe19810012d100cca80666' , '506c0f9cd7011200f2d224837e61030f' , '62826bf03710200044e0bfc8bcbe5df1' , '9ee1b13dc6112271007f9d0efdb69cd0' , 'a8f98bb0eb32010045e1a5115206fe3a' , 'b6b364e253131300e321ddeeff7b121b' , 'cf1ec0b4530360100999ddeeff7b129f' , 'f298d2d2c611227b0106c6be7f154bc8')
+```
+
 Notes:
 1. Only option that splits the SQL into more than one statement. The subqueries are actually executed when addEncodedQuery() is run and then the values returned by the subqueries are included within the main query that only executes when query() is run.
 2. True to its name, technically performs a subquery rather than doing a true database join.
 ### JOIN
-```var gr = new GlideRecord('sys_user');
+```javascript
+var gr = new GlideRecord('sys_user');
 gr.addEncodedQuery('active=true^JOINsys_user.sys_id=sys_user_group.manager!active=true');
-gr.query();```
+gr.query();
+```
 This query runs the following SQL:
-```SELECT DISTINCT * FROM (sys_user sys_user0  INNER JOIN sys_user_group sys_user_group0 ON sys_user0.`sys_id` = sys_user_group0.`manager` )  WHERE sys_user0.`active` = 1 AND sys_user_group0.`active` = 1```
+```sql
+SELECT DISTINCT * FROM (sys_user sys_user0  INNER JOIN sys_user_group sys_user_group0 ON sys_user0.`sys_id` = sys_user_group0.`manager` )  WHERE sys_user0.`active` = 1 AND sys_user_group0.`active` = 1
+```
+
 Notes:
 1. All join statements are moved to the front and the base table and related table conditions are all combined into one WHERE clause at the end. Understanding this helps explain the behavior using ^OR or ^NQ. For example, an encoded query like `condition`**^ORJOIN**`table_1_join`**!**`table_1_condition`**^ORJOIN**`table_2_join`**!**`table_2_condition` should be considered to actually work like **JOIN**`table_1_join`**^JOIN**`table_2_join`**^**`condition`**^OR**`table_1_condition`**^OR**`table_2_condition`
 2. If the main table being queried or the joined table is a child table (like incident), then the joins are performed using the base table (like task). Also, if there is a storage alias for the column, then that is used instead and it's possible that a different child table uses that same alias for a different field. For more details, refer to Example 1 under Further Examples.
 ### addJoinQuery
-```var gr = new GlideRecord('sys_user');
+```javascript
+var gr = new GlideRecord('sys_user');
 gr.addEncodedQuery('active=true');
 var join = gr.addJoinQuery('sys_user_group', 'sys_id', 'manager');
 join.addCondition('active', 'true');
-gr.query();```
+gr.query();
+```
 This query runs the following SQL:
-```SELECT * FROM sys_user sys_user0  WHERE sys_user0.`active` = 1 AND sys_user0.`sys_id` IN (SELECT sys_user_group0.`manager` FROM sys_user_group sys_user_group0  WHERE sys_user_group0.`active` = 1 ORDER BY sys_user_group0.`sys_id`)```
+```sql
+SELECT * FROM sys_user sys_user0  WHERE sys_user0.`active` = 1 AND sys_user0.`sys_id` IN (SELECT sys_user_group0.`manager` FROM sys_user_group sys_user_group0  WHERE sys_user_group0.`active` = 1 ORDER BY sys_user_group0.`sys_id`
+```
+
 Notes:
 1. Despite its name, this performs a subquery rather than a true database join. It's essentially the same as using SUBQUERY, except it is all executed as one SQL query.
 2. Includes an ORDER BY statement at the end. For these 4 example GlideRecord queries listed here, I noticed that addJoinQuery and JOIN returned the users in the same order while RLQUERY and SUBQUERY shared a different ordering of the users.
 ### Database view
 Assuming that a sys_db_view record, "u_sys_user_group_managers", has already been created by joining sys_user and sys_user_group with a where clause for the sys_user_group view table like `group_manager = user_sys_id`.
-```var gr = new GlideAggregate('u_sys_user_group_managers');
+```javascript
+var gr = new GlideAggregate('u_sys_user_group_managers');
 gr.addEncodedQuery('group_active=true^user_active=true');
 gr.groupBy('user_sys_id');
-gr.query();```
+gr.query();
+```
 This query runs the following SQL:
-```SELECT `user`.`sys_id` AS `user_sys_id` FROM (sys_user_group `group`  INNER JOIN sys_user `user` ON `group`.`manager`  = `user`.`sys_id`  )  WHERE `group`.`active` = 1 AND `user`.`active` = 1 GROUP BY `user`.`sys_id` ORDER BY `user`.`sys_id` ```
+```sql
+SELECT `user`.`sys_id` AS `user_sys_id` FROM (sys_user_group `group`  INNER JOIN sys_user `user` ON `group`.`manager`  = `user`.`sys_id`  )  WHERE `group`.`active` = 1 AND `user`.`active` = 1 GROUP BY `user`.`sys_id` ORDER BY `user`.`sys_id` 
+```
+
 Notes:
 1. Similar to the other true database joins, RLQUERY and JOIN.
 2. Can add additional fields to be returned by including additional groupBy statements.
@@ -169,7 +197,11 @@ Notes:
 ## Further Examples
 ### Example 1: JOIN with ^OR and child tables
 `name=Ron Sorokin^ORJOINsys_user.sys_id=incident.caller_id!active=true^^sys_class_name=incident^ORJOINsys_user.sys_id=problem.opened_by!active=true^^sys_class_name=problem`
-```SELECT DISTINCT * FROM ((sys_user sys_user0  INNER JOIN task task0 ON sys_user0.`sys_id` = task0.`a_ref_4` )  INNER JOIN task task1 ON sys_user0.`sys_id` = task1.`opened_by` )  WHERE (sys_user0.`name` = 'Ron Sorokin' OR (task0.`active` = 1 AND task0.`sys_class_name` = 'incident') OR (task1.`active` = 1 AND task1.`sys_class_name` = 'problem'))```
+
+```sql
+SELECT DISTINCT * FROM ((sys_user sys_user0  INNER JOIN task task0 ON sys_user0.`sys_id` = task0.`a_ref_4` )  INNER JOIN task task1 ON sys_user0.`sys_id` = task1.`opened_by` )  WHERE (sys_user0.`name` = 'Ron Sorokin' OR (task0.`active` = 1 AND task0.`sys_class_name` = 'incident') OR (task1.`active` = 1 AND task1.`sys_class_name` = 'problem'))
+```
+
 You might expect that this query would return:
 1. Ron Sorokin
 2. All users listed as the caller in an active incident
@@ -185,8 +217,21 @@ So, if Ron is not listed as the "opened_by" value in any record in the task tabl
 In this example, I'm concerned about requests for the catalog item "Apple iPad 3" having tasks that sit around unassigned for over a week, so I want to get all of the users who own an assignment group that currently has tasks like that. And I actually want to get their boss, so I can reach out to them directly and tell them that their reports need to stay on top of their fulfillment groups better.
 
 `SUBQUERYsys_id,manager,sys_user^SUBQUERYsys_id,manager,sys_user_group^^SUBQUERYsys_id,assignment_group,sc_task^^assigned_toISEMPTY^^active=true^^sys_created_onRELATIVELT@dayofweek@ago@7^^request_item.cat_item.name=Apple iPad 3^^ENDSUBQUERY^^ENDSUBQUERY^ENDSUBQUERY`
-```SELECT DISTINCT task0.`assignment_group`, task1.`number` AS request_item_number FROM ((task task0  LEFT JOIN task task1 ON task0.`a_ref_2` = task1.`sys_id` )  LEFT JOIN sc_cat_item sc_cat_item2 ON task1.`a_ref_1` = sc_cat_item2.`sys_id` )  WHERE task0.`sys_class_name` = 'sc_task' AND task0.`assigned_to` IS NULL  AND task0.`active` = 1  AND task0.`sys_created_on`< '2025-10-17 13:29:33' AND sc_cat_item2.`name` = 'Apple iPad 3'```
-```SELECT DISTINCT sys_user_group0.`manager` FROM sys_user_group sys_user_group0  WHERE sys_user_group0.`sys_id` = '8a4cb6d4c61122780043b1642efcd52b' ```
-``` SELECT DISTINCT sys_user0.`manager` FROM sys_user sys_user0  WHERE sys_user0.`sys_id` = '46d44a23a9fe19810012d100cca80666' ```
-```SELECT * FROM sys_user sys_user0  WHERE sys_user0.`sys_id` = '5a826bf03710200044e0bfc8bcbe5dcc'```
+
+```sql
+SELECT DISTINCT task0.`assignment_group`, task1.`number` AS request_item_number FROM ((task task0  LEFT JOIN task task1 ON task0.`a_ref_2` = task1.`sys_id` )  LEFT JOIN sc_cat_item sc_cat_item2 ON task1.`a_ref_1` = sc_cat_item2.`sys_id` )  WHERE task0.`sys_class_name` = 'sc_task' AND task0.`assigned_to` IS NULL  AND task0.`active` = 1  AND task0.`sys_created_on`< '2025-10-17 13:29:33' AND sc_cat_item2.`name` = 'Apple iPad 3'
+```
+
+```sql
+SELECT DISTINCT sys_user_group0.`manager` FROM sys_user_group sys_user_group0  WHERE sys_user_group0.`sys_id` = '8a4cb6d4c61122780043b1642efcd52b' 
+```
+
+```sql
+SELECT DISTINCT sys_user0.`manager` FROM sys_user sys_user0  WHERE sys_user0.`sys_id` = '46d44a23a9fe19810012d100cca80666' 
+```
+
+```sql
+SELECT * FROM sys_user sys_user0  WHERE sys_user0.`sys_id` = '5a826bf03710200044e0bfc8bcbe5dcc'
+```
+
 You can see it starts with the innermost SUBQUERY, executes that as an independent SQL statement, and uses the returned values for the condition in the next innermost query (if multiple values were returned, the **=** would be replaced by **IN**).

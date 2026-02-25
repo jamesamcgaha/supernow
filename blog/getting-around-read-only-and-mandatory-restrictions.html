@@ -30,6 +30,7 @@
     <link rel="stylesheet" href="../css/common.css">
     <link rel="stylesheet" href="../css/post.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
 </head>
 <body>
     <header>
@@ -62,7 +63,7 @@
                 <div class="post-meta">
                     <span>James McGaha</span>
                     <span class="separator">•</span>
-                    <span>November 10, 2025</span>
+                    <span>November 9, 2025</span>
                 </div>
                 
                 <div class="post-tags">
@@ -72,7 +73,13 @@
             
             <div class="post-body">
                 <p>Note: there are some restrictions that cannot be gotten around without admin access:</p>
-<ol><li >Any restriction imposed by an ACL security rule (whether read, write, or list-edit)</li><li >A field marked as read-only at the dictionary entry record level</li><li >Any server-side logic (like a business rule) that prevents or adjusts certain values</li><li >Read roles and write roles specified for viewing or editing a catalog variable within a submitted request</li></ol><p>Normally, if a field has been hidden, set to be read-only, or marked as mandatory, then that restriction has been applied for good reason. If you are not familiar with all the business logic tied to a field, then it's usually best to not try to get around the restrictions the developer put in the form (e.g. ignoring a mandatory field could cause a business rule to fail if that logic expected the field to always have a value).</p>
+<ol>
+<li>Any restriction imposed by an ACL security rule (whether read, write, or list-edit)</li>
+<li>A field marked as read-only at the dictionary entry record level</li>
+<li>Any server-side logic (like a business rule) that prevents or adjusts certain values</li>
+<li>Read roles and write roles specified for viewing or editing a catalog variable within a submitted request</li>
+</ol>
+<p>Normally, if a field has been hidden, set to be read-only, or marked as mandatory, then that restriction has been applied for good reason. If you are not familiar with all the business logic tied to a field, then it's usually best to not try to get around the restrictions the developer put in the form (e.g. ignoring a mandatory field could cause a business rule to fail if that logic expected the field to always have a value).</p>
 <br>
 <p>That being said, there are often good reasons for wanting to get around form restrictions. Also, if getting around a read-only, mandatory, or hidden restriction for a field causes an issue, then the developer should not have relied on client-side logic to enforce that.</p>
 <h3>Approach 1: Set values without using the form</h3>
@@ -85,41 +92,44 @@
 <p>If you have the <a href="supernow-chrome-extension.html">SuperNow Browser Extension</a> installed, then you can just use the "Unlock Form" button it adds to the form header.</p>
 <br>
 <p>If you don't have that extension, then you can still accomplish the same result by using Ctrl+Shift+J and running the below code in the browser dev tools' console (or the ServiceNow "Javascript Executor" if you have admin):</p>
-<pre><code>if(typeof g_form === 'undefined') this.g_form = window.frames["gsft_main"].g_form;
-g_form.getSectionNames().forEach(section=>
-    g_form.setSectionDisplay(section,true)
+<pre><code class="hljs language-javascript"><span class="hljs-keyword">if</span>(<span class="hljs-keyword">typeof</span> g_form === <span class="hljs-string">&#x27;undefined&#x27;</span>) <span class="hljs-variable language_">this</span>.<span class="hljs-property">g_form</span> = <span class="hljs-variable language_">window</span>.<span class="hljs-property">frames</span>[<span class="hljs-string">&quot;gsft_main&quot;</span>].<span class="hljs-property">g_form</span>;
+g_form.<span class="hljs-title function_">getSectionNames</span>().<span class="hljs-title function_">forEach</span>(<span class="hljs-function"><span class="hljs-params">section</span>=&gt;</span>
+    g_form.<span class="hljs-title function_">setSectionDisplay</span>(section,<span class="hljs-literal">true</span>)
 );
-g_form.elements.forEach(field=>{
-    g_form.setVisible(field.fieldName,true);
-    g_form.setDisplay(field.fieldName,true);
-    g_form.setReadOnly(field.fieldName,false);
-    g_form.setMandatory(field.fieldName,false);
+g_form.<span class="hljs-property">elements</span>.<span class="hljs-title function_">forEach</span>(<span class="hljs-function"><span class="hljs-params">field</span>=&gt;</span>{
+    g_form.<span class="hljs-title function_">setVisible</span>(field.<span class="hljs-property">fieldName</span>,<span class="hljs-literal">true</span>);
+    g_form.<span class="hljs-title function_">setDisplay</span>(field.<span class="hljs-property">fieldName</span>,<span class="hljs-literal">true</span>);
+    g_form.<span class="hljs-title function_">setReadOnly</span>(field.<span class="hljs-property">fieldName</span>,<span class="hljs-literal">false</span>);
+    g_form.<span class="hljs-title function_">setMandatory</span>(field.<span class="hljs-property">fieldName</span>,<span class="hljs-literal">false</span>);
 });
-g_form.nameMap.forEach(field=>{
-    g_form.setVisible(field.prettyName,true);
-    g_form.setDisplay(field.prettyName,true);
-    g_form.setReadOnly(field.prettyName,false);
-    g_form.setMandatory(field.prettyName,false);
+g_form.<span class="hljs-property">nameMap</span>.<span class="hljs-title function_">forEach</span>(<span class="hljs-function"><span class="hljs-params">field</span>=&gt;</span>{
+    g_form.<span class="hljs-title function_">setVisible</span>(field.<span class="hljs-property">prettyName</span>,<span class="hljs-literal">true</span>);
+    g_form.<span class="hljs-title function_">setDisplay</span>(field.<span class="hljs-property">prettyName</span>,<span class="hljs-literal">true</span>);
+    g_form.<span class="hljs-title function_">setReadOnly</span>(field.<span class="hljs-property">prettyName</span>,<span class="hljs-literal">false</span>);
+    g_form.<span class="hljs-title function_">setMandatory</span>(field.<span class="hljs-property">prettyName</span>,<span class="hljs-literal">false</span>);
 });</code></pre>
 <p>Note: the first line is only there to handle the case when the navigation frame is present and the browser console has to get g_form from the iframe that contains the form.</p>
 <br>
 <p>If you plan to use this often and don't have the SuperNow browser extension, then it might be useful to set up a "bookmarklet" for this by creating a bookmark and putting the below code as the "URL" value for the bookmark, and then you can just click that bookmark to run the code (it's essentially the same code as above, just set up to be a single line):</p>
-<pre><code>javascript:var f=window.frames["gsft_main"]!==undefined?window.frames["gsft_main"].g_form:g_form;f.getSectionNames().forEach(section=>f.setSectionDisplay(section,true));f.elements.forEach(field=>{f.setVisible(field.fieldName,true);f.setDisplay(field.fieldName,true);f.setReadOnly(field.fieldName,false);f.setMandatory(field.fieldName,false);});f.nameMap.forEach(field=>{f.setVisible(field.prettyName,true);f.setDisplay(field.prettyName,true);f.setReadOnly(field.prettyName,false);f.setMandatory(field.prettyName,false);}); </code></pre>
+<pre><code class="hljs language-javascript"><span class="hljs-attr">javascript</span>:<span class="hljs-keyword">var</span> f=<span class="hljs-variable language_">window</span>.<span class="hljs-property">frames</span>[<span class="hljs-string">&quot;gsft_main&quot;</span>]!==<span class="hljs-literal">undefined</span>?<span class="hljs-variable language_">window</span>.<span class="hljs-property">frames</span>[<span class="hljs-string">&quot;gsft_main&quot;</span>].<span class="hljs-property">g_form</span>:g_form;f.<span class="hljs-title function_">getSectionNames</span>().<span class="hljs-title function_">forEach</span>(<span class="hljs-function"><span class="hljs-params">section</span>=&gt;</span>f.<span class="hljs-title function_">setSectionDisplay</span>(section,<span class="hljs-literal">true</span>));f.<span class="hljs-property">elements</span>.<span class="hljs-title function_">forEach</span>(<span class="hljs-function"><span class="hljs-params">field</span>=&gt;</span>{f.<span class="hljs-title function_">setVisible</span>(field.<span class="hljs-property">fieldName</span>,<span class="hljs-literal">true</span>);f.<span class="hljs-title function_">setDisplay</span>(field.<span class="hljs-property">fieldName</span>,<span class="hljs-literal">true</span>);f.<span class="hljs-title function_">setReadOnly</span>(field.<span class="hljs-property">fieldName</span>,<span class="hljs-literal">false</span>);f.<span class="hljs-title function_">setMandatory</span>(field.<span class="hljs-property">fieldName</span>,<span class="hljs-literal">false</span>);});f.<span class="hljs-property">nameMap</span>.<span class="hljs-title function_">forEach</span>(<span class="hljs-function"><span class="hljs-params">field</span>=&gt;</span>{f.<span class="hljs-title function_">setVisible</span>(field.<span class="hljs-property">prettyName</span>,<span class="hljs-literal">true</span>);f.<span class="hljs-title function_">setDisplay</span>(field.<span class="hljs-property">prettyName</span>,<span class="hljs-literal">true</span>);f.<span class="hljs-title function_">setReadOnly</span>(field.<span class="hljs-property">prettyName</span>,<span class="hljs-literal">false</span>);f.<span class="hljs-title function_">setMandatory</span>(field.<span class="hljs-property">prettyName</span>,<span class="hljs-literal">false</span>);});</code></pre>
 <p>You can also use this approach to run any other client scripts you might need (whether you just want to directly use <em>g_form.setValue</em> or if you need a more complicated script like a GlideAjax call)—just make sure to include that first line to find the g_form object if the navigation frame is present.</p>
 <h3>Service Portal</h3>
 <p>While in the Service Portal (filling out a catalog item, on a portal page with the Form widget, etc.), the process is the same as Approach 2 but you'll need a slightly different script:</p>
-<pre><code>var formScope = angular.element($("sp-variable-layout")).scope();
-var g_form = formScope.getGlideForm() || formScope.$parent.getGlideForm(); 
-g_form.getFieldNames().forEach(field=>{
-    g_form.setVisible(field,true);
-    g_form.setDisplay(field,true);
-    g_form.setReadOnly(field,false);
-    g_form.setMandatory(field,false);
+<pre><code class="hljs language-javascript"><span class="hljs-keyword">var</span> formScope = angular.<span class="hljs-title function_">element</span>($(<span class="hljs-string">&quot;sp-variable-layout&quot;</span>)).<span class="hljs-title function_">scope</span>();
+<span class="hljs-keyword">var</span> g_form = formScope.<span class="hljs-title function_">getGlideForm</span>() || formScope.<span class="hljs-property">$parent</span>.<span class="hljs-title function_">getGlideForm</span>(); 
+g_form.<span class="hljs-title function_">getFieldNames</span>().<span class="hljs-title function_">forEach</span>(<span class="hljs-function"><span class="hljs-params">field</span>=&gt;</span>{
+    g_form.<span class="hljs-title function_">setVisible</span>(field,<span class="hljs-literal">true</span>);
+    g_form.<span class="hljs-title function_">setDisplay</span>(field,<span class="hljs-literal">true</span>);
+    g_form.<span class="hljs-title function_">setReadOnly</span>(field,<span class="hljs-literal">false</span>);
+    g_form.<span class="hljs-title function_">setMandatory</span>(field,<span class="hljs-literal">false</span>);
 });</code></pre>
 <p>And the single-line version if you want to create a bookmarklet:</p>
-<pre><code>javascript:var formScope = angular.element($("sp-variable-layout")).scope();var g_form=formScope.getGlideForm()||formScope.$parent.getGlideForm();g_form.getFieldNames().forEach(field=>{g_form.setVisible(field,true);g_form.setDisplay(field,true);g_form.setReadOnly(field,false);g_form.setMandatory(field,false);});</code></pre>
+<pre><code class="hljs language-javascript"><span class="hljs-attr">javascript</span>:<span class="hljs-keyword">var</span> formScope = angular.<span class="hljs-title function_">element</span>($(<span class="hljs-string">&quot;sp-variable-layout&quot;</span>)).<span class="hljs-title function_">scope</span>();<span class="hljs-keyword">var</span> g_form=formScope.<span class="hljs-title function_">getGlideForm</span>()||formScope.<span class="hljs-property">$parent</span>.<span class="hljs-title function_">getGlideForm</span>();g_form.<span class="hljs-title function_">getFieldNames</span>().<span class="hljs-title function_">forEach</span>(<span class="hljs-function"><span class="hljs-params">field</span>=&gt;</span>{g_form.<span class="hljs-title function_">setVisible</span>(field,<span class="hljs-literal">true</span>);g_form.<span class="hljs-title function_">setDisplay</span>(field,<span class="hljs-literal">true</span>);g_form.<span class="hljs-title function_">setReadOnly</span>(field,<span class="hljs-literal">false</span>);g_form.<span class="hljs-title function_">setMandatory</span>(field,<span class="hljs-literal">false</span>);});</code></pre>
 <p>Note: if you're on a Service Portal page but not a page for a catalog item or form that would have g_form, you can still access the client logic for the widgets and get around any non-server-side restrictions that may be in place:</p>
-<ol><li >This line is useful for quickly showing any elements that are not shown because of an ng-show/ng-hide attribute: <code>$('.ng-hide').removeClass('ng-hide');</code></li><li >For more advanced options like modifying the client data for widgets, this knowledge article is very helpful: <a href="https://support.servicenow.com/kb?id=kb_article_view&sysparm_article=KB0677496">KB0677496: Debugging Service Portal Widgets</a></li></ol>
+<ol>
+<li>This line is useful for quickly showing any elements that are not shown because of an ng-show/ng-hide attribute: <code>$('.ng-hide').removeClass('ng-hide');</code></li>
+<li>For more advanced options like modifying the client data for widgets, this knowledge article is very helpful: <a href="https://support.servicenow.com/kb?id=kb_article_view&sysparm_article=KB0677496">KB0677496: Debugging Service Portal Widgets</a> </li>
+</ol>
                 <div class="related-posts-section">
                     <h3>Related Articles</h3>
                     <div class="related-posts-grid">
@@ -171,6 +181,8 @@ g_form.getFieldNames().forEach(field=>{
             </script>
         </div>
     </main>
+
+    <script src="../js/blog.js"></script>
 
     <footer>
         <div class="footer-container">

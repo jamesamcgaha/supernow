@@ -30,6 +30,7 @@
     <link rel="stylesheet" href="../css/common.css">
     <link rel="stylesheet" href="../css/post.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
 </head>
 <body>
     <header>
@@ -62,7 +63,7 @@
                 <div class="post-meta">
                     <span>James McGaha</span>
                     <span class="separator">•</span>
-                    <span>October 6, 2025</span>
+                    <span>October 5, 2025</span>
                 </div>
                 
                 <div class="post-tags">
@@ -75,7 +76,14 @@
 <p><a href="https://chromewebstore.google.com/detail/supernow/onjjggbfdefphfbgdigcaghdkjoeobda">Google Chrome Extension</a></p>
 <p><a href="https://microsoftedge.microsoft.com/addons/detail/supernow-tool-for-servi/eaocfajieaohoohdehbgfcalmdcihfnb">Microsoft Edge Extension</a></p>
 <h3>Features</h3>
-<ol><li ><strong>Add dot-walked columns to the list layout.</strong> Next to the default "cog" icon for "Update personalized list", an "unlock" icon is added to the list view that opens an enhanced version of the personalize columns popup. This enhanced version is based on the column picker available in reports where you can expand reference fields and even include variables from requested items and catalog tasks.</li><li ><strong>Bulk open records from the list view in new tabs.</strong> Next to the icon added for the above point, another icon is added that will open the selected rows in new tabs (or all rows if no rows are selected). Note: this only allows a maximum of 100 rows to be opened this way—and I would recommend only doing 20 or so at a time as opening too many at once can cause you to hit a transaction quota limit which would make some of the tabs might not load the form.</li><li ><strong>Make the "is not one of" filter operator available for other column types.</strong> If you Ctrl+Click the operator dropdown in the filter condition builder, it will add the operator for "NOT IN" (similar to how <a href="https://chromewebstore.google.com/detail/jgaodbdddndbaijmcljdbglhpdhnjobg">SN Utils</a> adds in the "contains" operator if you Ctrl+Click the operator dropdown).</li><li ><strong>Make all form fields visible, editable, and non-mandatory.</strong> Next to the attachment and save buttons on the right side of the form header, an "unlock" icon is added that will run a simple g_form script that iterates through the fields and removes their restrictions. Note: this cannot get around restrictions set by an ACL or at the dictionary entry level, see <a href="getting-around-read-only-and-mandatory-restrictions.html">How to get around read-only and mandatory field restrictions</a>.</li><li ><strong>View and edit raw values for ALL columns for a record in a new tab.</strong> Next to the icon added for the above point, a "new window" icon is added that will open the record in a new tab where all the data is displayed as a table. If you modify the values and save, then it will work as if you had just saved a view of the form that had all columns included.</li><li ><strong>More coming soon!</strong> I'm excited to hear any suggestions or feedback you have. Feel free to provide any input in a review for the extension or a comment on this post, thanks!</li></ol>
+<ol>
+<li><strong>Add dot-walked columns to the list layout.</strong> Next to the default "cog" icon for "Update personalized list", an "unlock" icon is added to the list view that opens an enhanced version of the personalize columns popup. This enhanced version is based on the column picker available in reports where you can expand reference fields and even include variables from requested items and catalog tasks.</li>
+<li><strong>Bulk open records from the list view in new tabs.</strong> Next to the icon added for the above point, another icon is added that will open the selected rows in new tabs (or all rows if no rows are selected). Note: this only allows a maximum of 100 rows to be opened this way—and I would recommend only doing 20 or so at a time as opening too many at once can cause you to hit a transaction quota limit which would make some of the tabs might not load the form.</li>
+<li><strong>Make the "is not one of" filter operator available for other column types.</strong> If you Ctrl+Click the operator dropdown in the filter condition builder, it will add the operator for "NOT IN" (similar to how <a href="https://chromewebstore.google.com/detail/jgaodbdddndbaijmcljdbglhpdhnjobg">SN Utils</a> adds in the "contains" operator if you Ctrl+Click the operator dropdown).</li>
+<li><strong>Make all form fields visible, editable, and non-mandatory.</strong> Next to the attachment and save buttons on the right side of the form header, an "unlock" icon is added that will run a simple g_form script that iterates through the fields and removes their restrictions. Note: this cannot get around restrictions set by an ACL or at the dictionary entry level, see <a href="getting-around-read-only-and-mandatory-restrictions.html">How to get around read-only and mandatory field restrictions</a>.</li>
+<li><strong>View and edit raw values for ALL columns for a record in a new tab.</strong> Next to the icon added for the above point, a "new window" icon is added that will open the record in a new tab where all the data is displayed as a table. If you modify the values and save, then it will work as if you had just saved a view of the form that had all columns included.</li>
+<li><strong>More coming soon!</strong> I'm excited to hear any suggestions or feedback you have. Feel free to provide any input in a review for the extension or a comment on this post, thanks!</li>
+</ol>
                 <div class="related-posts-section">
                     <h3>Related Articles</h3>
                     <div class="related-posts-grid">
@@ -127,6 +135,8 @@
             </script>
         </div>
     </main>
+
+    <script src="../js/blog.js"></script>
 
     <footer>
         <div class="footer-container">

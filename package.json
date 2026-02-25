@@ -1,0 +1,8 @@
+{
+  "name": "supernow",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "highlight.js": "^11.9.0"
+  }
+}
