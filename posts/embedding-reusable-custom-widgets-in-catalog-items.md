@@ -256,7 +256,7 @@ api.controller=function($scope, $rootScope) {
   position: relative;
   border: 4px solid #206AAA;
   animation: fill 2s linear infinite alternate;
-  color: rgba(#a05425, 0.9);
+  color: rgba(160, 84, 37, 0.9);
   border-radius: 0 0 4px 4px;
   z-index: 5;
   &::after {
@@ -386,7 +386,7 @@ api.controller=function($scope, $rootScope) {
 						date.setSeconds(0);
 					}
 				}else{
-					data.setMinutes(0);
+					date.setMinutes(0);
 				}
 				return date;
 			}
@@ -607,7 +607,7 @@ api.controller=function($scope, $http, $timeout){
 			if(linkedFieldValue){
 				c.selectedCountry = linkedFieldValue;
 				c.deferBlur = true;
-				c.getLocation(value);
+				c.getLocation(linkedFieldValue);
 			}
 			$scope.page.g_form.$private.events.on('onChange', function(field, blank, value){
 				if(field == currentValue.linkedField){
@@ -708,7 +708,7 @@ if(currentValue && currentValue.linkedField){
 B. The other approach relies on the fact that `$scope.page.g_form.getUniqueValue();` will always return the sys_id of the catalog item, but post-submit other places will switch to having the sys_id of the submitted request. 
 i. Can compare to the g_form object attached to the `sp-variable-layout` directive, which contains the form both pre- and post-submit: 
 ```javascript
-c.isPostSubmit = ($scope.page.g_form.getUniqueValue() == angular.element($("sp-variable-layout")).scope().getGlideForm().getUniqueValue()));
+c.isPostSubmit = ($scope.page.g_form.getUniqueValue() == angular.element($("sp-variable-layout")).scope().getGlideForm().getUniqueValue());
 ```
 ii. Can compare to the g_form object broadcast in the event `spModel.gForm.rendered`:
 ```javascript
