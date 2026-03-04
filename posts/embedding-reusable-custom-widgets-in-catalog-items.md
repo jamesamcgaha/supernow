@@ -9,7 +9,7 @@ In general, the best catalog items are simple, straightforward, and easy to main
 
 For example, if you have many catalog items with a shipping address section, you could create a single, configurable widget for a typeahead address input with API validation. A widget like this could greatly improve both the user experience and the quality of the provided address data. Additionally, if built correctly, adding in that upgraded custom input to a form can be as easy as adding one new variable record without requiring any changes to the existing form logic.
 
-In this post, I'll walk through three examples of reusable catalog item widgets which cover what I consider to be the most effective patterns and the most common use-cases. For each example, I've included screenshots and the code for the widget. Additionally, if you want to see the widgets in action, you can download [Reusable Custom Widgets for Catalog Items](https://developer.servicenow.com/connect.do#!/share/contents/2146901_reusable_custom_widgets_for_catalog_items?t=PRODUCT_DETAILS) from ServiceNow Share where I've added these widgets to an example catalog item.
+In this post, I'll walk through three examples of reusable catalog item widgets which cover what I consider to be the most effective patterns and the most common use-cases. For each example, I've included screenshots and the code for the widget. Additionally, if you want to see the widgets in action, you can download [Reusable Custom Widgets for Catalog Items](https://developer.servicenow.com/connect.do#!/share/contents/2146901_reusable_custom_widgets_for_catalog_items1?t=PRODUCT_DETAILS) from ServiceNow Share where I've added these widgets to an example catalog item.
 ## Example 1: Loading Indicators
 :::tabs
 :::tab Screenshot
