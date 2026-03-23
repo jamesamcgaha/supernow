@@ -7,9 +7,9 @@ tags: ["tips & tricks","non-admin hacks","browser extension"]
 ---
 Note: there are some restrictions that cannot be gotten around without admin access:
 1. Any restriction imposed by an ACL security rule (whether read, write, or list-edit)
-2. A field marked as read-only at the dictionary entry record level
-3. Any server-side logic (like a business rule) that prevents or adjusts certain values
-4. Read roles and write roles specified for viewing or editing a catalog variable within a submitted request
+2. Any server-side logic (like a business rule) that prevents or adjusts certain values
+3. Read roles and write roles specified for viewing or editing a catalog variable within a submitted request
+4. A field marked as "Strict Read Only" at the dictionary entry record level (introduced in the Australia release) 
 
 Normally, if a field has been hidden, set to be read-only, or marked as mandatory, then that restriction has been applied for good reason. If you are not familiar with all the business logic tied to a field, then it's usually best to not try to get around the restrictions the developer put in the form (e.g. ignoring a mandatory field could cause a business rule to fail if that logic expected the field to always have a value).
 
@@ -43,6 +43,7 @@ g_form.nameMap.forEach(field=>{
 });
 ```
 Note: the first line is only there to handle the case when the navigation frame is present and the browser console has to get g_form from the iframe that contains the form.
+Exception: this approach will not make editable fields set as read-only at the dictionary entry level; however, those fields *can* be updated using Approach #1 (unless they are marked as "Strict Read Only"). 
 
 If you plan to use this often and don't have the SuperNow browser extension, then it might be useful to set up a "bookmarklet" for this by creating a bookmark and putting the below code as the "URL" value for the bookmark, and then you can just click that bookmark to run the code (it's essentially the same code as above, just set up to be a single line):
 ```javascript
