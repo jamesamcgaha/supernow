@@ -7,10 +7,10 @@ tags: ["tips & tricks","non-admin hacks","list view tricks","URLs","tools","deve
 ---
 These are the top 10 tips & tricks that save me the most time and that I'd have the hardest time doing without.
 1. The [SN Utils](https://chromewebstore.google.com/detail/jgaodbdddndbaijmcljdbglhpdhnjobg) chrome extension
-2. Windows key + V to be able to copy/paste more than 1 thing at a time
+2. Windows key + V to be able to copy/paste more than 1 thing at a time (On Mac: Cmd + Space, then Cmd + 4)
 3. Using &sysparm_force_row_count=1&sysparm_group_sort=COUNTDESC while grouping (see [Advanced List View Grouping](advanced-list-view-grouping.html))
 4. [Adding dot-walked fields in list layouts](add-dot-walked-columns-to-the-list-view.html)
-5. [Directly modifying the list view query](using-advanced-filter-operators.html)
+5. [Directly modifying the list view query](modifying-servicenow-urls.html)
 6. [Comprehensive search tool](comprehensive-search.html)
 7. SN Utils's sn-scriptsync + GitHub Copilot in VS Code
 8. [Getting around client side read-only, hidden, and mandatory field restrictions](getting-around-read-only-and-mandatory-restrictions.html)
